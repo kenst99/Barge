@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Barge Master Pro - Hệ Thống Giám Sát Toàn Diện</title>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <style>
+        :root {
+            --primary: #1e40af; --secondary: #64748b; --success: #15803d;
+            --danger: #b91c1c; --warning: #a16207; --bg: #f1f5f9; --panel: #ffffff;
+            --cargo-header: #475569;
+            --text-main: #1e293b; --text-sub: #475569; --border: #e2e8f0;
+            --card-bg: #ffffff; --input-bg: #ffffff;
+            --module-bg: #f8fafc; --clock-bg: #dbeafe; --clock-color: #1e40af;
+            --upload-bg: #f8fafc; --log-header-bg: #e2e8f0;
+            --stat-bg: #eff6ff; --stat-border: #bfdbfe;
+            --profit-bg: #f0fdf4; --profit-border: #16a34a;
+        }
+
+```
+    body.dark-mode {
+        --bg: #0f172a; --panel: #1e293b;
+        --text-main: #f1f5f9; --text-sub: #94a3b8;
+        --border: #334155; --card-bg: #1e293b;
+        --input-bg: #334155; --cargo-header: #334155;
+        --module-bg: #162032; --clock-bg: #1e3a5f; --clock-color: #93c5fd;
+        --upload-bg: #162032; --log-header-bg: #1e3a5f;
+        --stat-bg: #1e293b; --stat-border: #3b82f6;
+        --profit-bg: #064e3b; --profit-border: #10b981;
+    }
+
+    body { 
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        background: var(--bg); color: var(--text-main); 
+        margin: 0; padding: 20px; font-size: 15px; 
+        transition: background 0.3s, color 0.3s;
+    }
+
+    .container { max-width: 1450px; margin: auto; background: var(--panel); padding: 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    .header-area { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+    #live-clock { font-weight: bold; color: var(--clock-color); background: var(--clock-bg); padding: 10px 20px; border-radius: 20px; font-size: 16px; }
+    
+    .top-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+    .card-mini { background: var(--module-bg); border: 1px solid var(--border); padding: 15px; border-radius: 10px; }
+    .card-mini .label { font-size: 13px; font-weight: bold; color: var(--secondary); text-transform: uppercase; margin-bottom: 8px; display: block; }
+
+    .split-layout { display: flex; gap: 25px; align-items: stretch; margin-bottom: 25px; }
+    .col-50 { flex: 1; width: 50%; display: flex; flex-direction: column; gap: 20px; }
+
+    canvas { background: transparent; border-radius: 12px; width: 100%; border: 1px solid var(--border); display: block; margin: 0 auto 20px; }
+
+    .side-panel { background: var(--module-bg); border-radius: 12px; border: 1px solid var(--border); padding: 20px; height: 100%; box-sizing: border-box; }
+    .row-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed var(--border); font-size: 15px; }
+    .row-item .left-info { flex: 1; color: var(--text-sub); font-weight: 600; text-align: left; }
+    .row-item .right-value { flex: 0 0 auto; text-align: right; font-weight: 800; color: var(--text-main); min-width: 140px; }
+    
+    input[type="text"], input[type="number"], select { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border); border-radius: 6px; padding: 10px; font-size: 16px; outline: none; width: 100%; box-sizing: border-box; }
+    
+    #result-text { white-space: pre-wrap; background: var(--bg); padding: 20px; border-radius: 8px; font-size: 15px; border: 1px solid var(--border); color: var(--text-main); }
+    .summary-header { background: var(--log-header-bg); border-radius: 8px; padding: 20px; margin-bottom: 15px; display: flex; justify-content: space-between; color: var(--text-main); }
+
+    .stat-container { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; background: var(--stat-bg); border: 2px solid var(--stat-border); border-radius: 12px; padding: 15px; }
+
+    .dark-mode-toggle {
+        position: fixed; top: 20px; right: 20px; z-index: 1000;
+        padding: 10px 15px; border-radius: 50px; border: none;
+        background: var(--primary); color: white; cursor: pointer; font-weight: bold;
+    }
+
+    .section-title { font-size: 14px; font-weight: 900; color: #fff; padding: 6px 12px; border-radius: 4px; display: inline-block; margin-bottom: 15px; text-transform: uppercase; }
+    .title-blue { background: var(--primary); }
+    .title-grey { background: var(--cargo-header); }
+    .title-sky { background: #0ea5e9; }
+    .total-row { font-weight: bold; color: var(--danger); font-size: 18px; border-top: 2px solid var(--border); margin-top: 10px; padding-top: 10px; }
+    
+    .profit-box-small { background: var(--profit-bg); border: 2px solid var(--profit-border); border-radius: 12px; padding: 20px; margin-top: auto; }
+    .profit-final-val { font-size: 30px; font-weight: 900; color: var(--success); display: block; margin-top: 5px; }
+    .adj-input { width: 100%; font-weight: bold; color: var(--success); box-sizing: border-box; }
+    .btn-toggle { padding: 8px 12px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text-main); cursor: pointer; border-radius: 6px; font-weight: bold; font-size: 14px; }
+    .btn-toggle.active { background: var(--primary); color: white; }
+
+    .btn-pdf {
+        position: fixed; bottom: 25px; right: 25px; z-index: 1000;
+        padding: 12px 22px; border-radius: 50px; border: none;
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        color: white; cursor: pointer; font-weight: 900; font-size: 15px;
+        box-shadow: 0 4px 20px rgba(185,28,28,0.45);
+        transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+    }
+    .btn-pdf:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(185,28,28,0.55); }
+
+    @media print {
+        body { background: #fff !important; color: #000 !important; padding: 0 !important; }
+        .dark-mode-toggle, .btn-pdf, #uploadExcel { display: none !important; }
+        .container { box-shadow: none !important; border-radius: 0 !important; padding: 15px !important; max-width: 100% !important; background: #fff !important; }
+        .side-panel, .card-mini, .stat-container, .profit-box-small { background: #f9fafb !important; border-color: #e5e7eb !important; }
+    }
+</style>
+```
+
+</head>
+<body>
+
+<button class="dark-mode-toggle" onclick="toggleDarkMode()">🌓 Dark Mode</button>
+<button class="btn-pdf" onclick="window.print()">🖨️ Tải PDF</button>
+
+<div class="container">
+    <div class="header-area">
+        <h2 style="margin:0; color: var(--primary);">🚢 QUẢN LÝ TẢI TRỌNG & TÀI CHÍNH</h2>
+        <div id="live-clock">Đang tải...</div>
+    </div>
+
+```
+<div style="text-align: center; margin-bottom: 25px; padding: 20px; border: 2px dashed var(--border); border-radius: 12px; background: var(--upload-bg);">
+    <span style="font-weight:bold; font-size:18px">Tải tệp Excel báo cáo:</span>
+    <input type="file" id="uploadExcel" accept=".xlsx, .xls" style="margin-left: 15px;">
+</div>
+
+<div id="appUI">
+    <div class="top-controls">
+        <div class="card-mini"><span class="label">Sắt Đặc (Tồn: <span id="stSD">0</span>)</span><input type="number" id="inSD" oninput="calculateAll()"></div>
+        <div class="card-mini"><span class="label">Tole (Tồn: <span id="stT">0</span>)</span><input type="number" id="inT" oninput="calculateAll()"></div>
+        <div class="card-mini"><span class="label">Lon (Tồn: <span id="stL">0</span>)</span><input type="number" id="inL" oninput="calculateAll()"></div>
+        <div class="card-mini">
+            <span class="label">Pha Trộn (%)</span>
+            <div style="display:flex; gap:5px">
+                <button class="btn-toggle active" id="p2" onclick="setPha(2)">2%</button>
+                <button class="btn-toggle" id="p3" onclick="setPha(3)">3%</button>
+                <input type="number" id="inPK" placeholder="Khác" style="width:70px" oninput="calculateAll()">
+            </div>
+        </div>
+    </div>
+
+    <canvas id="bargeCanvas" width="1000" height="280"></canvas>
+
+    <div class="stat-container">
+        <div class="stat-left" id="statBoxContent" style="flex: 1;">
+            <div style="font-size:26px; font-weight:bold; color:var(--danger); margin-bottom:5px">🚢 TẢI TRỌNG: 0 / 350.000 kg</div>
+        </div>
+        <div class="stat-right">
+            <span class="label" style="font-size:16px; font-weight:bold; color:var(--text-main)">MỤC TIÊU (TẤN)</span>
+            <select id="selCap" onchange="checkCap(this.value)">
+                <option value="200">200 Tấn</option>
+                <option value="250">250 Tấn</option>
+                <option value="300">300 Tấn</option>
+                <option value="350" selected>350 Tấn</option>
+                <option value="khac">Khác...</option>
+            </select>
+            <input type="number" id="inCap" style="display:none; margin-top:5px;" oninput="calculateAll()">
+        </div>
+    </div>
+
+    <div class="split-layout">
+        <div class="col-50">
+            <div class="side-panel cargo-panel">
+                <div class="section-title title-grey">📊 THÔNG SỐ TẢI TRỌNG CHI TIẾT</div>
+                <div id="cargoDetail"></div>
+            </div>
+            <div class="side-panel" style="background:var(--module-bg); border: 2px solid #f59e0b;">
+                <div class="section-title" style="background:#f59e0b">⚙️ CÀI ĐẶT GIÁ NHẬP - BÁN</div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+                    <div><label style="font-size:14px; font-weight:bold">Vốn Sắt Sô</label><input type="text" id="vVs" class="adj-input" oninput="formatInput(this)"></div>
+                    <div><label style="font-size:14px; font-weight:bold">Bán Sắt Sô</label><input type="text" id="bVs" class="adj-input" oninput="formatInput(this)"></div>
+                    <div><label style="font-size:14px; font-weight:bold">Vốn Tole/Pha</label><input type="text" id="vVt" class="adj-input" oninput="formatInput(this)"></div>
+                    <div><label style="font-size:14px; font-weight:bold">Bán Tole</label><input type="text" id="bBt" class="adj-input" oninput="formatInput(this)"></div>
+                    <div><label style="font-size:14px; font-weight:bold">Vốn Sắt Đặc</label><input type="text" id="vVsd" class="adj-input" oninput="formatInput(this)"></div>
+                    <div><label style="font-size:14px; font-weight:bold">Bán Sắt Đặc</label><input type="text" id="bBsd" class="adj-input" oninput="formatInput(this)"></div>
+                    <div><label style="font-size:14px; font-weight:bold">Vốn Lon</label><input type="text" id="vVlon" class="adj-input" style="color:#8b5cf6" oninput="formatInput(this)"></div>
+                    <div><label style="font-size:14px; font-weight:bold">Bán Lon</label><input type="text" id="bBlon" class="adj-input" style="color:#8b5cf6" oninput="formatInput(this)"></div>
+                    <div style="grid-column: span 2"><label style="font-size:14px; font-weight:bold">Tiền Vận Chuyển</label><input type="text" id="vVc" class="adj-input" style="color:red" oninput="formatInput(this)"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-50">
+            <div class="side-panel finance-panel">
+                <div class="section-title title-blue">💰 CHI TIẾT VỐN MUA</div>
+                <div id="vonDetail"></div>
+            </div>
+            <div class="side-panel revenue-panel">
+                <div class="section-title title-sky">💵 CHI TIẾT DOANH THU</div>
+                <div id="dtDetail"></div>
+            </div>
+            <div class="profit-box-small">
+                <div class="row-item" style="border:none"><span class="left-info">LÃI TẠM TÍNH:</span><span id="grossProfit" class="right-value" style="color:#2563eb; font-size:18px">0</span></div>
+                <div class="row-item" style="border:none"><span class="left-info">VẬN CHUYỂN:</span><span id="shippingCost" class="right-value" style="color:red; font-size:18px">0</span></div>
+                <div style="border-top: 2px solid #16a34a; margin-top:10px; padding-top:10px; display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-weight:900; color:#15803d; font-size:15px">LỢI NHUẬN CUỐI CÙNG:</span>
+                    <span class="profit-final-val" id="totalProfit">0 đ</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <div class="section-title title-grey">📋 NHẬT KÝ NHẬP HÀNG CHI TIẾT</div>
+        <div class="summary-header">
+            <div><span style="font-weight:bold; font-size:18px;">TỔNG KHỐI LƯỢNG: </span><span id="sumTotalKL" style="font-size:18px; font-weight:bold; color:#ff0000;">0 kg</span></div>
+            <div><span style="font-weight:bold; font-size:18px;">TỔNG TIỀN CHI: </span><span id="sumTotalChi" style="font-size:18px; font-weight:bold; color:var(--danger);">0 đ</span></div>
+        </div>
+        <div id="result-text">Chưa có dữ liệu.</div>
+    </div>
+</div>
+```
+
+</div>
+
+<script>
+    // --- KHỞI TẠO & THEME ---
+    let db = { ssA9: 0, tonSD: 0, tonTole: 0, tonLon: 0, speed: 0, pha: 2, totalKL: 0, totalChi: 0 };
+    const f = (n) => Math.round(n || 0).toLocaleString('vi-VN');
+    const p = (s) => parseFloat(s.toString().replace(/\./g, '')) || 0;
+
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        calculateAll(); 
+    }
+
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+
+    function updateClock() { document.getElementById('live-clock').innerText = new Date().toLocaleString('vi-VN'); }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function formatInput(el) { let val = p(el.value); el.value = f(val); calculateAll(); }
+
+    // --- XỬ LÝ EXCEL ---
+    document.getElementById('uploadExcel').addEventListener('change', function(e) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const wb = XLSX.read(new Uint8Array(event.target.result), { type: 'array' });
+            const sChung = wb.Sheets["CHUNG"];
+            if(sChung) {
+                db.ssA9 = parseInt(sChung['A9']?.v.toString().replace(/\./g, '').match(/\d+/)) || 0;
+                document.getElementById('vVs').value = f(sChung['B4']?.v || 0);
+                document.getElementById('bVs').value = f(sChung['C4']?.v || 0);
+                document.getElementById('vVt').value = f(sChung['B3']?.v || 0);
+                document.getElementById('bBt').value = f(sChung['C3']?.v || 0);
+                document.getElementById('vVsd').value = f(sChung['B5']?.v || 0);
+                document.getElementById('bBsd').value = f(sChung['C5']?.v || 0);
+                document.getElementById('vVc').value = f(sChung['B10']?.v || 0);
+                document.getElementById('vVlon').value = f(sChung['B2']?.v || 0);
+                document.getElementById('bBlon').value = f(sChung['C2']?.v || 0);
+            }
+            const sNXT = wb.Sheets[wb.SheetNames.find(n => n.includes("NHẬP"))];
+            if(sNXT) {
+                db.tonSD = sNXT['B2']?.v || 0; db.tonTole = sNXT['D2']?.v || 0; db.tonLon = sNXT['E2']?.v || 0;
+                processDaily(XLSX.utils.sheet_to_json(sNXT, { header: 1, range: 4 }));
+            }
+            calculateAll();
+        };
+        reader.readAsArrayBuffer(e.target.files[0]);
+    });
+
+    function processDaily(rows) {
+        let dailyW = {}, dailyC = {}, dayKeys = [];
+        db.totalKL = 0; db.totalChi = 0;
+        rows.forEach(r => {
+            if(r[1] === "NHẬP" && r[0]) {
+                let d = r[0]; 
+                dailyW[d] = (dailyW[d] || 0) + (r[6] || 0); dailyC[d] = (dailyC[d] || 0) + (r[8] || 0);
+                db.totalKL += (r[6] || 0); db.totalChi += (r[8] || 0);
+                if(!dayKeys.includes(d)) dayKeys.push(d);
+            }
+        });
+        let last3 = dayKeys.slice(-3);
+        let sum3 = last3.reduce((acc, d) => acc + dailyW[d], 0);
+        db.speed = last3.length > 0 ? (sum3 / last3.length / 1000).toFixed(1) : 0;
+        let txt = "";
+        dayKeys.forEach(d => {
+            let date = new Date((d - 25569)*86400*1000);
+            txt += `Ngày ${date.getDate()}/${date.getMonth()+1}: ${f(dailyW[d]).padEnd(10)} kg | Chi: ${f(dailyC[d])} đ\n`;
+        });
+        document.getElementById('result-text').innerText = txt || "Chưa có dữ liệu.";
+        document.getElementById('sumTotalKL').innerText = f(db.totalKL) + " kg";
+        document.getElementById('sumTotalChi').innerText = f(db.totalChi) + " đ";
+    }
+
+    // --- LOGIC TÍNH TOÁN ---
+    function setPha(v) { 
+        db.pha = v; 
+        document.getElementById('p2').className = v===2 ? 'btn-toggle active' : 'btn-toggle'; 
+        document.getElementById('p3').className = v===3 ? 'btn-toggle active' : 'btn-toggle'; 
+        calculateAll(); 
+    }
+
+    function checkCap(v) { document.getElementById('inCap').style.display = v==='khac'?'block':'none'; calculateAll(); }
+
+    function calculateAll() {
+        let cap = document.getElementById('selCap').value === 'khac' ? p(document.getElementById('inCap').value) : p(document.getElementById('selCap').value);
+        let target = cap * 1000;
+        let inSD = p(document.getElementById('inSD').value), inT = p(document.getElementById('inT').value), inL = p(document.getElementById('inL').value);
+        let phaPct = p(document.getElementById('inPK').value) || db.pha;
+        
+        let phaKg = Math.round(target * (phaPct/100));
+        let satSôNeed = Math.round(target * (1 - phaPct/100));
+        let missing = Math.max(0, satSôNeed - db.ssA9);
+
+        document.getElementById('stSD').innerText = f(db.tonSD - inSD);
+        document.getElementById('stT').innerText = f(db.tonTole - (phaKg + inT));
+        document.getElementById('stL').innerText = f(db.tonLon - inL);
+
+        document.getElementById('cargoDetail').innerHTML = `
+            <div class="row-item" style="background:rgba(37, 99, 235, 0.1); padding:8px;"><span class="left-info">Sắt Sô Hiện Có </span><span class="right-value">${f(db.ssA9)} kg</span></div>
+            <div class="row-item"><span class="left-info">Cần Sắt Sô Tổng</span><span class="right-value">${f(satSôNeed)} kg</span></div>
+            <div class="row-item total-row"><span class="left-info" style="color:inherit">THIẾU SẮT SÔ</span><span class="right-value">${f(missing)} kg</span></div>
+            <div class="row-item"><span class="left-info">Pha Tole (${phaPct}%)</span><span class="right-value">${f(phaKg)} kg</span></div>
+            <div class="row-item"><span class="left-info">Bốc thêm Sắt Đặc</span><span class="right-value">${f(inSD)} kg</span></div>
+            <div class="row-item"><span class="left-info">Bốc thêm Tole</span><span class="right-value">${f(inT)} kg</span></div>
+            <div class="row-item"><span class="left-info">Bốc thêm Lon</span><span class="right-value">${f(inL)} kg</span></div>
+        `;
+
+        let pr = {
+            vVs: p(document.getElementById('vVs').value), bVs: p(document.getElementById('bVs').value),
+            vVt: p(document.getElementById('vVt').value), bBt: p(document.getElementById('bBt').value),
+            vVsd: p(document.getElementById('vVsd').value), bBsd: p(document.getElementById('bBsd').value),
+            vVl: p(document.getElementById('vVlon').value), bBl: p(document.getElementById('bBlon').value),
+            vc: p(document.getElementById('vVc').value)
+        };
+
+        let vS = satSôNeed * pr.vVs, vP = phaKg * pr.vVt, vSD = inSD * pr.vVsd, vT = inT * pr.vVt, vL = inL * pr.vVl;
+        let dS = satSôNeed * pr.bVs, dP = phaKg * pr.bVs, dSD = inSD * pr.bBsd, dT = inT * pr.bBt, dL = inL * pr.bBl;
+
+        document.getElementById('vonDetail').innerHTML = `
+            <div class="row-item"><span class="left-info">Vốn Sắt Sô</span><span class="right-value">${f(vS)}</span></div>
+            <div class="row-item"><span class="left-info">Vốn Pha Tole</span><span class="right-value">${f(vP)}</span></div>
+            <div class="row-item"><span class="left-info">Vốn Sắt Đặc</span><span class="right-value">${f(vSD)}</span></div>
+            <div class="row-item"><span class="left-info">Vốn Tole thêm</span><span class="right-value">${f(vT)}</span></div>
+            <div class="row-item" style="color:#8b5cf6;"><span class="left-info">Vốn Lon thêm</span><span class="right-value">${f(vL)}</span></div>
+        `;
+
+        document.getElementById('dtDetail').innerHTML = `
+            <div class="row-item"><span class="left-info">DT Sắt Sô</span><span class="right-value">${f(dS)}</span></div>
+            <div class="row-item"><span class="left-info">DT Pha Tole</span><span class="right-value">${f(dP)}</span></div>
+            <div class="row-item"><span class="left-info">DT Sắt Đặc</span><span class="right-value">${f(dSD)}</span></div>
+            <div class="row-item"><span class="left-info">DT Tole thêm</span><span class="right-value">${f(dT)}</span></div>
+            <div class="row-item" style="color:#8b5cf6;"><span class="left-info">DT Lon thêm</span><span class="right-value">${f(dL)}</span></div>
+        `;
+
+        let totalVon = vS + vP + vSD + vT + vL;
+        let totalDT = dS + dP + dSD + dT + dL;
+        let gross = totalDT - totalVon;
+        let finalProfit = gross - pr.vc;
+
+        document.getElementById('grossProfit').innerText = f(gross);
+        document.getElementById('shippingCost').innerText = "-" + f(pr.vc);
+        document.getElementById('totalProfit').innerText = f(finalProfit) + " đ";
+
+        let curTotal = db.ssA9 + inSD + inT + inL + phaKg;
+        let days = (db.speed > 0 && missing > 0) ? Math.ceil((missing/1000)/db.speed) : 0;
+         
+        document.getElementById('statBoxContent').innerHTML = `
+            <div style="font-size:26px; font-weight:bold; color:var(--danger); margin-bottom:5px">🚢 TẢI TRỌNG: ${f(curTotal)} / ${f(target)} kg</div>
+            <div style="font-size:16px; font-weight:bold; color:var(--text-main)">Tốc độ TB ${db.speed}t/ngày - Cần ${days} ngày (Thiếu ${f(Math.round(missing/1000))}t)</div>
+        `;
+        drawBarge(curTotal / (target||1) * 100, db.ssA9 / (target||1) * 100, inSD, inT, inL, phaKg, target);
+    }
+
+    // --- VẼ SÀ LAN ---
+    function drawBarge(totalPct, ssPct, sd, tole, lon, pha, target) {
+        const cv  = document.getElementById('bargeCanvas');
+        const ctx = cv.getContext('2d');
+        const W = 1000, H = 280;
+        const isDark = document.body.classList.contains('dark-mode');
+
+        ctx.clearRect(0, 0, W, H);
+
+        // ── Nền canvas ──────────────────────────────────
+        ctx.fillStyle = isDark ? '#0f172a' : '#e0f2fe';
+        ctx.fillRect(0, 0, W, H);
+
+        // ── Nước ────────────────────────────────────────
+        const waterY = 200;
+        const wGrad = ctx.createLinearGradient(0, waterY, 0, H);
+        wGrad.addColorStop(0, isDark ? 'rgba(14,165,233,0.45)' : 'rgba(14,165,233,0.55)');
+        wGrad.addColorStop(1, isDark ? 'rgba(2,52,106,0.6)'    : 'rgba(7,89,133,0.5)');
+        ctx.fillStyle = wGrad;
+        ctx.fillRect(0, waterY, W, H - waterY);
+
+        // Sóng nước (3 lớp)
+        ['rgba(255,255,255,0.18)', 'rgba(255,255,255,0.10)', 'rgba(255,255,255,0.06)'].forEach((color, i) => {
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 1.5 - i * 0.4;
+            for (let x = 0; x <= W; x += 6) {
+                const y = waterY + 8 + i * 9 + Math.sin((x / 55) + i * 1.8) * 3.5;
+                x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+        });
+
+        // ── Thân tàu (hull) ─────────────────────────────
+        ctx.save();
+        ctx.shadowColor = 'rgba(0,0,0,0.45)';
+        ctx.shadowBlur  = 14;
+        ctx.shadowOffsetY = 6;
+        ctx.beginPath();
+        ctx.moveTo(130, 182); ctx.lineTo(870, 182);
+        ctx.lineTo(820, 252); ctx.lineTo(180, 252);
+        ctx.closePath();
+        const hullGrad = ctx.createLinearGradient(0, 182, 0, 252);
+        hullGrad.addColorStop(0, isDark ? '#2d4263' : '#1e3a5f');
+        hullGrad.addColorStop(1, isDark ? '#0f1c2e' : '#0c1f35');
+        ctx.fillStyle = hullGrad;
+        ctx.fill();
+        ctx.restore();
+
+        // Viền hull + dải waterline
+        ctx.beginPath();
+        ctx.moveTo(130, 182); ctx.lineTo(870, 182);
+        ctx.lineTo(820, 252); ctx.lineTo(180, 252);
+        ctx.closePath();
+        ctx.strokeStyle = isDark ? '#3b5272' : '#1e3a5f';
+        ctx.lineWidth = 2; ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(135, 207); ctx.lineTo(865, 207);
+        ctx.lineTo(845, 218); ctx.lineTo(155, 218);
+        ctx.closePath();
+        ctx.fillStyle = isDark ? 'rgba(248,113,113,0.22)' : 'rgba(239,68,68,0.28)';
+        ctx.fill();
+
+        // ── Khoang chứa hàng ────────────────────────────
+        const holdX = 200, holdY = 95, holdW = 540, holdH = 88;
+        ctx.fillStyle = isDark ? '#0a1525' : '#cbd5e1';
+        ctx.beginPath(); ctx.roundRect(holdX, holdY, holdW, holdH, 4); ctx.fill();
+        ctx.strokeStyle = isDark ? '#1e3050' : '#94a3b8';
+        ctx.lineWidth = 1; ctx.stroke();
+
+        // Fill sắt sô trong khoang
+        if (db.ssA9 > 0 && target > 0) {
+            let ssW = Math.min(holdW, (db.ssA9 / target) * holdW);
+            const ssGrad = ctx.createLinearGradient(holdX, holdY, holdX, holdY + holdH);
+            ssGrad.addColorStop(0, '#2563eb');
+            ssGrad.addColorStop(1, '#1e40af');
+            ctx.fillStyle = ssGrad;
+            ctx.beginPath();
+            ctx.roundRect(holdX, holdY, ssW, holdH, ssW < holdW ? [4,0,0,4] : 4);
+            ctx.fill();
+            // Texture hạt
+            ctx.fillStyle = 'rgba(255,255,255,0.05)';
+            for (let xi = holdX + 10; xi < holdX + ssW - 5; xi += 18) {
+                for (let yi = holdY + 10; yi < holdY + holdH - 5; yi += 14) {
+                    ctx.beginPath(); ctx.arc(xi, yi, 3, 0, Math.PI*2); ctx.fill();
+                }
+            }
+            if (ssW > 90) {
+                ctx.fillStyle = 'rgba(255,255,255,0.92)';
+                ctx.font = 'bold 17px "Segoe UI", Arial';
+                ctx.textAlign = 'center';
+                ctx.shadowColor = 'rgba(0,0,0,0.6)'; ctx.shadowBlur = 4;
+                ctx.fillText('SẮT SÔ: ' + f(db.ssA9) + ' kg', holdX + ssW / 2, holdY + holdH / 2 + 6);
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        // ── Thanh tiến độ phía trên khoang ──────────────
+        const barY = holdY - 14, barH = 10;
+        ctx.fillStyle = isDark ? '#1e293b' : '#94a3b8';
+        ctx.beginPath(); ctx.roundRect(holdX, barY, holdW, barH, 5); ctx.fill();
+        if (totalPct > 0) {
+            const filledW = Math.min(holdW, (totalPct / 100) * holdW);
+            const pGrad = ctx.createLinearGradient(holdX, 0, holdX + holdW, 0);
+            pGrad.addColorStop(0, '#10b981'); pGrad.addColorStop(0.55, '#f59e0b'); pGrad.addColorStop(1, '#ef4444');
+            ctx.fillStyle = pGrad;
+            ctx.beginPath(); ctx.roundRect(holdX, barY, filledW, barH, 5); ctx.fill();
+            ctx.fillStyle = isDark ? '#e2eaf5' : '#1e293b';
+            ctx.font = 'bold 11px "Segoe UI", Arial'; ctx.textAlign = 'left';
+            ctx.fillText(Math.round(totalPct) + '%', holdX + filledW + 4, barY + 9);
+        }
+        // Mốc 100%
+        ctx.strokeStyle = isDark ? 'rgba(248,113,113,0.5)' : 'rgba(239,68,68,0.6)';
+        ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]);
+        ctx.beginPath(); ctx.moveTo(holdX + holdW, holdY - 18); ctx.lineTo(holdX + holdW, holdY + holdH + 4); ctx.stroke();
+        ctx.setLineDash([]);
+
+        // ── Cabin (x=760, w=80 → kết thúc x=840, gọn trong hull 130→870) ──
+        const cabX = 760, cabY = 90, cabW = 80, cabH = 93;
+        const cabGrad = ctx.createLinearGradient(cabX, cabY, cabX, cabY + cabH);
+        cabGrad.addColorStop(0, isDark ? '#2d4263' : '#475569');
+        cabGrad.addColorStop(1, isDark ? '#0f1c2e' : '#1e293b');
+        ctx.fillStyle = cabGrad;
+        ctx.beginPath(); ctx.roundRect(cabX, cabY, cabW, cabH, [4,4,0,0]); ctx.fill();
+        ctx.strokeStyle = isDark ? '#3b5272' : '#64748b';
+        ctx.lineWidth = 1.5; ctx.stroke();
+
+        // Cửa sổ cabin (2×2)
+        [[cabX+8, cabY+10],[cabX+46, cabY+10],[cabX+8, cabY+34],[cabX+46, cabY+34]].forEach(([wx,wy]) => {
+            const wGlare = ctx.createLinearGradient(wx, wy, wx, wy+15);
+            wGlare.addColorStop(0, 'rgba(125,211,252,0.75)');
+            wGlare.addColorStop(1, 'rgba(14,165,233,0.35)');
+            ctx.fillStyle = wGlare;
+            ctx.beginPath(); ctx.roundRect(wx, wy, 22, 14, 3); ctx.fill();
+            ctx.strokeStyle = '#0ea5e9'; ctx.lineWidth = 0.8;
+            ctx.beginPath(); ctx.roundRect(wx, wy, 22, 14, 3); ctx.stroke();
+        });
+        // Cửa vào cabin
+        ctx.fillStyle = isDark ? '#060e1a' : '#0f172a';
+        ctx.beginPath(); ctx.roundRect(cabX+24, cabY+cabH-26, 28, 26, [3,3,0,0]); ctx.fill();
+
+        // Cột buồm & cờ
+        const mastX = cabX + cabW / 2;
+        ctx.strokeStyle = isDark ? '#4a6a8a' : '#64748b';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath(); ctx.moveTo(mastX, cabY); ctx.lineTo(mastX, cabY - 48); ctx.stroke();
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath();
+        ctx.moveTo(mastX, cabY-48); ctx.lineTo(mastX+26, cabY-40); ctx.lineTo(mastX, cabY-32);
+        ctx.closePath(); ctx.fill();
+
+        // Ống khói (bên trái cabin)
+        const chimneyX = cabX - 22;
+        ctx.fillStyle = isDark ? '#1e3050' : '#334155';
+        ctx.beginPath(); ctx.roundRect(chimneyX, cabY-18, 14, 24, [4,4,0,0]); ctx.fill();
+        ctx.strokeStyle = isDark ? '#3b5272' : '#475569'; ctx.lineWidth = 1; ctx.stroke();
+        [0,1,2].forEach(i => {
+            ctx.beginPath();
+            ctx.arc(chimneyX+7, cabY-24-i*11, 4+i*2.5, 0, Math.PI*2);
+            ctx.fillStyle = `rgba(148,163,184,${0.22 - i*0.06})`; ctx.fill();
+        });
+
+        // ── Boxes hàng hoá trên boong ────────────────────
+        const boxes = [
+            { label: 'SẮT ĐẶC', val: sd,   color1: '#d97706', color2: '#92400e' },
+            { label: 'TOLE',    val: tole,  color1: '#059669', color2: '#065f46' },
+            { label: 'LON',     val: lon,   color1: '#7c3aed', color2: '#4c1d95' },
+            { label: 'PHA',     val: pha,   color1: '#db2777', color2: '#831843' },
+        ];
+        const bw = 100, bh = 60, bGap = 8, by = 22;
+        let bx = 210;
+        boxes.forEach(b => {
+            if (b.val <= 0) return;
+            const br = 6;
+            ctx.save();
+            ctx.shadowColor = 'rgba(0,0,0,0.4)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 3;
+            const bGrad = ctx.createLinearGradient(bx, by, bx, by+bh);
+            bGrad.addColorStop(0, b.color1); bGrad.addColorStop(1, b.color2);
+            ctx.fillStyle = bGrad;
+            ctx.beginPath(); ctx.roundRect(bx, by, bw, bh, br); ctx.fill();
+            ctx.restore();
+            ctx.strokeStyle = 'rgba(255,255,255,0.22)'; ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.roundRect(bx, by, bw, bh, br); ctx.stroke();
+            // Highlight
+            ctx.fillStyle = 'rgba(255,255,255,0.13)';
+            ctx.beginPath(); ctx.roundRect(bx+3, by+3, bw-6, bh/2.8, [br,br,0,0]); ctx.fill();
+            // Text — to và đậm
+            ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
+            ctx.font = 'bold 15px "Segoe UI", Arial';
+            ctx.shadowColor = 'rgba(0,0,0,0.5)'; ctx.shadowBlur = 3;
+            ctx.fillText(b.label, bx+bw/2, by+22);
+            ctx.font = 'bold 14px "Segoe UI", Arial';
+            ctx.fillText(f(b.val)+' kg', bx+bw/2, by+43);
+            ctx.shadowBlur = 0;
+            bx += bw + bGap;
+        });
+
+        // ── Neo (anchor) ─────────────────────────────────
+        ctx.strokeStyle = isDark ? 'rgba(148,163,184,0.5)' : 'rgba(71,85,105,0.5)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(152, 188); ctx.lineTo(152, 208);
+        ctx.moveTo(144, 194); ctx.lineTo(160, 194);
+        ctx.moveTo(144, 208); ctx.arc(152, 208, 8, Math.PI*0.8, Math.PI*0.2, true);
+        ctx.stroke();
+    }
+
+    calculateAll();
+</script>
+
+</body>
+</html>
