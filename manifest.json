@@ -1,0 +1,22 @@
+{
+  "id": "./",
+  "name": "Quản Lý & Điều Phối Sà Lan – Trung Hiếu",
+  "short_name": "Sà Lan TH",
+  "description": "Quản lý và điều phối sà lan Trung Hiếu: tài công, giấy tờ, lịch chạy, bản đồ vị trí và tuyến vận chuyển đường thủy.",
+  "lang": "vi",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#0e1117",
+  "theme_color": "#0e1117",
+  "categories": ["business", "productivity", "navigation"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
