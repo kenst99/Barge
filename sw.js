@@ -1,6 +1,6 @@
 // sw.js — Service Worker cho app Quản Lý & Điều Phối Sà Lan – Trung Hiếu
 // Mỗi lần sửa index.html / icon / manifest: tăng VERSION để máy đã cài tải bản mới.
-const VERSION = 'th-salan-v2';
+const VERSION = 'th-salan-v3';
 const PREFIX  = 'th-salan-';
 const CORE    = VERSION + '-core';     // trang + icon + manifest
 const RUNTIME = VERSION + '-rt';       // font, thư viện từ CDN
@@ -50,6 +50,8 @@ self.addEventListener('fetch', event => {
   const req = event.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
+
+  if (url.origin === self.location.origin && url.pathname.includes('/api/')) return; // hàm máy chủ: luôn đi mạng
 
   if (req.mode === 'navigate') {
     event.respondWith(pageNetworkFirst(event));
