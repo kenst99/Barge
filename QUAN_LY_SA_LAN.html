@@ -8,8 +8,8 @@
 <meta name="apple-mobile-web-app-title" content="Sà Lan TH">
 <meta name="theme-color" content="#0e1117">
 <meta name="mobile-web-app-capable" content="yes">
-<link rel="manifest" href="manifest-salan.json">
-<link rel="apple-touch-icon" href="icon-salan-192.png">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <title>Quản Lý Sà Lan – Trung Hiếu</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
@@ -2539,7 +2539,7 @@ function showToast(msg, type){
 // ── PWA Service Worker ──
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
-    navigator.serviceWorker.register('sw-salan.js').catch(function(){});
+    navigator.serviceWorker.register('sw.js').catch(function(){});
   });
 }
 </script>
