@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=JetBrains+Mono:wght@500;600;700&display=swap');
 :root{--bg:#0e1117;--panel:#151b27;--border:#1f2d3d;--text:#c8d4e0;--muted:#ffffff;--white:#f0f5fa;--ac:#e8a020;}
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;overflow:hidden;}
@@ -414,7 +414,6 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
 .mp-wl.r.l1{stroke:#3a8fb3;stroke-width:1.1;}
 .mp-wl.c.l1{stroke:#2f9b94;stroke-width:.9;}
 .mp-wl.l2{stroke:#2f7a96;stroke-width:.7;opacity:.85;}
-#mp-svg[data-lod="0"] .l1,#mp-svg[data-lod="0"] .l2,#mp-svg[data-lod="1"] .l2{display:none;}
 .mp-rvlbl{font-family:'Roboto',sans-serif;font-size:11px;font-style:italic;fill:#8fd3ef;pointer-events:none;paint-order:stroke;stroke:#0b0f16;stroke-width:3px;stroke-linejoin:round;letter-spacing:.03em;}
 .mp-attr{position:absolute;left:12px;bottom:2px;z-index:5;font-size:10.5px;color:#64748b;pointer-events:auto;}
 .mp-attr a{color:#7c8ba1;}
@@ -589,108 +588,125 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
   .mp-tabs button{font-size:13px;padding:11px 1px;white-space:nowrap;letter-spacing:-.01em;}
 }
 
-/* ═══════════════ BẢN ĐỒ – GIAO DIỆN GIẤY (sáng) ═══════════════ */
-#s-map{--pp-bg:#f7f2e7;--pp-card:#fffdf8;--pp-line:#e3d8c3;--pp-line2:#d5c7ab;--pp-ink:#2b2620;--pp-ink2:#5a5348;--pp-mute:#8a8070;
-  --pp-brown:#6b4f33;--pp-blue:#2f6db5;--pp-land:#f3ecdc;--pp-sea:#cfe2ec;--pp-water:#a9cbe0;--mp-route:#2f6db5;
-  --pp-mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;color:var(--pp-ink);}
+/* ═══════════════ BẢN ĐỒ – GIAO DIỆN GIẤY (theo trang salantrunghieu) ═══════════════ */
+#s-map{--pp-paper:#fefcf8;--pp-card:#fff;--pp-line:#e8ddd0;--pp-line2:#dccdb9;--pp-ink:#2b211a;--pp-ink2:#5a4a3d;--pp-mute:#8d7d6e;
+  --pp-brown:#4a3528;--pp-tan:#8d6e53;--pp-blue:#1f78b4;--pp-red:#c45a3c;--pp-land:#f6efe2;--pp-sea:#cbe0e9;--pp-water:#a6cbdc;
+  --pp-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;--pp-sans:'Be Vietnam Pro','Roboto',sans-serif;--mp-route:#1f78b4;
+  color:var(--pp-ink);font-family:var(--pp-sans);}
 #s-map .mp-wrap{background:var(--pp-sea);}
-#s-map .mp-prov{fill:var(--pp-land);stroke:#dccfb4;stroke-width:.8;}
-#s-map .mp-foreign{fill:#ece4d2;stroke:#d6c8ac;stroke-width:.6;vector-effect:non-scaling-stroke;}
-#s-map .mp-border{fill:none;stroke:#9c7b56;stroke-width:1.3;stroke-dasharray:7 3 1.5 3;vector-effect:non-scaling-stroke;opacity:.8;}
+#mp-svg2{position:absolute;left:0;top:0;overflow:visible;pointer-events:none;will-change:opacity;}
+#mp-svg2 .mp-mk:not(.mp-rtend):not(.mp-rtpt){pointer-events:auto;}
+#s-map svg text{font-family:var(--pp-sans);paint-order:stroke;stroke:#fff;stroke-width:2.4px;stroke-linejoin:round;}
+/* nền */
+#s-map .mp-prov{fill:var(--pp-land);stroke:#ece2d1;}
+#s-map .mp-coast{fill:none;stroke:#c3ae92;stroke-linejoin:round;}
+#s-map .mp-foreign{fill:#e9e0cf;stroke:#cdbfa8;}
+#s-map .mp-border{fill:none;stroke:#a2917b;}
 #s-map .mp-water{fill:var(--pp-water);}
-#s-map .mp-wl.r.l0{stroke:#84b2cf;stroke-width:1.8;}
-#s-map .mp-wl.c.l0{stroke:#93bcd6;stroke-width:1.2;}
-#s-map .mp-wl.r.l1{stroke:#94bdd6;stroke-width:1;}
-#s-map .mp-wl.c.l1{stroke:#a3c6db;stroke-width:.8;}
-#s-map .mp-wl.l2{stroke:#b0cfe0;stroke-width:.6;opacity:1;}
-#s-map .mp-river.sea{stroke:#7fa6c0;stroke-width:1.2;stroke-dasharray:4 4;opacity:.9;}
-#s-map .mp-rvlbl{fill:#5b87a6;stroke:var(--pp-land);stroke-width:2.6px;font-size:10px;font-weight:400;letter-spacing:.02em;}
-#mp-svg[data-lbl="0"] .ll1,#mp-svg[data-lbl="0"] .ll2,#mp-svg[data-lbl="1"] .ll2,#mp-svg[data-lbl="0"] .mp-poi .lbl,#mp-svg[data-lbl="0"] .mp-provlbl{display:none;}
-#s-map .mp-estlbl{font-family:'Roboto',sans-serif;font-style:italic;font-size:9.5px;fill:#5f88a3;pointer-events:none;}
-#s-map .mp-sealbl{font-family:var(--pp-mono);font-weight:600;font-size:14px;letter-spacing:.42em;fill:#7c9db3;pointer-events:none;}
-#s-map .mp-provlbl{font-family:var(--pp-mono);font-weight:500;font-size:11px;letter-spacing:.22em;fill:#c2b394;stroke:none;text-transform:uppercase;}
-#s-map .mp-city{fill:#6b655b;}
-#s-map .mp-citylbl{fill:#3e3a33;font-size:9.5px;stroke:var(--pp-land);stroke-width:2.6px;}
-#s-map .mp-citylbl.b{fill:#211d18;font-size:11px;font-weight:700;}
-#s-map .mp-rtnet{stroke:var(--pp-blue);stroke-width:2.4;stroke-dasharray:7 5;stroke-linecap:round;opacity:.9;}
-#s-map .mp-rthalo{stroke:#fffdf8;stroke-width:7;opacity:.9;}
-#s-map .mp-rtsel{stroke:#1d4f8f;stroke-width:3.6;stroke-dasharray:10 6;}
+#s-map .mp-wl{opacity:1;}
+#s-map .mp-wl.r.l0,#s-map .mp-wl.c.l0,#s-map .mp-wl.r.l1{stroke:#93c1d6;}
+#s-map .mp-wl.c.l1{stroke:#a3cadb;}
+#s-map .mp-wl.l2{stroke:#b4d4e1;}
+#s-map .mp-river.sea{stroke:#9fc3d3;opacity:.9;}
+/* chữ trên bản đồ */
+#s-map .mp-rvlbl{font-style:italic;font-weight:600;font-size:10px;fill:#3f84a3;stroke:var(--pp-land);stroke-width:2.2px;letter-spacing:0;}
+#s-map .mp-estlbl{font-style:italic;font-weight:700;font-size:9.5px;fill:#5d8fa3;stroke:var(--pp-sea);stroke-width:2.4px;pointer-events:none;}
+#s-map .mp-sealbl{font-weight:700;font-size:12.5px;letter-spacing:.3em;fill:#7ea3ae;stroke:none;pointer-events:none;}
+#s-map .mp-sealbl.kh{fill:#b3a58f;font-size:11px;}
+#s-map .mp-provlbl{font-family:var(--pp-mono);font-weight:600;font-size:10.5px;letter-spacing:.24em;fill:#c4b49a;stroke:var(--pp-land);stroke-width:2px;text-transform:uppercase;}
+#s-map .mp-city{fill:#8d7d6e;stroke:#fff;stroke-width:.9;}
+#s-map .mp-citylbl{font-size:9.5px;font-weight:600;fill:#6b5a4a;stroke:#fff;stroke-width:2.4px;}
+#s-map .mp-citylbl.b{font-size:11px;font-weight:800;fill:#3b2a1e;}
+/* tuyến: nét đứt chạy như trang mẫu, chặng biển nét chấm */
+@keyframes mpdash{to{stroke-dashoffset:-11px}}
+@keyframes mppulse{from{transform:scale(.6);opacity:.9}to{transform:scale(2.4);opacity:0}}
+#s-map .mp-rt,#s-map .mp-rtbg{fill:none;stroke-linecap:round;stroke-linejoin:round;}
+#s-map .mp-rtbg{stroke:rgba(255,255,255,.85);}
+#s-map .mp-rt{stroke:var(--pp-blue);animation:mpdash 1.3s linear infinite;}
+#s-map .mp-rt.sel{stroke:var(--pp-red);}
 #s-map .mp-rtend{pointer-events:none;}
-#s-map .mp-mk .lbl{fill:#241f19;stroke:#fbf7ee;}
-#s-map .mp-mk .sub{fill:#6c655a;stroke:#fbf7ee;}
-#s-map .mp-poi .lbl{fill:#3e3a33;font-size:10px;font-weight:500;}
+#s-map .mp-rtend .dot{fill:#fff;stroke:var(--pp-blue);stroke-width:1.8;}
+#s-map .mp-rtend .home{fill:var(--pp-red);stroke:#fff;stroke-width:1.6;}
+#s-map .mp-rtend .pulse{fill:none;stroke:var(--pp-red);stroke-width:1.4;transform-box:fill-box;transform-origin:center;animation:mppulse 2s ease-out infinite;}
+@media (prefers-reduced-motion:reduce){#s-map .mp-rt,#s-map .mp-rtend .pulse{animation:none;}}
+#s-map .mp-mk .lbl{fill:#3b2a1e;stroke:#fff;font-weight:800;}
+#s-map .mp-mk .sub{fill:#6b5a4a;stroke:#fff;}
+#s-map .mp-poi .lbl{fill:#5a4a3d;font-size:10px;font-weight:600;}
+#s-map .mp-cross{stroke:var(--pp-red);}
+#mp-stage[data-lbl="0"] .ll1,#mp-stage[data-lbl="0"] .ll2,#mp-stage[data-lbl="1"] .ll2,#mp-stage[data-lbl="0"] .mp-poi .lbl,#mp-stage[data-lbl="0"] .mp-provlbl,#mp-stage[data-lbl="0"] .mp-lbl.minor{display:none;}
+#mp-stage[data-lod="0"] .l1,#mp-stage[data-lod="0"] .l2,#mp-stage[data-lod="1"] .l2{display:none;}
 /* điều khiển nổi */
-#s-map .mp-zoom{top:12px;bottom:auto;right:12px;gap:8px;}
-#s-map .mp-zoom button{width:44px;height:44px;background:var(--pp-card);border:none;border-radius:10px;color:var(--pp-ink);font-size:22px;font-weight:600;box-shadow:0 2px 8px rgba(70,50,20,.18);}
-#s-map .mp-zoom button:hover{color:var(--pp-blue);}
-.mp-compass{position:absolute;left:14px;top:12px;z-index:5;width:30px;text-align:center;pointer-events:none;font-family:var(--pp-mono);font-weight:600;font-size:13px;color:#3a332a;line-height:1;}
-.mp-compass svg{display:block;margin:0 auto 3px;}
-.mp-scale{position:absolute;left:14px;bottom:10px;z-index:5;display:flex;align-items:flex-end;gap:7px;pointer-events:none;font-family:var(--pp-mono);font-size:13px;color:#3a332a;}
-.mp-scale i{display:block;height:7px;border:1.6px solid #3a332a;border-top:none;}
-#s-map .mp-legend{top:66px;left:12px;background:rgba(255,253,248,.95);border:1px solid var(--pp-line);border-radius:8px;color:var(--pp-ink2);box-shadow:0 2px 8px rgba(70,50,20,.12);}
-#s-map .mp-legend-t{color:var(--pp-ink);}
-#s-map .mp-legend .ln.rt{height:3px;background:repeating-linear-gradient(90deg,var(--pp-blue) 0 5px,transparent 5px 8px);}
-#s-map .mp-legend .ln.dash{background:repeating-linear-gradient(90deg,#7fa6c0 0 4px,transparent 4px 7px);}
-#s-map .mp-live{top:auto;bottom:24px;right:12px;background:rgba(255,253,248,.95);border:1px solid var(--pp-line);border-radius:8px;color:var(--pp-ink2);max-width:60%;}
+#s-map .mp-zoom{top:10px;bottom:auto;right:10px;gap:6px;}
+#s-map .mp-zoom button{width:40px;height:40px;border-radius:11px;border:1px solid rgba(0,0,0,.12);background:rgba(255,255,255,.94);color:var(--pp-brown);font-size:19px;font-weight:700;box-shadow:0 2px 6px rgba(30,20,10,.12);}
+#s-map .mp-zoom button:hover{background:#fff;color:var(--pp-blue);}
+.mp-compass{position:absolute;left:10px;top:10px;z-index:5;width:22px;height:30px;pointer-events:none;}
+.mp-scale{position:absolute;left:10px;bottom:8px;z-index:5;display:flex;align-items:center;gap:6px;pointer-events:none;font:600 10.5px/1 'JetBrains Mono',ui-monospace,monospace;color:#3d4f57;}
+.mp-scale i{display:block;height:5px;border:1.5px solid #3d4f57;border-top:0;background:rgba(255,255,255,.55);}
+#s-map .mp-legend{top:50px;left:10px;background:rgba(255,255,255,.95);border:1px solid var(--pp-line);border-radius:10px;color:var(--pp-mute);font-family:var(--pp-mono);font-size:10.5px;box-shadow:0 2px 6px rgba(30,20,10,.10);}
+#s-map .mp-legend-t{color:var(--pp-brown);font-family:var(--pp-mono);letter-spacing:.06em;font-size:11px;}
+#s-map .mp-legend .ic{width:26px;flex:0 0 26px;display:flex;justify-content:center;}
+#s-map .mp-live{top:auto;bottom:24px;right:10px;background:rgba(255,255,255,.95);border:1px solid var(--pp-line);border-radius:99px;color:var(--pp-ink2);font-size:12px;max-width:60%;}
 #s-map .mp-live b{color:var(--pp-ink);}
-#s-map .mp-attr{left:auto;right:12px;bottom:4px;color:#8a8070;font-size:10px;}
-#s-map .mp-attr a{color:#7a6f5f;}
-#s-map .mp-rtinfo{bottom:66px;background:rgba(255,253,248,.97);border:1px solid var(--pp-line);border-left:3px solid var(--pp-blue);border-radius:8px;color:var(--pp-ink2);box-shadow:0 2px 8px rgba(70,50,20,.12);}
+#s-map .mp-attr{left:auto;right:10px;bottom:4px;color:#a89a8b;font-size:9.5px;font-family:var(--pp-sans);}
+#s-map .mp-attr a{color:inherit;}
+#s-map .mp-rtinfo{bottom:66px;background:rgba(255,255,255,.97);border:1px solid var(--pp-line);border-left:3px solid var(--pp-red);border-radius:10px;color:var(--pp-ink2);font-size:12.5px;box-shadow:0 2px 8px rgba(30,20,10,.12);}
 #s-map .mp-rtinfo b{color:var(--pp-ink);}
 #s-map .mp-rtinfo button{color:var(--pp-mute);}
-#s-map .mp-loadchip{background:rgba(255,253,248,.96);border:1px solid var(--pp-line);border-radius:8px;color:var(--pp-ink2);}
-#s-map .mp-pop{background:var(--pp-card);border:1px solid var(--pp-line);border-radius:10px;color:var(--pp-ink2);box-shadow:0 10px 28px rgba(70,50,20,.22);}
+#s-map .mp-loadchip{background:rgba(255,255,255,.96);border:1px solid var(--pp-line);border-radius:99px;color:var(--pp-ink2);}
+#s-map .mp-pop{background:#fff;border:1px solid var(--pp-line);border-radius:12px;color:var(--pp-ink2);box-shadow:0 10px 28px rgba(30,20,10,.2);}
 #s-map .mp-pop h4{color:var(--pp-ink);}
 #s-map .mp-pop .ln span{color:var(--pp-mute);}
 /* bảng bên */
-#s-map .mp-side{background:var(--pp-bg);border-left:1px solid var(--pp-line);}
-#s-map .mp-tabs{border-bottom:1px solid var(--pp-line);background:var(--pp-bg);}
-#s-map .mp-tabs button{color:var(--pp-mute);}
+#s-map .mp-side{background:#fff;border-left:1px solid var(--pp-line);}
+#s-map .mp-tabs{border-bottom:1px solid var(--pp-line);background:#fff;}
+#s-map .mp-tabs button{color:var(--pp-mute);font-family:var(--pp-sans);font-weight:600;}
 #s-map .mp-tabs button.on{color:var(--pp-blue);border-bottom-color:var(--pp-blue);}
-#s-map .mp-side-head{font-family:var(--pp-mono);text-transform:uppercase;letter-spacing:.06em;font-size:12px;white-space:nowrap;gap:10px;color:var(--pp-brown);border-bottom:1px solid var(--pp-line);background:var(--pp-bg);}
-#s-map .mp-side-head span:last-child{color:var(--pp-blue);letter-spacing:.06em;}
-#s-map .btn{background:var(--pp-card);border-color:var(--pp-line2);color:var(--pp-ink2);}
+#s-map .mp-body{background:#fff;}
+#s-map .mp-side-head{font-family:var(--pp-mono);text-transform:uppercase;letter-spacing:.12em;font-size:11px;font-weight:600;white-space:nowrap;gap:10px;color:#6b5a4a;border-bottom:1px solid var(--pp-line);background:#fff;}
+#s-map .mp-side-head span:last-child{color:var(--pp-blue);letter-spacing:.04em;font-size:10.5px;}
+#s-map .btn{background:#fff;border-color:var(--pp-line);color:#6b5a4a;font-family:var(--pp-sans);border-radius:99px;}
 #s-map .btn:hover{border-color:var(--pp-blue);color:var(--pp-blue);}
-#s-map .btn.pri{background:var(--pp-blue);border-color:var(--pp-blue);color:#fff;}
-#s-map .mp-toolbar select,#s-map .mp-f input,#s-map .mp-f select,#s-map .mp-f textarea,#s-map .mp-rtq,#s-map .mp-rtopt input[type=number],#s-map .mp-devin{background:var(--pp-card);border:1px solid var(--pp-line2);color:var(--pp-ink);}
-#s-map .mp-card,#s-map .mp-poiitem,#s-map .mp-sec{background:var(--pp-card);border-color:var(--pp-line);}
+#s-map .btn.pri{background:var(--pp-ink);border-color:var(--pp-ink);color:var(--pp-paper);}
+#s-map .btn.pri:hover{background:var(--pp-brown);opacity:1;}
+#s-map .mp-toolbar select,#s-map .mp-f input,#s-map .mp-f select,#s-map .mp-f textarea,#s-map .mp-rtq,#s-map .mp-rtopt input[type=number],#s-map .mp-devin{background:#fff;border:1px solid var(--pp-line);color:var(--pp-ink);border-radius:10px;font-family:var(--pp-sans);}
+#s-map .mp-card,#s-map .mp-poiitem,#s-map .mp-sec{background:var(--pp-paper);border-color:var(--pp-line);border-radius:12px;}
 #s-map .mp-card{border-left-color:var(--bc,#e8a020);}
 #s-map .mp-card .code,#s-map .mp-poiitem .nm,#s-map .mp-sec h5,#s-map .mp-tidenow{color:var(--pp-ink);}
 #s-map .mp-card .lab,#s-map .mp-poiitem .sb,#s-map .mp-sec .d,#s-map .mp-tidesub,#s-map .mp-f .hint,#s-map .mp-empty{color:var(--pp-mute);}
 #s-map .mp-card .meta{color:var(--pp-ink2);}
 #s-map .mp-card .meta b,#s-map .mp-sec .d b{color:var(--pp-ink);}
-#s-map .mp-empty{border-color:var(--pp-line2);}
+#s-map .mp-empty{border-color:var(--pp-line2);border-radius:12px;}
 #s-map .mp-f label,#s-map .mp-check,#s-map .mp-rtopt{color:var(--pp-ink2);}
-#s-map .mp-src{border-color:var(--pp-line2);color:var(--pp-mute);}
-#s-map .mp-result,#s-map .mp-code pre{background:#f1ebde;border-color:var(--pp-line);color:var(--pp-ink2);}
+#s-map .mp-src{border-color:var(--pp-line);color:var(--pp-mute);}
+#s-map .mp-result,#s-map .mp-code pre{background:#f7f1e7;border-color:var(--pp-line);color:var(--pp-ink2);}
 #s-map .mp-steps{color:var(--pp-ink2);}
-#s-map .mp-steps code,#s-map .mp-sec code{background:#f1ebde;border-color:var(--pp-line);color:#9a5b13;}
-#s-map .mp-seg button{background:var(--pp-card);border-color:var(--pp-line2);color:var(--pp-mute);}
-#s-map .mp-seg button.sel{border-color:var(--pp-blue);color:var(--pp-blue);background:#e8f0f8;}
-#s-map .mp-locbtns button{border-color:rgba(47,109,181,.5);color:var(--pp-blue);}
-#s-map .mp-tidest a{color:var(--pp-blue);border-color:var(--pp-line2);background:var(--pp-card);}
+#s-map .mp-steps code,#s-map .mp-sec code{background:#f7f1e7;border-color:var(--pp-line);color:#9a5b13;}
+#s-map .mp-seg button{background:#fff;border-color:var(--pp-line);color:var(--pp-mute);}
+#s-map .mp-seg button.sel{border-color:var(--pp-blue);color:var(--pp-blue);background:#eaf3fa;}
+#s-map .mp-locbtns button{border-color:rgba(31,120,180,.5);color:var(--pp-blue);}
+#s-map .mp-tidest a{color:var(--pp-blue);border-color:var(--pp-line);background:#fff;border-radius:99px;}
 #s-map .mp-tidesub b{color:#b7791f;}
-/* danh sách tuyến như bản đồ mẫu */
-.mp-rthead{font-family:var(--pp-mono);font-weight:600;font-size:14px;letter-spacing:.3em;color:var(--pp-brown);margin:6px 2px 6px;}
-#s-map .mp-rtgrp{font-family:var(--pp-mono);font-weight:500;font-size:11.5px;letter-spacing:.22em;color:#a08a6c;margin:16px 2px 2px;}
-#s-map .mp-rt{display:grid;grid-template-columns:40px 1fr auto;column-gap:12px;align-items:center;background:transparent;border:none;border-bottom:1px dashed var(--pp-line2);border-radius:6px;padding:13px 6px;margin:0;box-shadow:none;}
-#s-map .mp-rt:hover{background:#f0e9db;border-color:var(--pp-line2);}
-#s-map .mp-rt.sel{background:#e6eff8;box-shadow:none;}
-#s-map .mp-rt .sw{height:3px;width:34px;background:repeating-linear-gradient(90deg,var(--pp-blue) 0 7px,transparent 7px 12px);}
-#s-map .mp-rt .nm{font-size:16.5px;color:var(--pp-ink);font-weight:700;display:block;}
-#s-map .mp-rt .via{font-size:14px;color:var(--pp-mute);margin-top:3px;}
+/* danh sách tuyến (giống .rlist của trang mẫu) */
+.mp-rthead{font-family:var(--pp-mono);font-weight:600;font-size:11px;letter-spacing:.18em;color:var(--pp-tan);margin:4px 2px 4px;}
+#s-map .mp-rtgrp{font-family:var(--pp-mono);font-weight:600;font-size:10px;letter-spacing:.18em;color:#b19a7e;margin:14px 2px 0;}
+#s-map .mp-rt{display:grid;grid-template-columns:24px 1fr auto;column-gap:10px;align-items:center;background:none;border:none;border-bottom:1px dashed #efe4d6;border-radius:0;padding:9px 6px;margin:0;box-shadow:none;}
+#s-map .mp-rt:hover{background:#fbf6ee;}
+#s-map .mp-rt.sel{background:#fdf1e0;}
+#s-map .mp-rt .sw{width:22px;height:0;border-top:2.4px dashed var(--pp-blue);background:none;}
+#s-map .mp-rt.sel .sw{border-top-color:var(--pp-red);border-top-style:solid;}
+#s-map .mp-rt .nm{display:block;font-size:14px;font-weight:700;color:var(--pp-ink);line-height:1.35;}
+#s-map .mp-rt .via{font-size:12px;color:var(--pp-mute);margin-top:1px;line-height:1.35;}
 #s-map .mp-rt .rk{text-align:right;white-space:nowrap;}
-#s-map .mp-rt .km{display:block;color:var(--pp-blue);font-size:16.5px;font-weight:700;margin:0;}
-#s-map .mp-rt .hr{display:block;color:var(--pp-mute);font-size:14px;margin-top:3px;}
-#s-map .mp-rt .more{grid-column:2 / 4;font-size:13px;color:var(--pp-ink2);margin-top:8px;line-height:1.5;}
-#s-map .mp-rt .more b{color:var(--pp-blue);}
-#s-map .mp-rt .nt{grid-column:2 / 4;color:#b45309;font-size:12.5px;margin-top:4px;}
+#s-map .mp-rt .km{display:block;margin:0;font-size:13.5px;font-weight:700;color:var(--pp-blue);}
+#s-map .mp-rt.sel .km{color:var(--pp-red);}
+#s-map .mp-rt .hr{display:block;font-size:11.5px;color:var(--pp-mute);margin-top:1px;}
+#s-map .mp-rt .more{grid-column:2 / 4;font-size:12px;color:var(--pp-ink2);margin-top:6px;line-height:1.5;}
+#s-map .mp-rt .more b{color:var(--pp-red);}
+#s-map .mp-rt .nt{grid-column:2 / 4;color:#b45309;font-size:11.5px;margin-top:3px;}
 @media(max-width:900px){
-  #s-map .mp-live{bottom:24px;right:12px;max-width:calc(100% - 150px);font-size:11px;padding:5px 9px;}
-  #s-map .mp-rtinfo{bottom:80px;max-width:calc(100% - 24px);}
-  #s-map .mp-legend{top:auto;bottom:34px;padding:5px 9px;font-size:11px;}
-  #s-map .mp-legend.min .mp-legend-t{font-size:11.5px;}
-  #s-map .mp-side-head span:last-child{font-size:11px;letter-spacing:0;}
+  #s-map .mp-live{bottom:24px;right:10px;max-width:calc(100% - 150px);font-size:11px;padding:5px 10px;}
+  #s-map .mp-rtinfo{bottom:80px;max-width:calc(100% - 20px);}
+  #s-map .mp-legend{top:auto;bottom:34px;padding:5px 9px;}
 }
 </style>
 </head>
@@ -1221,7 +1237,7 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
   <div class="mp-wrap" id="mp-wrap">
     <div id="mp-stage"><svg id="mp-svg" xmlns="http://www.w3.org/2000/svg"></svg></div>
 
-    <div class="mp-compass" aria-hidden="true"><svg width="20" height="26" viewBox="0 0 20 26"><path d="M10 1 L18 24 L10 19 Z" fill="#3a332a"/><path d="M10 1 L2 24 L10 19 Z" fill="none" stroke="#3a332a" stroke-width="1.4" stroke-linejoin="round"/></svg>B</div>
+    <svg class="mp-compass" viewBox="0 0 22 30" aria-hidden="true"><path d="M11 2 17 18 11 15 5 18Z" fill="#4a3528"/><path d="M11 2 11 15 5 18Z" fill="#8d6e53"/><text x="11" y="28.5" text-anchor="middle" font-size="8" font-weight="800" fill="#4a3528" font-family="Be Vietnam Pro,sans-serif" style="stroke:none">B</text></svg>
     <div class="mp-scale" id="mp-scale"><i id="mp-scale-bar"></i><span id="mp-scale-t"></span></div>
     <div class="mp-legend" id="mp-legend">
       <div class="mp-legend-t" onclick="g('mp-legend').classList.toggle('min')">Chú thích ▾</div>
@@ -1233,9 +1249,11 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
       <div class="r"><span class="sw sq" style="background:#c17f4e"></span>Sửa chữa</div>
       <div class="r"><span class="sw sq" style="background:#3f8ea3"></span>Cảng giao nhận</div>
       <div class="r"><span class="sw sq" style="background:#8b7bb0"></span>Khác</div>
-      <div class="r"><span class="ln" style="background:#84b2cf"></span>Sông, kênh</div>
-      <div class="r"><span class="ln dash"></span>Luồng biển</div>
-      <div class="r"><span class="ln rt"></span>Tuyến vận tải</div>
+      <div class="r"><span class="ic"><svg width="12" height="12"><circle cx="6" cy="6" r="4" fill="#fff" stroke="#1f78b4" stroke-width="1.6"/></svg></span>Tỉnh / thành</div>
+      <div class="r"><span class="ic"><svg width="12" height="12"><circle cx="6" cy="6" r="4" fill="#c45a3c"/></svg></span>Cảng nhà</div>
+      <div class="r"><span class="ic"><svg width="26" height="6"><path d="M1 3H25" stroke="#1f78b4" stroke-width="2.2" stroke-dasharray="6 3.5"/></svg></span>Tuyến đường sông</div>
+      <div class="r"><span class="ic"><svg width="26" height="6"><path d="M1 3H25" stroke="#1f78b4" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="1.5 4"/></svg></span>Chặng biển</div>
+      <div class="r"><span class="ic"><svg width="26" height="8"><path d="M1 4H25" stroke="#a6cbdc" stroke-width="5"/><path d="M1 4H25" stroke="#93c1d6" stroke-width="1.5"/></svg></span>Sông / kênh</div>
     </div>
 
     <div class="mp-live" id="mp-live" onclick="mpTab('api')"><i></i><span id="mp-live-t">Chưa kết nối API</span></div>
@@ -3286,17 +3304,21 @@ function mpBuild(){
   MAP.provinces.forEach(p=>mpEl('path',{d:p.path,class:'mp-prov'},gp));
   mpEl('g',{id:'mp-g-border'},svg);
   mpEl('g',{id:'mp-g-water'},svg);
-  mpEl('g',{id:'mp-g-route'},svg);
-  const gc = mpEl('g',{},svg);
-  const BIG = new Set(['TP.HCM','Cần Thơ','Biên Hòa','Vũng Tàu','Sóc Trăng','Rạch Giá','Cà Mau','Mỹ Tho','Long Xuyên','Vĩnh Long','Tân An','Châu Đốc','Phú Quốc']);
-  MAP.cities.forEach(c=>{ const k=mpEl('g',{class:'mp-lbl','data-x':c.x,'data-y':c.y,'data-k':'c'},gc);
-    mpEl('circle',{cx:0,cy:0,r:2.2,class:'mp-city'},k); mpEl('text',{x:4,y:3,class:'mp-citylbl'+(BIG.has(c.name)?' b':'')},k).textContent=c.name; });
   const gl = mpEl('g',{},svg);
   MAP.provinces.forEach(p=>{ mpEl('text',{x:0,y:0,class:'mp-provlbl mp-lbl','data-x':p.cx,'data-y':p.cy,'data-k':'p'},gl).textContent=p.name; });
   mpEl('g',{id:'mp-g-rvlbl'},svg);
-  mpEl('g',{id:'mp-g-trail'},svg);
-  mpEl('g',{id:'mp-g-poi'},svg);
-  mpEl('g',{id:'mp-g-barge'},svg);
+  // lớp phủ riêng: nét tuyến chạy liên tục chỉ vẽ lại lớp này, không vẽ lại nền sông nặng
+  let svg2 = g('mp-svg2');
+  if(!svg2){ svg2 = document.createElementNS(MP_NS,'svg'); svg2.id='mp-svg2'; g('mp-stage').appendChild(svg2); }
+  svg2.setAttribute('viewBox',`0 0 ${MAP.W} ${MAP.H}`); svg2.setAttribute('width',MAP.W); svg2.setAttribute('height',MAP.H);
+  mpEl('g',{id:'mp-g-route'},svg2);
+  const gc = mpEl('g',{},svg2);
+  const BIG = new Set(['TP.HCM','Cần Thơ','Biên Hòa','Vũng Tàu','Sóc Trăng','Rạch Giá','Cà Mau','Mỹ Tho','Long Xuyên','Vĩnh Long','Tân An','Châu Đốc','Phú Quốc']);
+  MAP.cities.forEach(c=>{ const big=BIG.has(c.name), k=mpEl('g',{class:'mp-lbl'+(big?'':' minor'),'data-x':c.x,'data-y':c.y,'data-k':'c'},gc);
+    mpEl('circle',{cx:0,cy:0,r:2,class:'mp-city'},k); mpEl('text',{x:4.5,y:3.2,class:'mp-citylbl'+(big?' b':'')},k).textContent=c.name; });
+  mpEl('g',{id:'mp-g-trail'},svg2);
+  mpEl('g',{id:'mp-g-poi'},svg2);
+  mpEl('g',{id:'mp-g-barge'},svg2);
   mpBuilt = true;
   mpBuildWater();
 }
@@ -3351,9 +3373,10 @@ function mpBuildWater(){
   });
   const gf = g('mp-g-foreign'), gb = g('mp-g-border');
   if(gf && MP_WATER.foreign) mpEl('path',{d:MP_WATER.foreign.map(rings=>rings.map(r=>mpPathD(mpDecode(r,q),true)).join('')).join(''), class:'mp-foreign'},gf);
+  if(gb && MP_WATER.coast) mpEl('path',{d:MP_WATER.coast.map(r=>mpPathD(mpDecode(r,q),true)).join(''), class:'mp-coast'},gb);
   if(gb && MP_WATER.border) mpEl('path',{d:MP_WATER.border.map(sg=>mpPathD(mpDecode(sg,q))).join(''), class:'mp-border'},gb);
   (MP_WATER.seaLabels||[]).forEach(([t,x,y,k])=>{
-    mpEl('text',{class:k==='sea'?'mp-sealbl mp-lbl':'mp-estlbl mp-lbl ll1','text-anchor':'middle','data-x':x,'data-y':y,'data-k':k==='sea'?'p':'c'},gl).textContent = t;
+    mpEl('text',{class:k==='est'?'mp-estlbl mp-lbl ll1':'mp-sealbl mp-lbl'+(k==='kh'?' kh':''),'text-anchor':'middle','data-x':x,'data-y':y,'data-k':k==='est'?'c':'p'},gl).textContent = t;
   });
   mpScaleMarkers(); mpApply();
 }
@@ -3434,12 +3457,14 @@ function mpRenderBarges(animate){
   if(mpSel){ const s=gb.querySelector(`[data-code="${mpSel}"]`); if(s) gb.appendChild(s); }
 }
 function mpPlace(el,[x,y]){ el.dataset.x=x; el.dataset.y=y; el.setAttribute('transform',`translate(${x},${y}) scale(${1/vs})`); }
+let mpVs0 = 1;                                     // độ phóng của khung nhìn đầu (mốc để chữ/nét lớn dần khi phóng)
+const mpZr = () => Math.max(.4, vs/mpVs0);
 function mpScaleMarkers(){
-  document.querySelectorAll('#mp-svg .mp-mk').forEach(el=>el.setAttribute('transform',`translate(${el.dataset.x},${el.dataset.y}) scale(${1/vs})`));
-  document.querySelectorAll('#mp-svg .mp-rvlbl').forEach(el=>el.setAttribute('transform',`translate(${el.dataset.x},${el.dataset.y}) rotate(${el.dataset.a}) scale(${1/vs})`));
-  // tên thành phố / tỉnh: lớn dần theo độ phóng nhưng có giới hạn, không phình to khi soi kênh rạch
-  const kc = Math.min(1.3, Math.max(.75, vs))/vs, kp = Math.min(1.5, Math.max(.75, vs))/vs;
-  document.querySelectorAll('#mp-svg .mp-lbl').forEach(el=>el.setAttribute('transform',`translate(${el.dataset.x},${el.dataset.y}) scale(${el.dataset.k==='p'?kp:kc})`));
+  const gz = Math.min(1.35, Math.max(.85, Math.pow(mpZr(), .28)));       // chữ lớn dần chậm khi phóng (giống trang mẫu)
+  document.querySelectorAll('#mp-stage .mp-mk').forEach(el=>el.setAttribute('transform',`translate(${el.dataset.x},${el.dataset.y}) scale(${1/vs})`));
+  document.querySelectorAll('#mp-stage .mp-rvlbl').forEach(el=>el.setAttribute('transform',`translate(${el.dataset.x},${el.dataset.y}) rotate(${el.dataset.a}) scale(${gz/vs})`));
+  const kc = gz/vs, kp = Math.min(1.4, gz)/vs;
+  document.querySelectorAll('#mp-stage .mp-lbl').forEach(el=>el.setAttribute('transform',`translate(${el.dataset.x},${el.dataset.y}) scale(${el.dataset.k==='p'?kp:kc})`));
 }
 
 function mpRenderAll(animate){
@@ -3451,7 +3476,7 @@ function mpRenderAll(animate){
 const mpWrap = () => g('mp-wrap');
 let mpMoveT = null;
 function mpApply(){
-  const st = g('mp-stage'), svg = g('mp-svg');
+  const st = g('mp-stage'), svg = st;
   st.classList.add('moving'); clearTimeout(mpMoveT); mpMoveT = setTimeout(()=>st.classList.remove('moving'), 220);
   st.style.transform=`translate(${vx}px,${vy}px) scale(${vs})`;
   const lod = vs>=2.2 ? '2' : vs>=0.75 ? '1' : '0';          // phóng càng lớn càng hiện nhiều rạch, kênh nhỏ
@@ -3462,17 +3487,21 @@ function mpApply(){
 }
 // Bản đồ phóng bằng CSS transform nên non-scaling-stroke không có tác dụng:
 // tự chia bề dày nét / nhịp nét đứt cho độ phóng để nét luôn mảnh như nhau trên màn hình.
+// [bộ chọn, bề dày px, nhịp nét đứt px, có lớn dần theo độ phóng (z^0.3)?]
 const MP_STROKES = [
-  ['.mp-prov',.8],['.mp-foreign',.6],['.mp-border',1.3,[7,3,1.5,3]],['.mp-wl.r.l0',1.8],['.mp-wl.c.l0',1.2],['.mp-wl.r.l1',1],
-  ['.mp-wl.c.l1',.8],['.mp-wl.l2',.6],['.mp-river.sea',1.2,[4,4]],['.mp-rtnet',2.4,[7,5]],['.mp-rthalo',7],['.mp-rtsel',3.6,[10,6]],
-  ['.mp-trail',2.6],['.mp-cross',1.5,[4,3]]];
+  ['.mp-prov',.5,0,1],['.mp-coast',.8,0,1],['.mp-foreign',.7],['.mp-border',1,[5,3]],
+  ['.mp-wl.r.l0',1.5,0,1],['.mp-wl.c.l0',.95,0,1],['.mp-wl.r.l1',.95,0,1],['.mp-wl.c.l1',.65,0,1],['.mp-wl.l2',.42,0,1],
+  ['.mp-river.sea',.9,[2,4]],['.mp-rtbg',4.6],['.mp-rtbg.sel',6],['.mp-rt',2.2,[7,4]],['.mp-rt.sea',2.2,[1.5,4.5]],['.mp-rt.sel',3.2,[7,4]],
+  ['.mp-rt.sea.sel',3.2,[1.5,4.5]],['.mp-trail',2.6],['.mp-cross',1.5,[4,3]]];
 let mpStrokeVs = 0;
 function mpStrokes(){
   if(Math.abs(vs-mpStrokeVs) < mpStrokeVs*0.004) return;
   mpStrokeVs = vs;
   let st = document.getElementById('mp-zoomstyle');
   if(!st){ st = document.createElement('style'); st.id = 'mp-zoomstyle'; document.head.appendChild(st); }
-  st.textContent = MP_STROKES.map(([sel,w,dash])=>`#s-map #mp-svg ${sel}{stroke-width:${(w/vs).toFixed(4)}px;${dash?`stroke-dasharray:${dash.map(v=>(v/vs).toFixed(4)).join(' ')};`:''}}`).join('\n');
+  const zs = Math.pow(mpZr(), .3);
+  st.textContent = MP_STROKES.map(([sel,w,dash,grow])=>`#s-map #mp-stage ${sel}{stroke-width:${(w*(grow?zs:1)/vs).toFixed(4)}px;${dash?`stroke-dasharray:${dash.map(v=>(v/vs).toFixed(4)).join(' ')};`:''}}`).join('\n')
+    + `\n@keyframes mpdash{to{stroke-dashoffset:${(-11/vs).toFixed(4)}px}}`;     // nhịp chạy 11px trên màn hình
 }
 // thước tỉ lệ: 1 đơn vị bản đồ ≈ 111,32/scale km (phép chiếu giữ tỉ lệ theo vĩ độ giữa)
 const MP_KM_PER_U = 111.32/MAP.scale;
@@ -3486,7 +3515,7 @@ function mpFit(){
   // khung nhìn đầu: vùng hoạt động của đội sà lan (Châu Đốc – Cà Mau – TP.HCM – Vũng Tàu)
   const w=mpWrap(); const ww=w.clientWidth, wh=w.clientHeight; if(!ww||!wh) return;
   const [x0,y0]=mpXY(104.85,11.05), [x1,y1]=mpXY(107.2,8.95), pad=10;
-  vs = Math.min((ww-pad*2)/(x1-x0), (wh-pad*2)/(y1-y0));
+  vs = Math.min((ww-pad*2)/(x1-x0), (wh-pad*2)/(y1-y0)); mpVs0 = vs;
   vx = ww/2-((x0+x1)/2)*vs; vy = wh/2-((y0+y1)/2)*vs; mpApply();
 }
 function mpFitAll(){
@@ -3774,29 +3803,35 @@ function mpHours(h){
 function mpRenderRoutes(){
   const gr = g('mp-g-route'); if(!gr) return;
   gr.innerHTML = '';
-  const rd = r => r.d || (r.d = mpPathD(r.pts));
-  if(mpCfg.rtAll && MP_WATER){
-    MP_WATER.netD = MP_WATER.netD || (MP_WATER.net||[]).map(sg=>mpPathD(mpDecode(sg,MP_WATER.q))).join('');
-    mpEl('path',{d:MP_WATER.netD,class:'mp-rtnet'},gr);
-    (MP_WATER.ends||[]).forEach(([name,x,y])=>{
-      const home = /cảng nhà/.test(name);
-      const m = mpEl('g',{class:'mp-mk mp-rtend','data-x':x,'data-y':y},gr);
-      m.innerHTML = home ? `<circle r="13" fill="rgba(200,86,58,.16)" stroke="rgba(200,86,58,.55)" stroke-width="1.5"></circle><circle r="6" fill="#c8563a"></circle>`
-                         : `<circle r="5.5" fill="#fffdf8" stroke="#2f6db5" stroke-width="2.4"></circle>`;
-    });
-  }
+  if(!MP_WATER){ mpRouteInfo(); return; }
+  const q = MP_WATER.q, dec = e => mpPathD(mpDecode(e,q));
   const r = MP_RT.find(x=>x.id===mpRt);
-  if(r){
-    mpEl('path',{d:rd(r),class:'mp-rthalo'},gr);
-    mpEl('path',{d:rd(r),class:'mp-rtsel'},gr);
-    const pts = r.pts;
-    [[pts[0],r.from,false],[pts[pts.length-1],r.to,true]].forEach(([p,name,end])=>{
-      const m = mpEl('g',{class:'mp-mk mp-rtpt','data-x':p[0],'data-y':p[1]},gr);
-      m.innerHTML = `<circle r="6.5" fill="${end?'#1d4f8f':'#fffdf8'}" stroke="#1d4f8f" stroke-width="2.6"></circle>
-        <text class="lbl" x="0" y="-12" text-anchor="middle">${mpEsc(name)}</text>`;
-    });
-    mpScaleMarkers();
+  if(mpCfg.rtAll){
+    MP_WATER.netD = MP_WATER.netD || (MP_WATER.net||[]).map(dec).join('');
+    MP_WATER.netSeaD = MP_WATER.netSeaD || (MP_WATER.netSea||[]).map(dec).join('');
+    mpEl('path',{d:MP_WATER.netD+MP_WATER.netSeaD,class:'mp-rtbg'},gr);
+    mpEl('path',{d:MP_WATER.netD,class:'mp-rt'},gr);
+    if(MP_WATER.netSeaD) mpEl('path',{d:MP_WATER.netSeaD,class:'mp-rt sea'},gr);
   }
+  if(r){
+    r.legD = r.legD || (r.legs||[[r.sea?1:0, r.line]]).map(([sea,e])=>[sea, dec(e)]);
+    r.legD.forEach(([sea,d])=>mpEl('path',{d,class:'mp-rtbg sel'},gr));
+    r.legD.forEach(([sea,d])=>mpEl('path',{d,class:'mp-rt sel'+(sea?' sea':'')},gr));
+  }
+  if(mpCfg.rtAll || r){
+    const ends = mpCfg.rtAll ? (MP_WATER.ends||[]) : [[r.from, ...r.pts[0]], [r.to, ...r.pts[r.pts.length-1]]];
+    ends.forEach(([name,x,y])=>{
+      const home = /cảng nhà/.test(name), m = mpEl('g',{class:'mp-mk mp-rtend','data-x':x,'data-y':y},gr);
+      m.innerHTML = home ? '<circle class="pulse" r="7"></circle><circle class="home" r="5.2"></circle>' : '<circle class="dot" r="4"></circle>';
+    });
+  }
+  if(r){
+    [[r.pts[0],r.from],[r.pts[r.pts.length-1],r.to]].forEach(([p,name])=>{
+      const m = mpEl('g',{class:'mp-mk mp-rtpt','data-x':p[0],'data-y':p[1]},gr);
+      m.innerHTML = `<text class="lbl" x="0" y="-10" text-anchor="middle">${mpEsc(name)}</text>`;
+    });
+  }
+  mpScaleMarkers();
   mpRouteInfo();
 }
 function mpRouteInfo(){

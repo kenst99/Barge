@@ -293,11 +293,17 @@ for rid, grp, via, note in ROUTES:
         names.append(n)
     if len(names) > 9: names = [n for n, d in runs if n and d >= 6]; names = [n for i, n in enumerate(names) if i == 0 or names[i-1] != n]
     for u, v in zip(path, path[1:]): net_edges.add((u, v) if u < v else (v, u))
+    legs = []                                   # [là_biển, chuỗi mã hóa] theo thứ tự đi
+    for u, v in zip(path, path[1:]):
+        sea_e = G[u][v][3] == 'sea'
+        if legs and legs[-1][0] == sea_e: legs[-1][1].append(v)
+        else: legs.append([sea_e, [u, v]])
+    legs_out = [[1 if a else 0, encode(rdp([xy(*c) for c in pts], 0.04))] for a, pts in legs]
     for k in (via[0], via[-1]): ends[LBL[k]] = path[0] if k == via[0] else path[-1]
     P = rdp([xy(*c) for c in path], 0.04)
     xs = [p[0] for p in P]; ys = [p[1] for p in P]
     routes_out.append({'id': rid, 'grp': grp, 'from': LBL[via[0]], 'to': LBL[via[-1]], 'via': ' → '.join(names), 'km': round(dist, 1),
-        'sea': sea, 'note': note, 'line': encode(P), 'box': [round(min(xs),1), round(min(ys),1), round(max(xs),1), round(max(ys),1)]})
+        'sea': sea, 'note': note, 'line': encode(P), 'legs': legs_out, 'box': [round(min(xs),1), round(min(ys),1), round(max(xs),1), round(max(ys),1)]})
     dbg['routes'].append({'id': rid, 'km': round(dist), 'via': ' → '.join(names), 'pts': [[c[1], c[0]] for c in path]})
     print('%-15s %4d km %s %s' % (rid, dist, 'BIỂN' if sea else '    ', ' → '.join(names)))
 
@@ -374,7 +380,10 @@ for n, ls in by_name.items():
 # ═══ 4. mạng tuyến gộp (vẽ nét đứt không chồng lên nhau) + điểm đầu/cuối ═══
 adj = collections.defaultdict(set)
 for u, v in net_edges: adj[u].add(v); adj[v].add(u)
-seen, net_out = set(), []
+seen, net_out, net_sea = set(), [], []
+def put(chain):
+    enc = encode(rdp([xy(*c) for c in chain], 0.04))
+    (net_sea if all(G[a][b][3] == 'sea' for a, b in zip(chain, chain[1:])) else net_out).append(enc)
 def walk(a, b):
     chain = [a, b]; seen.add((a, b) if a < b else (b, a))
     while len(adj[chain[-1]]) == 2:
@@ -386,9 +395,9 @@ def walk(a, b):
 for u in adj:
     if len(adj[u]) == 2: continue
     for v in adj[u]:
-        if ((u, v) if u < v else (v, u)) not in seen: net_out.append(encode(rdp([xy(*c) for c in walk(u, v)], 0.04)))
+        if ((u, v) if u < v else (v, u)) not in seen: put(walk(u, v))
 for u, v in net_edges:                       # vòng khép kín còn sót
-    if (u, v) not in seen: net_out.append(encode(rdp([xy(*c) for c in walk(u, v)], 0.04)))
+    if (u, v) not in seen: put(walk(u, v))
 ends_out = [[n, round(xy(*c)[0], 1), round(xy(*c)[1], 1)] for n, c in ends.items()]
 print('route network chains', len(net_out), 'ends', len(ends_out))
 
@@ -442,8 +451,21 @@ if KHM:
         if g2.is_empty or g2.area*111*111 < 2.0: continue
         for rings in poly_rings_xy(g2, 0.0004): areas[0].append(rings)
 
+# ═══ 5b. đường bờ biển / biên: viền ngoài của tất cả tỉnh (lấy từ MAP trong index.html) ═══
+_prov = []
+for pv in MAP['provinces']:
+    for sp in pv['path'].split('M ')[1:]:
+        pts = [tuple(map(float, q.split(','))) for q in re.findall(r'-?[\d.]+,-?[\d.]+', sp)]
+        if len(pts) > 2: _prov.append(Polygon(pts).buffer(0))
+_vn = _union(_prov).buffer(0.05).buffer(-0.05)
+coast = []
+for gg in (_vn.geoms if hasattr(_vn, 'geoms') else [_vn]):
+    for r in [gg.exterior] + list(gg.interiors):
+        if r.length > 3: coast.append(encode(list(r.coords)))
+print('coast rings', len(coast))
+
 # ═══ 6. nhãn biển, cửa sông (đặt ngoài khơi gần cửa) ═══
-SEA_LBL = [('BIỂN ĐỒNG', 9.12, 106.80, 'sea'), ('VỊNH THÁI LAN', 9.55, 104.25, 'sea'),
+SEA_LBL = [('BIỂN ĐÔNG', 9.12, 106.80, 'sea'), ('VỊNH THÁI LAN', 9.55, 104.25, 'sea'), ('CAMPUCHIA', 11.2, 104.6, 'kh'),
   ('Cửa Soài Rạp', 10.33, 106.80, 'est'), ('Cửa Tiểu', 10.27, 106.86, 'est'), ('Cửa Đại', 10.18, 106.86, 'est'),
   ('Cửa Ba Lai', 10.03, 106.80, 'est'), ('Cửa Hàm Luông', 9.94, 106.72, 'est'), ('Cửa Cổ Chiên', 9.78, 106.70, 'est'),
   ('Cửa Định An', 9.55, 106.43, 'est'), ('Cửa Trần Đề', 9.45, 106.31, 'est'), ('Cửa Mỹ Thanh', 9.38, 106.23, 'est'),
@@ -452,7 +474,7 @@ sea_lbl = [[t, round(xy(lo, la)[0], 1), round(xy(lo, la)[1], 1), k] for t, la, l
 
 lines_out = [[lod, t, n, segs] for (lod, t, n), segs in sorted(groups.items(), key=lambda kv: (kv[0][0], kv[0][1], kv[0][2]))]
 out = {'v': 2, 'q': Q, 'src': 'OpenStreetMap (HOT export 05–06/05/2026), Natural Earth', 'areas': [areas[0], areas[1]],
-       'lines': lines_out, 'sea': sea_out, 'labels': labels, 'routes': routes_out, 'net': net_out, 'ends': ends_out,
+       'lines': lines_out, 'sea': sea_out, 'labels': labels, 'routes': routes_out, 'net': net_out, 'netSea': net_sea, 'ends': ends_out, 'coast': coast,
        'foreign': foreign, 'border': border, 'seaLabels': sea_lbl}
 s = json.dumps(out, ensure_ascii=False, separators=(',', ':'))
 open(OUT, 'w', encoding='utf-8').write(s)
