@@ -1,6 +1,6 @@
 // sw.js — Service Worker cho app Quản Lý & Điều Phối Sà Lan – Trung Hiếu
 // Mỗi lần sửa index.html / icon / manifest: tăng VERSION để máy đã cài tải bản mới.
-const VERSION = 'th-salan-v6';
+const VERSION = 'th-salan-v7';
 const PREFIX  = 'th-salan-';
 const CORE    = VERSION + '-core';     // trang + icon + manifest
 const RUNTIME = VERSION + '-rt';       // font, thư viện từ CDN
