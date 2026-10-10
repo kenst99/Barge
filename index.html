@@ -401,7 +401,7 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
 .mp-wrap.placing{cursor:crosshair;}
 #mp-stage{position:absolute;top:0;left:0;transform-origin:0 0;}
 #mp-stage.moving{will-change:transform;}
-#mp-svg{display:block;overflow:visible;}
+#mp-svg{position:absolute;left:0;top:0;display:block;overflow:visible;}
 .mp-prov{fill:var(--mp-land);stroke:var(--mp-land-s);stroke-width:1;vector-effect:non-scaling-stroke;}
 .mp-river{fill:none;stroke:var(--mp-river);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;opacity:.85;}
 .mp-river.minor{stroke-width:1.4;opacity:.55;}
@@ -3296,6 +3296,7 @@ function mpEl(tag, attrs, parent){
   return e;
 }
 function mpBuild(){
+  mpR = null;
   const svg = g('mp-svg');
   svg.setAttribute('viewBox',`0 0 ${MAP.W} ${MAP.H}`);
   svg.setAttribute('width',MAP.W); svg.setAttribute('height',MAP.H);
@@ -3474,11 +3475,31 @@ function mpRenderAll(animate){
 
 // ═══ PAN / ZOOM ═══
 const mpWrap = () => g('mp-wrap');
-let mpMoveT = null;
+// Vẽ sắc nét: khi đứng yên, SVG có kích thước bằng khung nhìn (+ lề) và dùng viewBox để phóng,
+// nên trình duyệt vẽ vector đúng độ phân giải màn hình. Chỉ trong lúc đang kéo/phóng mới phóng
+// tạm ảnh đã vẽ bằng CSS transform cho mượt, rồi vẽ lại sắc nét ngay khi dừng tay.
+let mpMoveT = null, mpR = null;                     // mpR: thông số lần vẽ sắc nét gần nhất {vx,vy,vs}
+const MP_MARGIN = .5;                                // vẽ dư 50% mỗi phía để kéo không thấy mép trống
+function mpSettle(){
+  const st = g('mp-stage'), w = mpWrap(); if(!st || !w) return;
+  const ww = w.clientWidth, wh = w.clientHeight; if(!ww || !wh) return;
+  const ox = -MP_MARGIN*ww, oy = -MP_MARGIN*wh, W = ww*(1+2*MP_MARGIN), H = wh*(1+2*MP_MARGIN);
+  const vb = `${((ox-vx)/vs).toFixed(3)} ${((oy-vy)/vs).toFixed(3)} ${(W/vs).toFixed(3)} ${(H/vs).toFixed(3)}`;
+  ['mp-svg','mp-svg2'].forEach(id=>{ const e=g(id); if(!e) return;
+    e.setAttribute('viewBox', vb); e.setAttribute('width', W.toFixed(0)); e.setAttribute('height', H.toFixed(0));
+    e.style.left = ox+'px'; e.style.top = oy+'px'; });
+  mpR = {vx, vy, vs};
+  st.style.transform = 'none'; st.classList.remove('moving');
+}
 function mpApply(){
   const st = g('mp-stage'), svg = st;
-  st.classList.add('moving'); clearTimeout(mpMoveT); mpMoveT = setTimeout(()=>st.classList.remove('moving'), 220);
-  st.style.transform=`translate(${vx}px,${vy}px) scale(${vs})`;
+  if(!mpR) mpSettle();
+  if(mpR){
+    const a = vs/mpR.vs, tx = vx - a*mpR.vx, ty = vy - a*mpR.vy;
+    st.classList.add('moving');
+    st.style.transform = `translate(${tx}px,${ty}px) scale(${a})`;
+  }
+  clearTimeout(mpMoveT); mpMoveT = setTimeout(mpSettle, 180);
   const lod = vs>=2.2 ? '2' : vs>=0.75 ? '1' : '0';          // phóng càng lớn càng hiện nhiều rạch, kênh nhỏ
   const lbl = vs>=3 ? '2' : vs>=1.5 ? '1' : '0';             // tên sông nhánh chỉ hiện khi đủ chỗ
   if(svg && svg.dataset.lod!==lod) svg.dataset.lod = lod;
@@ -3538,7 +3559,7 @@ function mpZoomAt(f, mx, my){
   vs = Math.max(0.3, Math.min(14, vs*f)); vx=mx-nx*vs; vy=my-ny*vs; mpApply();
 }
 function mpZoomBy(f){ const w=mpWrap(); mpTouched=true; mpZoomAt(f, w.clientWidth/2, w.clientHeight/2); }
-function mpResize(){ if(!g('s-map').classList.contains('active')) return; if(!mpTouched) mpFit(); else mpApply(); }
+function mpResize(){ if(!g('s-map').classList.contains('active')) return; mpR = null; if(!mpTouched) mpFit(); else mpApply(); }
 window.addEventListener('resize', mpResize);
 
 let mpPts=new Map(), mpDrag=null, mpPinch=null, mpMoved=false;
