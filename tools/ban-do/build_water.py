@@ -8,7 +8,10 @@ from shapely.geometry.polygon import orient
 from skeleton import centerline
 
 DATA, HTML, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
-DEBUG = sys.argv[4] if len(sys.argv) > 4 else None
+OPT = dict(a[2:].split('=', 1) for a in sys.argv[4:] if a.startswith('--') and '=' in a)
+DEBUG = OPT.get('debug')
+KHM = OPT.get('khm')          # thư mục bản xuất đường thủy Campuchia (HOT) – tùy chọn
+NE = OPT.get('ne')            # ne_10m_admin_0_countries.geojson (Natural Earth) – tùy chọn
 html = open(HTML, encoding='utf-8').read()
 MAP = json.loads(re.search(r'^const MAP = (.*);\s*$', html, re.M).group(1))
 B, LS, SC = MAP['bounds'], MAP['lonscale'], MAP['scale']
@@ -272,6 +275,7 @@ ROUTES = [
  ('pq-hatien','Phú Quốc', ['HATIEN','BAIVONG'], 'Đi biển – cần sà lan đăng kiểm VR-SB.'),
 ]
 routes_out, dbg = [], {'routes': []}
+net_edges, ends = set(), {}
 for rid, grp, via, note in ROUTES:
     seq = [SNAP[v] for v in via]
     path = [seq[0]]
@@ -288,9 +292,11 @@ for rid, grp, via, note in ROUTES:
         if names and names[-1] == n: continue
         names.append(n)
     if len(names) > 9: names = [n for n, d in runs if n and d >= 6]; names = [n for i, n in enumerate(names) if i == 0 or names[i-1] != n]
+    for u, v in zip(path, path[1:]): net_edges.add((u, v) if u < v else (v, u))
+    for k in (via[0], via[-1]): ends[LBL[k]] = path[0] if k == via[0] else path[-1]
     P = rdp([xy(*c) for c in path], 0.04)
     xs = [p[0] for p in P]; ys = [p[1] for p in P]
-    routes_out.append({'id': rid, 'grp': grp, 'from': LBL[via[0]], 'to': LBL[via[-1]], 'via': ' → '.join(names), 'km': round(dist),
+    routes_out.append({'id': rid, 'grp': grp, 'from': LBL[via[0]], 'to': LBL[via[-1]], 'via': ' → '.join(names), 'km': round(dist, 1),
         'sea': sea, 'note': note, 'line': encode(P), 'box': [round(min(xs),1), round(min(ys),1), round(max(xs),1), round(max(ys),1)]})
     dbg['routes'].append({'id': rid, 'km': round(dist), 'via': ' → '.join(names), 'pts': [[c[1], c[0]] for c in path]})
     print('%-15s %4d km %s %s' % (rid, dist, 'BIỂN' if sea else '    ', ' → '.join(names)))
@@ -346,14 +352,15 @@ for f in LINES:
     p = f['properties']; w = p.get('waterway')
     if w not in ('river', 'canal'): continue
     n = base_name(NFC(p.get('name')))
-    if not n or line_class(w, n)[0] != 0: continue
+    if not n or line_class(w, n)[0] > 1: continue
     for l in geom_lines(f): by_name[n].append([xy(*c) for c in l])
 by_name['Sông Lòng Tàu'].append([xy(*c) for c in LT])
-TOP = {'Sông Tiền','Sông Hậu','Sông Sài Gòn','Sông Đồng Nai','Sông Vàm Cỏ','Sông Cổ Chiên','Sông Soài Rạp','Sông Hàm Luông','Sông Vàm Cỏ Đông','Sông Vàm Cỏ Tây','Sông Cái Lớn'}
+TOP = {'Sông Tiền','Sông Hậu','Sông Sài Gòn','Sông Đồng Nai','Sông Cổ Chiên','Sông Hàm Luông','Sông Vàm Cỏ Tây','Sông Cái Lớn'}
 for n, ls in by_name.items():
     l = max(ls, key=lambda q: sum(math.hypot(a[0]-b[0], a[1]-b[1]) for a, b in zip(q, q[1:])))
     seg = [math.hypot(a[0]-b[0], a[1]-b[1]) for a, b in zip(l, l[1:])]; L = sum(seg)
-    if L < 6: continue
+    major = any(line_class(w, n)[0] == 0 for w in ('river', 'canal') if (w, n) in name_len) or n == 'Sông Lòng Tàu'
+    if L < (6 if major else 9): continue
     half, acc, i = L/2, 0, 0
     while i < len(seg)-1 and acc+seg[i] < half: acc += seg[i]; i += 1
     t = (half-acc)/seg[i] if seg[i] else 0
@@ -362,11 +369,91 @@ for n, ls in by_name.items():
     ang = math.degrees(math.atan2(l[j1][1]-l[j0][1], l[j1][0]-l[j0][0]))
     if ang > 90: ang -= 180
     if ang < -90: ang += 180
-    labels.append([n, round(x, 1), round(y, 1), round(ang), 0 if n in TOP else 1])
+    labels.append([n, round(x, 1), round(y, 1), round(ang), 0 if n in TOP else 1 if major else 2])
+
+# ═══ 4. mạng tuyến gộp (vẽ nét đứt không chồng lên nhau) + điểm đầu/cuối ═══
+adj = collections.defaultdict(set)
+for u, v in net_edges: adj[u].add(v); adj[v].add(u)
+seen, net_out = set(), []
+def walk(a, b):
+    chain = [a, b]; seen.add((a, b) if a < b else (b, a))
+    while len(adj[chain[-1]]) == 2:
+        nx = [w for w in adj[chain[-1]] if w != chain[-2]][0]
+        e = (chain[-1], nx) if chain[-1] < nx else (nx, chain[-1])
+        if e in seen: break
+        seen.add(e); chain.append(nx)
+    return chain
+for u in adj:
+    if len(adj[u]) == 2: continue
+    for v in adj[u]:
+        if ((u, v) if u < v else (v, u)) not in seen: net_out.append(encode(rdp([xy(*c) for c in walk(u, v)], 0.04)))
+for u, v in net_edges:                       # vòng khép kín còn sót
+    if (u, v) not in seen: net_out.append(encode(rdp([xy(*c) for c in walk(u, v)], 0.04)))
+ends_out = [[n, round(xy(*c)[0], 1), round(xy(*c)[1], 1)] for n, c in ends.items()]
+print('route network chains', len(net_out), 'ends', len(ends_out))
+
+# ═══ 5. đất nước láng giềng (Natural Earth) + sông lớn phía Campuchia (OSM) ═══
+from shapely.geometry import box as _box
+from shapely.ops import unary_union as _union
+BOXLL = _box(B['minlon'], B['minlat'], B['maxlon'], B['maxlat'])
+def poly_rings_xy(geom, tol):
+    out = []
+    geom = geom.simplify(tol, preserve_topology=True)
+    for gg in (geom.geoms if hasattr(geom, 'geoms') else [geom]):
+        if gg.geom_type != 'Polygon' or gg.is_empty: continue
+        gg = orient(gg, 1.0)
+        out.append([encode([xy(*c) for c in gg.exterior.coords])] + [encode([xy(*c) for c in r.coords]) for r in gg.interiors])
+    return out
+foreign, border = [], []
+if NE:
+    C = {f['properties'].get('ADM0_A3'): shape(f['geometry']).buffer(0) for f in json.load(open(NE))['features']
+         if f['properties'].get('ADM0_A3') in ('KHM', 'THA', 'VNM', 'LAO')}
+    nb = _union([C[k] for k in ('KHM', 'THA', 'LAO') if k in C])
+    land = _union(list(C.values()))
+    # nới vào phía Việt Nam 3 km để không hở khe với ranh tỉnh (phần nới bị lớp tỉnh VN che)
+    fl = nb.buffer(0.03).intersection(land.buffer(0.002)).intersection(BOXLL)
+    foreign = poly_rings_xy(fl, 0.004)
+    bl = C['KHM'].boundary.intersection(C['VNM'].buffer(0.01)).intersection(BOXLL)
+    for ln in (bl.geoms if hasattr(bl, 'geoms') else [bl]):
+        if ln.geom_type == 'LineString' and ln.length > 0.02:
+            border.append(encode(rdp([xy(*c) for c in ln.simplify(0.003).coords], 0.05)))
+    print('foreign land polys', len(foreign), 'border lines', len(border))
+if KHM:
+    kl = json.load(open(os.path.join(KHM, 'hotosm_khm_waterways_lines_geojson.geojson')))['features']
+    klen = collections.Counter()
+    for f in kl:
+        p = f['properties']
+        if p.get('waterway') == 'river' and p.get('name'):
+            klen[p['name']] += sum(km(a, b) for l in geom_lines(f) for a, b in zip(l, l[1:]))
+    for f in kl:
+        p = f['properties']
+        if p.get('waterway') != 'river' or klen[p.get('name')] < 40: continue
+        for l in geom_lines(f):
+            g2 = LineString(l).intersection(BOXLL)
+            for gg in (g2.geoms if hasattr(g2, 'geoms') else [g2]):
+                if gg.geom_type != 'LineString' or gg.is_empty: continue
+                P = rdp([xy(*c) for c in gg.coords], 0.05)
+                if len(P) > 1: groups[(0, 'r', '')].append(encode(P))
+    for f in json.load(open(os.path.join(KHM, 'hotosm_khm_waterways_polygons_geojson.geojson')))['features']:
+        p = f['properties']
+        if p.get('water') not in ('river', 'lake', 'reservoir') or not f.get('geometry'): continue
+        try: g2 = shape(f['geometry']).buffer(0).intersection(BOXLL)
+        except Exception: continue
+        if g2.is_empty or g2.area*111*111 < 2.0: continue
+        for rings in poly_rings_xy(g2, 0.0004): areas[0].append(rings)
+
+# ═══ 6. nhãn biển, cửa sông (đặt ngoài khơi gần cửa) ═══
+SEA_LBL = [('BIỂN ĐỒNG', 9.12, 106.80, 'sea'), ('VỊNH THÁI LAN', 9.55, 104.25, 'sea'),
+  ('Cửa Soài Rạp', 10.33, 106.80, 'est'), ('Cửa Tiểu', 10.27, 106.86, 'est'), ('Cửa Đại', 10.18, 106.86, 'est'),
+  ('Cửa Ba Lai', 10.03, 106.80, 'est'), ('Cửa Hàm Luông', 9.94, 106.72, 'est'), ('Cửa Cổ Chiên', 9.78, 106.70, 'est'),
+  ('Cửa Định An', 9.55, 106.43, 'est'), ('Cửa Trần Đề', 9.45, 106.31, 'est'), ('Cửa Mỹ Thanh', 9.38, 106.23, 'est'),
+  ('Cửa Gành Hào', 9.00, 105.50, 'est'), ('Cửa Ông Đốc', 9.03, 104.74, 'est')]
+sea_lbl = [[t, round(xy(lo, la)[0], 1), round(xy(lo, la)[1], 1), k] for t, la, lo, k in SEA_LBL]
 
 lines_out = [[lod, t, n, segs] for (lod, t, n), segs in sorted(groups.items(), key=lambda kv: (kv[0][0], kv[0][1], kv[0][2]))]
-out = {'v': 1, 'q': Q, 'src': 'OpenStreetMap (HOT export 06/05/2026)', 'areas': [areas[0], areas[1]],
-       'lines': lines_out, 'sea': sea_out, 'labels': labels, 'routes': routes_out}
+out = {'v': 2, 'q': Q, 'src': 'OpenStreetMap (HOT export 05–06/05/2026), Natural Earth', 'areas': [areas[0], areas[1]],
+       'lines': lines_out, 'sea': sea_out, 'labels': labels, 'routes': routes_out, 'net': net_out, 'ends': ends_out,
+       'foreign': foreign, 'border': border, 'seaLabels': sea_lbl}
 s = json.dumps(out, ensure_ascii=False, separators=(',', ':'))
 open(OUT, 'w', encoding='utf-8').write(s)
 print('OUT', OUT, len(s)//1024, 'KB; lines groups', len(lines_out), 'labels', len(labels))

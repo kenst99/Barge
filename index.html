@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@500;600&display=swap');
 :root{--bg:#0e1117;--panel:#151b27;--border:#1f2d3d;--text:#c8d4e0;--muted:#ffffff;--white:#f0f5fa;--ac:#e8a020;}
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;overflow:hidden;}
@@ -589,6 +589,109 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
   .mp-tabs button{font-size:13px;padding:11px 1px;white-space:nowrap;letter-spacing:-.01em;}
 }
 
+/* ═══════════════ BẢN ĐỒ – GIAO DIỆN GIẤY (sáng) ═══════════════ */
+#s-map{--pp-bg:#f7f2e7;--pp-card:#fffdf8;--pp-line:#e3d8c3;--pp-line2:#d5c7ab;--pp-ink:#2b2620;--pp-ink2:#5a5348;--pp-mute:#8a8070;
+  --pp-brown:#6b4f33;--pp-blue:#2f6db5;--pp-land:#f3ecdc;--pp-sea:#cfe2ec;--pp-water:#a9cbe0;--mp-route:#2f6db5;
+  --pp-mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;color:var(--pp-ink);}
+#s-map .mp-wrap{background:var(--pp-sea);}
+#s-map .mp-prov{fill:var(--pp-land);stroke:#dccfb4;stroke-width:.8;}
+#s-map .mp-foreign{fill:#ece4d2;stroke:#d6c8ac;stroke-width:.6;vector-effect:non-scaling-stroke;}
+#s-map .mp-border{fill:none;stroke:#9c7b56;stroke-width:1.3;stroke-dasharray:7 3 1.5 3;vector-effect:non-scaling-stroke;opacity:.8;}
+#s-map .mp-water{fill:var(--pp-water);}
+#s-map .mp-wl.r.l0{stroke:#84b2cf;stroke-width:1.8;}
+#s-map .mp-wl.c.l0{stroke:#93bcd6;stroke-width:1.2;}
+#s-map .mp-wl.r.l1{stroke:#94bdd6;stroke-width:1;}
+#s-map .mp-wl.c.l1{stroke:#a3c6db;stroke-width:.8;}
+#s-map .mp-wl.l2{stroke:#b0cfe0;stroke-width:.6;opacity:1;}
+#s-map .mp-river.sea{stroke:#7fa6c0;stroke-width:1.2;stroke-dasharray:4 4;opacity:.9;}
+#s-map .mp-rvlbl{fill:#5b87a6;stroke:var(--pp-land);stroke-width:2.6px;font-size:10px;font-weight:400;letter-spacing:.02em;}
+#mp-svg[data-lbl="0"] .ll1,#mp-svg[data-lbl="0"] .ll2,#mp-svg[data-lbl="1"] .ll2,#mp-svg[data-lbl="0"] .mp-poi .lbl,#mp-svg[data-lbl="0"] .mp-provlbl{display:none;}
+#s-map .mp-estlbl{font-family:'Roboto',sans-serif;font-style:italic;font-size:9.5px;fill:#5f88a3;pointer-events:none;}
+#s-map .mp-sealbl{font-family:var(--pp-mono);font-weight:600;font-size:14px;letter-spacing:.42em;fill:#7c9db3;pointer-events:none;}
+#s-map .mp-provlbl{font-family:var(--pp-mono);font-weight:500;font-size:11px;letter-spacing:.22em;fill:#c2b394;stroke:none;text-transform:uppercase;}
+#s-map .mp-city{fill:#6b655b;}
+#s-map .mp-citylbl{fill:#3e3a33;font-size:9.5px;stroke:var(--pp-land);stroke-width:2.6px;}
+#s-map .mp-citylbl.b{fill:#211d18;font-size:11px;font-weight:700;}
+#s-map .mp-rtnet{stroke:var(--pp-blue);stroke-width:2.4;stroke-dasharray:7 5;stroke-linecap:round;opacity:.9;}
+#s-map .mp-rthalo{stroke:#fffdf8;stroke-width:7;opacity:.9;}
+#s-map .mp-rtsel{stroke:#1d4f8f;stroke-width:3.6;stroke-dasharray:10 6;}
+#s-map .mp-rtend{pointer-events:none;}
+#s-map .mp-mk .lbl{fill:#241f19;stroke:#fbf7ee;}
+#s-map .mp-mk .sub{fill:#6c655a;stroke:#fbf7ee;}
+#s-map .mp-poi .lbl{fill:#3e3a33;font-size:10px;font-weight:500;}
+/* điều khiển nổi */
+#s-map .mp-zoom{top:12px;bottom:auto;right:12px;gap:8px;}
+#s-map .mp-zoom button{width:44px;height:44px;background:var(--pp-card);border:none;border-radius:10px;color:var(--pp-ink);font-size:22px;font-weight:600;box-shadow:0 2px 8px rgba(70,50,20,.18);}
+#s-map .mp-zoom button:hover{color:var(--pp-blue);}
+.mp-compass{position:absolute;left:14px;top:12px;z-index:5;width:30px;text-align:center;pointer-events:none;font-family:var(--pp-mono);font-weight:600;font-size:13px;color:#3a332a;line-height:1;}
+.mp-compass svg{display:block;margin:0 auto 3px;}
+.mp-scale{position:absolute;left:14px;bottom:10px;z-index:5;display:flex;align-items:flex-end;gap:7px;pointer-events:none;font-family:var(--pp-mono);font-size:13px;color:#3a332a;}
+.mp-scale i{display:block;height:7px;border:1.6px solid #3a332a;border-top:none;}
+#s-map .mp-legend{top:66px;left:12px;background:rgba(255,253,248,.95);border:1px solid var(--pp-line);border-radius:8px;color:var(--pp-ink2);box-shadow:0 2px 8px rgba(70,50,20,.12);}
+#s-map .mp-legend-t{color:var(--pp-ink);}
+#s-map .mp-legend .ln.rt{height:3px;background:repeating-linear-gradient(90deg,var(--pp-blue) 0 5px,transparent 5px 8px);}
+#s-map .mp-legend .ln.dash{background:repeating-linear-gradient(90deg,#7fa6c0 0 4px,transparent 4px 7px);}
+#s-map .mp-live{top:auto;bottom:24px;right:12px;background:rgba(255,253,248,.95);border:1px solid var(--pp-line);border-radius:8px;color:var(--pp-ink2);max-width:60%;}
+#s-map .mp-live b{color:var(--pp-ink);}
+#s-map .mp-attr{left:auto;right:12px;bottom:4px;color:#8a8070;font-size:10px;}
+#s-map .mp-attr a{color:#7a6f5f;}
+#s-map .mp-rtinfo{bottom:66px;background:rgba(255,253,248,.97);border:1px solid var(--pp-line);border-left:3px solid var(--pp-blue);border-radius:8px;color:var(--pp-ink2);box-shadow:0 2px 8px rgba(70,50,20,.12);}
+#s-map .mp-rtinfo b{color:var(--pp-ink);}
+#s-map .mp-rtinfo button{color:var(--pp-mute);}
+#s-map .mp-loadchip{background:rgba(255,253,248,.96);border:1px solid var(--pp-line);border-radius:8px;color:var(--pp-ink2);}
+#s-map .mp-pop{background:var(--pp-card);border:1px solid var(--pp-line);border-radius:10px;color:var(--pp-ink2);box-shadow:0 10px 28px rgba(70,50,20,.22);}
+#s-map .mp-pop h4{color:var(--pp-ink);}
+#s-map .mp-pop .ln span{color:var(--pp-mute);}
+/* bảng bên */
+#s-map .mp-side{background:var(--pp-bg);border-left:1px solid var(--pp-line);}
+#s-map .mp-tabs{border-bottom:1px solid var(--pp-line);background:var(--pp-bg);}
+#s-map .mp-tabs button{color:var(--pp-mute);}
+#s-map .mp-tabs button.on{color:var(--pp-blue);border-bottom-color:var(--pp-blue);}
+#s-map .mp-side-head{font-family:var(--pp-mono);text-transform:uppercase;letter-spacing:.06em;font-size:12px;white-space:nowrap;gap:10px;color:var(--pp-brown);border-bottom:1px solid var(--pp-line);background:var(--pp-bg);}
+#s-map .mp-side-head span:last-child{color:var(--pp-blue);letter-spacing:.06em;}
+#s-map .btn{background:var(--pp-card);border-color:var(--pp-line2);color:var(--pp-ink2);}
+#s-map .btn:hover{border-color:var(--pp-blue);color:var(--pp-blue);}
+#s-map .btn.pri{background:var(--pp-blue);border-color:var(--pp-blue);color:#fff;}
+#s-map .mp-toolbar select,#s-map .mp-f input,#s-map .mp-f select,#s-map .mp-f textarea,#s-map .mp-rtq,#s-map .mp-rtopt input[type=number],#s-map .mp-devin{background:var(--pp-card);border:1px solid var(--pp-line2);color:var(--pp-ink);}
+#s-map .mp-card,#s-map .mp-poiitem,#s-map .mp-sec{background:var(--pp-card);border-color:var(--pp-line);}
+#s-map .mp-card{border-left-color:var(--bc,#e8a020);}
+#s-map .mp-card .code,#s-map .mp-poiitem .nm,#s-map .mp-sec h5,#s-map .mp-tidenow{color:var(--pp-ink);}
+#s-map .mp-card .lab,#s-map .mp-poiitem .sb,#s-map .mp-sec .d,#s-map .mp-tidesub,#s-map .mp-f .hint,#s-map .mp-empty{color:var(--pp-mute);}
+#s-map .mp-card .meta{color:var(--pp-ink2);}
+#s-map .mp-card .meta b,#s-map .mp-sec .d b{color:var(--pp-ink);}
+#s-map .mp-empty{border-color:var(--pp-line2);}
+#s-map .mp-f label,#s-map .mp-check,#s-map .mp-rtopt{color:var(--pp-ink2);}
+#s-map .mp-src{border-color:var(--pp-line2);color:var(--pp-mute);}
+#s-map .mp-result,#s-map .mp-code pre{background:#f1ebde;border-color:var(--pp-line);color:var(--pp-ink2);}
+#s-map .mp-steps{color:var(--pp-ink2);}
+#s-map .mp-steps code,#s-map .mp-sec code{background:#f1ebde;border-color:var(--pp-line);color:#9a5b13;}
+#s-map .mp-seg button{background:var(--pp-card);border-color:var(--pp-line2);color:var(--pp-mute);}
+#s-map .mp-seg button.sel{border-color:var(--pp-blue);color:var(--pp-blue);background:#e8f0f8;}
+#s-map .mp-locbtns button{border-color:rgba(47,109,181,.5);color:var(--pp-blue);}
+#s-map .mp-tidest a{color:var(--pp-blue);border-color:var(--pp-line2);background:var(--pp-card);}
+#s-map .mp-tidesub b{color:#b7791f;}
+/* danh sách tuyến như bản đồ mẫu */
+.mp-rthead{font-family:var(--pp-mono);font-weight:600;font-size:14px;letter-spacing:.3em;color:var(--pp-brown);margin:6px 2px 6px;}
+#s-map .mp-rtgrp{font-family:var(--pp-mono);font-weight:500;font-size:11.5px;letter-spacing:.22em;color:#a08a6c;margin:16px 2px 2px;}
+#s-map .mp-rt{display:grid;grid-template-columns:40px 1fr auto;column-gap:12px;align-items:center;background:transparent;border:none;border-bottom:1px dashed var(--pp-line2);border-radius:6px;padding:13px 6px;margin:0;box-shadow:none;}
+#s-map .mp-rt:hover{background:#f0e9db;border-color:var(--pp-line2);}
+#s-map .mp-rt.sel{background:#e6eff8;box-shadow:none;}
+#s-map .mp-rt .sw{height:3px;width:34px;background:repeating-linear-gradient(90deg,var(--pp-blue) 0 7px,transparent 7px 12px);}
+#s-map .mp-rt .nm{font-size:16.5px;color:var(--pp-ink);font-weight:700;display:block;}
+#s-map .mp-rt .via{font-size:14px;color:var(--pp-mute);margin-top:3px;}
+#s-map .mp-rt .rk{text-align:right;white-space:nowrap;}
+#s-map .mp-rt .km{display:block;color:var(--pp-blue);font-size:16.5px;font-weight:700;margin:0;}
+#s-map .mp-rt .hr{display:block;color:var(--pp-mute);font-size:14px;margin-top:3px;}
+#s-map .mp-rt .more{grid-column:2 / 4;font-size:13px;color:var(--pp-ink2);margin-top:8px;line-height:1.5;}
+#s-map .mp-rt .more b{color:var(--pp-blue);}
+#s-map .mp-rt .nt{grid-column:2 / 4;color:#b45309;font-size:12.5px;margin-top:4px;}
+@media(max-width:900px){
+  #s-map .mp-live{bottom:24px;right:12px;max-width:calc(100% - 150px);font-size:11px;padding:5px 9px;}
+  #s-map .mp-rtinfo{bottom:80px;max-width:calc(100% - 24px);}
+  #s-map .mp-legend{top:auto;bottom:34px;padding:5px 9px;font-size:11px;}
+  #s-map .mp-legend.min .mp-legend-t{font-size:11.5px;}
+  #s-map .mp-side-head span:last-child{font-size:11px;letter-spacing:0;}
+}
 </style>
 </head>
 <body>
@@ -1118,6 +1221,8 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
   <div class="mp-wrap" id="mp-wrap">
     <div id="mp-stage"><svg id="mp-svg" xmlns="http://www.w3.org/2000/svg"></svg></div>
 
+    <div class="mp-compass" aria-hidden="true"><svg width="20" height="26" viewBox="0 0 20 26"><path d="M10 1 L18 24 L10 19 Z" fill="#3a332a"/><path d="M10 1 L2 24 L10 19 Z" fill="none" stroke="#3a332a" stroke-width="1.4" stroke-linejoin="round"/></svg>B</div>
+    <div class="mp-scale" id="mp-scale"><i id="mp-scale-bar"></i><span id="mp-scale-t"></span></div>
     <div class="mp-legend" id="mp-legend">
       <div class="mp-legend-t" onclick="g('mp-legend').classList.toggle('min')">Chú thích ▾</div>
       <div class="r"><span class="sw" style="background:var(--mp-run)"></span>Đang chạy</div>
@@ -1128,9 +1233,9 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
       <div class="r"><span class="sw sq" style="background:#c17f4e"></span>Sửa chữa</div>
       <div class="r"><span class="sw sq" style="background:#3f8ea3"></span>Cảng giao nhận</div>
       <div class="r"><span class="sw sq" style="background:#8b7bb0"></span>Khác</div>
-      <div class="r"><span class="ln" style="background:var(--mp-river)"></span>Sông, kênh</div>
+      <div class="r"><span class="ln" style="background:#84b2cf"></span>Sông, kênh</div>
       <div class="r"><span class="ln dash"></span>Luồng biển</div>
-      <div class="r"><span class="ln" style="background:var(--mp-route)"></span>Tuyến vận chuyển</div>
+      <div class="r"><span class="ln rt"></span>Tuyến vận tải</div>
     </div>
 
     <div class="mp-live" id="mp-live" onclick="mpTab('api')"><i></i><span id="mp-live-t">Chưa kết nối API</span></div>
@@ -3176,13 +3281,16 @@ function mpBuild(){
   const svg = g('mp-svg');
   svg.setAttribute('viewBox',`0 0 ${MAP.W} ${MAP.H}`);
   svg.setAttribute('width',MAP.W); svg.setAttribute('height',MAP.H);
+  mpEl('g',{id:'mp-g-foreign'},svg);                // đất Campuchia/Thái Lan (Natural Earth)
   const gp = mpEl('g',{},svg);
   MAP.provinces.forEach(p=>mpEl('path',{d:p.path,class:'mp-prov'},gp));
+  mpEl('g',{id:'mp-g-border'},svg);
   mpEl('g',{id:'mp-g-water'},svg);
   mpEl('g',{id:'mp-g-route'},svg);
   const gc = mpEl('g',{},svg);
+  const BIG = new Set(['TP.HCM','Cần Thơ','Biên Hòa','Vũng Tàu','Sóc Trăng','Rạch Giá','Cà Mau','Mỹ Tho','Long Xuyên','Vĩnh Long','Tân An','Châu Đốc','Phú Quốc']);
   MAP.cities.forEach(c=>{ const k=mpEl('g',{class:'mp-lbl','data-x':c.x,'data-y':c.y,'data-k':'c'},gc);
-    mpEl('circle',{cx:0,cy:0,r:2.2,class:'mp-city'},k); mpEl('text',{x:4,y:3,class:'mp-citylbl'},k).textContent=c.name; });
+    mpEl('circle',{cx:0,cy:0,r:2.2,class:'mp-city'},k); mpEl('text',{x:4,y:3,class:'mp-citylbl'+(BIG.has(c.name)?' b':'')},k).textContent=c.name; });
   const gl = mpEl('g',{},svg);
   MAP.provinces.forEach(p=>{ mpEl('text',{x:0,y:0,class:'mp-provlbl mp-lbl','data-x':p.cx,'data-y':p.cy,'data-k':'p'},gl).textContent=p.name; });
   mpEl('g',{id:'mp-g-rvlbl'},svg);
@@ -3238,8 +3346,14 @@ function mpBuildWater(){
   });
   MP_WATER.sea.forEach(s=>{ const e=mpEl('path',{d:mpPathD(mpDecode(s.line,q)), class:'mp-river sea'},gw); mpEl('title',{},e).textContent=s.name; });
   MP_WATER.labels.forEach(([name,x,y,a,lod])=>{
-    const t = mpEl('text',{class:'mp-rvlbl l'+(lod+1),'text-anchor':'middle','dy':'.35em','data-x':x,'data-y':y,'data-a':a},gl);
+    const t = mpEl('text',{class:'mp-rvlbl'+(lod?' ll'+lod:''),'text-anchor':'middle','dy':'.35em','data-x':x,'data-y':y,'data-a':a},gl);
     t.textContent = name;
+  });
+  const gf = g('mp-g-foreign'), gb = g('mp-g-border');
+  if(gf && MP_WATER.foreign) mpEl('path',{d:MP_WATER.foreign.map(rings=>rings.map(r=>mpPathD(mpDecode(r,q),true)).join('')).join(''), class:'mp-foreign'},gf);
+  if(gb && MP_WATER.border) mpEl('path',{d:MP_WATER.border.map(sg=>mpPathD(mpDecode(sg,q))).join(''), class:'mp-border'},gb);
+  (MP_WATER.seaLabels||[]).forEach(([t,x,y,k])=>{
+    mpEl('text',{class:k==='sea'?'mp-sealbl mp-lbl':'mp-estlbl mp-lbl ll1','text-anchor':'middle','data-x':x,'data-y':y,'data-k':k==='sea'?'p':'c'},gl).textContent = t;
   });
   mpScaleMarkers(); mpApply();
 }
@@ -3266,7 +3380,7 @@ function mpRenderPois(){
     const m = MP_POI[p.type]||MP_POI.other;
     const [x,y] = mpXY(p.lon,p.lat);
     const gr = mpEl('g',{class:'mp-mk mp-poi','data-x':x,'data-y':y},gp);
-    gr.innerHTML = `<rect x="-9" y="-19" width="18" height="18" rx="3" fill="${m.c}" stroke="#05080d" stroke-width="1.3"></rect>
+    gr.innerHTML = `<rect x="-9" y="-19" width="18" height="18" rx="3" fill="${m.c}" stroke="#fffdf8" stroke-width="1.6"></rect>
       <text x="0" y="-6" text-anchor="middle" font-size="11">${p.type==='other'&&p.icon?p.icon:m.ic}</text>
       <text class="lbl" x="0" y="12" text-anchor="middle">${mpEsc(p.name)}</text>`;
     gr.addEventListener('click',e=>{ e.stopPropagation(); if(mpMoved) return; mpOpenPoi(p.id); });
@@ -3324,7 +3438,7 @@ function mpScaleMarkers(){
   document.querySelectorAll('#mp-svg .mp-mk').forEach(el=>el.setAttribute('transform',`translate(${el.dataset.x},${el.dataset.y}) scale(${1/vs})`));
   document.querySelectorAll('#mp-svg .mp-rvlbl').forEach(el=>el.setAttribute('transform',`translate(${el.dataset.x},${el.dataset.y}) rotate(${el.dataset.a}) scale(${1/vs})`));
   // tên thành phố / tỉnh: lớn dần theo độ phóng nhưng có giới hạn, không phình to khi soi kênh rạch
-  const kc = Math.min(1.3, Math.max(.55, vs))/vs, kp = Math.min(1.5, Math.max(.6, vs))/vs;
+  const kc = Math.min(1.3, Math.max(.75, vs))/vs, kp = Math.min(1.5, Math.max(.75, vs))/vs;
   document.querySelectorAll('#mp-svg .mp-lbl').forEach(el=>el.setAttribute('transform',`translate(${el.dataset.x},${el.dataset.y}) scale(${el.dataset.k==='p'?kp:kc})`));
 }
 
@@ -3340,13 +3454,40 @@ function mpApply(){
   const st = g('mp-stage'), svg = g('mp-svg');
   st.classList.add('moving'); clearTimeout(mpMoveT); mpMoveT = setTimeout(()=>st.classList.remove('moving'), 220);
   st.style.transform=`translate(${vx}px,${vy}px) scale(${vs})`;
-  const lod = vs>=3.2 ? '2' : vs>=1.5 ? '1' : '0';           // phóng càng lớn càng hiện nhiều rạch, kênh nhỏ
+  const lod = vs>=2.2 ? '2' : vs>=0.75 ? '1' : '0';          // phóng càng lớn càng hiện nhiều rạch, kênh nhỏ
+  const lbl = vs>=3 ? '2' : vs>=1.5 ? '1' : '0';             // tên sông nhánh chỉ hiện khi đủ chỗ
   if(svg && svg.dataset.lod!==lod) svg.dataset.lod = lod;
-  mpScaleMarkers(); mpPopPos();
+  if(svg && svg.dataset.lbl!==lbl) svg.dataset.lbl = lbl;
+  mpStrokes(); mpScaleMarkers(); mpPopPos(); mpScaleBar();
+}
+// Bản đồ phóng bằng CSS transform nên non-scaling-stroke không có tác dụng:
+// tự chia bề dày nét / nhịp nét đứt cho độ phóng để nét luôn mảnh như nhau trên màn hình.
+const MP_STROKES = [
+  ['.mp-prov',.8],['.mp-foreign',.6],['.mp-border',1.3,[7,3,1.5,3]],['.mp-wl.r.l0',1.8],['.mp-wl.c.l0',1.2],['.mp-wl.r.l1',1],
+  ['.mp-wl.c.l1',.8],['.mp-wl.l2',.6],['.mp-river.sea',1.2,[4,4]],['.mp-rtnet',2.4,[7,5]],['.mp-rthalo',7],['.mp-rtsel',3.6,[10,6]],
+  ['.mp-trail',2.6],['.mp-cross',1.5,[4,3]]];
+let mpStrokeVs = 0;
+function mpStrokes(){
+  if(Math.abs(vs-mpStrokeVs) < mpStrokeVs*0.004) return;
+  mpStrokeVs = vs;
+  let st = document.getElementById('mp-zoomstyle');
+  if(!st){ st = document.createElement('style'); st.id = 'mp-zoomstyle'; document.head.appendChild(st); }
+  st.textContent = MP_STROKES.map(([sel,w,dash])=>`#s-map #mp-svg ${sel}{stroke-width:${(w/vs).toFixed(4)}px;${dash?`stroke-dasharray:${dash.map(v=>(v/vs).toFixed(4)).join(' ')};`:''}}`).join('\n');
+}
+// thước tỉ lệ: 1 đơn vị bản đồ ≈ 111,32/scale km (phép chiếu giữ tỉ lệ theo vĩ độ giữa)
+const MP_KM_PER_U = 111.32/MAP.scale;
+function mpScaleBar(){
+  const bar = g('mp-scale-bar'), t = g('mp-scale-t'); if(!bar) return;
+  const pxPerKm = vs/MP_KM_PER_U, want = 90/pxPerKm;
+  const nice = [0.5,1,2,5,10,20,25,50,100,200,300].reduce((b,v)=> v<=want*1.25 ? v : b, 0.5);
+  bar.style.width = Math.round(nice*pxPerKm)+'px'; t.textContent = (nice<1?nice.toLocaleString('vi-VN'):nice)+' km';
 }
 function mpFit(){
+  // khung nhìn đầu: vùng hoạt động của đội sà lan (Châu Đốc – Cà Mau – TP.HCM – Vũng Tàu)
   const w=mpWrap(); const ww=w.clientWidth, wh=w.clientHeight; if(!ww||!wh) return;
-  vs = Math.min(ww/MAP.W, wh/MAP.H)*0.96; vx=(ww-MAP.W*vs)/2; vy=(wh-MAP.H*vs)/2; mpApply();
+  const [x0,y0]=mpXY(104.85,11.05), [x1,y1]=mpXY(107.2,8.95), pad=10;
+  vs = Math.min((ww-pad*2)/(x1-x0), (wh-pad*2)/(y1-y0));
+  vx = ww/2-((x0+x1)/2)*vs; vy = wh/2-((y0+y1)/2)*vs; mpApply();
 }
 function mpFitAll(){
   const pts = FLEET.filter(c=>mpPos[c]).map(c=>mpXY(mpPos[c].lon,mpPos[c].lat));
@@ -3605,7 +3746,7 @@ function mpRenderTide(){
   box.innerHTML = `<h5>Con nước hôm nay · ≈ ${i.lunar<=10?'mùng '+i.lunar:'ngày '+i.lunar} âm lịch</h5>
     <div class="mp-tidenow"><i style="background:${i.c}"></i>${i.t}</div>
     <div class="d" style="margin-bottom:4px">${i.desc}</div>
-    <div class="d" style="margin-bottom:0">Rong kế tiếp ≈ <b style="color:#f0f5fa">${mpDM(i.nextRong)}</b> · Kém kế tiếp ≈ <b style="color:#f0f5fa">${mpDM(i.nextKem)}</b></div>
+    <div class="d" style="margin-bottom:0">Rong kế tiếp ≈ <b>${mpDM(i.nextRong)}</b> · Kém kế tiếp ≈ <b>${mpDM(i.nextKem)}</b></div>
     <div class="mp-tidest">${MP_TIDE_ST.map(s=>`<a href="${MP_TIDE_URL(s.id)}" target="_blank" rel="noopener">${mpEsc(s.name)} ↗</a>`).join('')}<a href="${today}" target="_blank" rel="noopener">Cả nước hôm nay ↗</a></div>`;
   const ports = mpPois.filter(p=>p.type==='port');
   const boats = FLEET.filter(c=>mpPos[c]);
@@ -3634,7 +3775,16 @@ function mpRenderRoutes(){
   const gr = g('mp-g-route'); if(!gr) return;
   gr.innerHTML = '';
   const rd = r => r.d || (r.d = mpPathD(r.pts));
-  if(mpCfg.rtAll){ const net = mpEl('g',{opacity:.42},gr); MP_RT.forEach(r=>mpEl('path',{d:rd(r),class:'mp-rtnet'},net)); }
+  if(mpCfg.rtAll && MP_WATER){
+    MP_WATER.netD = MP_WATER.netD || (MP_WATER.net||[]).map(sg=>mpPathD(mpDecode(sg,MP_WATER.q))).join('');
+    mpEl('path',{d:MP_WATER.netD,class:'mp-rtnet'},gr);
+    (MP_WATER.ends||[]).forEach(([name,x,y])=>{
+      const home = /cảng nhà/.test(name);
+      const m = mpEl('g',{class:'mp-mk mp-rtend','data-x':x,'data-y':y},gr);
+      m.innerHTML = home ? `<circle r="13" fill="rgba(200,86,58,.16)" stroke="rgba(200,86,58,.55)" stroke-width="1.5"></circle><circle r="6" fill="#c8563a"></circle>`
+                         : `<circle r="5.5" fill="#fffdf8" stroke="#2f6db5" stroke-width="2.4"></circle>`;
+    });
+  }
   const r = MP_RT.find(x=>x.id===mpRt);
   if(r){
     mpEl('path',{d:rd(r),class:'mp-rthalo'},gr);
@@ -3642,8 +3792,8 @@ function mpRenderRoutes(){
     const pts = r.pts;
     [[pts[0],r.from,false],[pts[pts.length-1],r.to,true]].forEach(([p,name,end])=>{
       const m = mpEl('g',{class:'mp-mk mp-rtpt','data-x':p[0],'data-y':p[1]},gr);
-      m.innerHTML = `<circle r="6" fill="${end?'#e879f9':'#0b0f16'}" stroke="${end?'#0b0f16':'#e879f9'}" stroke-width="2.5"></circle>
-        <text class="lbl" x="0" y="-11" text-anchor="middle">${mpEsc(name)}</text>`;
+      m.innerHTML = `<circle r="6.5" fill="${end?'#1d4f8f':'#fffdf8'}" stroke="#1d4f8f" stroke-width="2.6"></circle>
+        <text class="lbl" x="0" y="-12" text-anchor="middle">${mpEsc(name)}</text>`;
     });
     mpScaleMarkers();
   }
@@ -3653,7 +3803,7 @@ function mpRouteInfo(){
   const el = g('mp-rtinfo'); if(!el) return;
   const r = MP_RT.find(x=>x.id===mpRt);
   if(!r){ el.classList.remove('show'); return; }
-  el.innerHTML = `<span><b>${mpEsc(r.from)} → ${mpEsc(r.to)}</b> · ${r.km} km · ≈ ${mpHours(r.km/(mpCfg.spd||8))}${r.sea?' · có đoạn biển':''}</span><button onclick="mpRouteClick(mpRt)" aria-label="Bỏ chọn tuyến">✕</button>`;
+  el.innerHTML = `<span><b>${mpEsc(r.from)} – ${mpEsc(r.to)}</b> · ${mpKmTxt(r.km)} · ≈ ${mpHours(r.km/(mpCfg.spd||8))}${r.sea?' · có đoạn biển':''}</span><button onclick="mpRouteClick(mpRt)" aria-label="Bỏ chọn tuyến">✕</button>`;
   el.classList.add('show');
 }
 function mpRenderRouteList(){
@@ -3662,23 +3812,36 @@ function mpRenderRouteList(){
   if(!MP_RT.length){ el.innerHTML='<div class="mp-empty">⏳ Đang tải dữ liệu tuyến…</div>'; mpLoadWater(); return; }
   const list = MP_RT.filter(r=>!q || mpNormVi([r.grp,r.from,r.to,r.via].join(' ')).includes(q));
   if(!list.length){ el.innerHTML='<div class="mp-empty">Không có tuyến phù hợp.</div>'; return; }
-  let html='', grp='';
+  let html='<div class="mp-rthead">CÁC TUYẾN VẬN TẢI</div>', grp='';
   list.forEach(r=>{
-    if(r.grp!==grp){ grp=r.grp; html+=`<div class="mp-rtgrp">${mpEsc(grp)}</div>`; }
-    html += `<div class="mp-rt${mpRt===r.id?' sel':''}" onclick="mpRouteClick('${r.id}')">
-      <div class="nm"><span>${mpEsc(r.from)} → ${mpEsc(r.to)}</span><span class="km">${r.km} km</span></div>
-      <div class="via">${mpEsc(r.via)}</div>
-      <div class="tm">≈ ${mpHours(r.km/spd)} chạy liên tục${r.sea?' · <b>có đoạn biển</b>':''}</div>
+    if(r.grp!==grp){ grp=r.grp; html+=`<div class="mp-rtgrp">${mpEsc(grp.toUpperCase())}</div>`; }
+    const sel = mpRt===r.id, h = r.km/spd;
+    html += `<div class="mp-rt${sel?' sel':''}" onclick="mpRouteClick('${r.id}')">
+      <span class="sw"></span>
+      <div style="min-width:0"><span class="nm">${mpEsc(r.from)} – ${mpEsc(r.to)}</span><div class="via">${mpEsc(mpShortVia(r.via))}</div></div>
+      <div class="rk"><span class="km">${mpKmTxt(r.km)}</span><span class="hr">≈ ${h<1?Math.max(1,Math.round(h*60))+' phút':Math.round(h)+' giờ'}</span></div>
+      ${sel?`<div class="more">${mpEsc(r.via)}<br>≈ ${mpHours(h)} chạy liên tục ở ${String(spd).replace('.',',')} km/h${r.sea?' · <b>có đoạn biển</b>':''}</div>`:''}
       ${r.note?`<div class="nt">⚠ ${mpEsc(r.note)}</div>`:''}
     </div>`;
   });
   el.innerHTML = html;
 }
+const mpKmTxt = km => (+km).toLocaleString('vi-VN',{minimumFractionDigits:km<100?1:0, maximumFractionDigits:km<100?1:0})+' km';
+// "Sông Tiền → Kênh Chợ Gạo → …" -> "sông Tiền, kênh Chợ Gạo, sông Vàm Cỏ…"
+function mpShortVia(via){
+  const seen = new Set(), out = [];
+  String(via||'').split(' → ').forEach(n=>{
+    if(!n || /^Luồng/.test(n) && out.length>2) return;
+    const t = n.replace(/^(Sông|Kênh|Kinh|Rạch|Luồng)\s/, m=>m.toLowerCase());
+    if(!seen.has(t)){ seen.add(t); out.push(t); }
+  });
+  return out.length>4 ? out.slice(0,4).join(', ')+'…' : out.join(', ');
+}
 function mpFitBox(b){
   const w=mpWrap(), ww=w.clientWidth, wh=w.clientHeight; if(!ww||!wh) return;
   // chừa chỗ cho bảng chú thích (trái), nút zoom (phải), ô thông tin tuyến (dưới)
-  const lg=g('mp-legend'), pl=Math.max(50, lg&&!lg.classList.contains('min') ? lg.offsetWidth+70 : 0);
-  const pr=ww<600?60:150, pt=50, pb=70, aw=Math.max(ww-pl-pr,80), ah=Math.max(wh-pt-pb,80);
+  const lg=g('mp-legend'), pl=Math.max(56, lg&&!lg.classList.contains('min') ? lg.offsetWidth+70 : 0);
+  const pr=ww<600?70:160, pt=40, pb=80, aw=Math.max(ww-pl-pr,80), ah=Math.max(wh-pt-pb,80);
   const bw=Math.max(b[2]-b[0],40), bh=Math.max(b[3]-b[1],40);
   vs = Math.max(0.3, Math.min(8, Math.min(aw/bw, ah/bh)));
   vx = pl+aw/2-((b[0]+b[2])/2)*vs; vy = pt+ah/2-((b[1]+b[3])/2)*vs; mpTouched=true; mpApply();
@@ -3896,7 +4059,7 @@ function mpFillCfg(){
   g('mp-c-type').value=mpCfg.type; g('mp-c-url').value=mpCfg.url; g('mp-c-hn').value=mpCfg.hn; g('mp-c-hv').value=mpCfg.hv;
   g('mp-c-push').value=mpCfg.push; g('mp-c-int').value=String(mpCfg.interval); g('mp-c-stale').value=String(mpCfg.stale); g('mp-c-on').checked=!!mpCfg.on;
   g('mp-c-dev').innerHTML = FLEET.map(c=>`<div class="mp-row" style="align-items:center;margin-bottom:6px"><span style="flex:0 0 96px;font-size:14px;color:${AC[c]};font-weight:700">${c}</span>
-    <input data-dev="${c}" value="${mpEsc((mpCfg.devices||{})[c]||'')}" placeholder="${c}" style="flex:1;background:#0e1117;border:1px solid var(--border);color:#f0f5fa;font-size:14px;padding:7px 9px"></div>`).join('');
+    <input data-dev="${c}" value="${mpEsc((mpCfg.devices||{})[c]||'')}" placeholder="${c}" class="mp-devin" style="flex:1;font-size:14px;padding:7px 9px"></div>`).join('');
   const pb = g('mp-push-b'); pb.innerHTML = FLEET.map(c=>`<option value="${c}">${c}</option>`).join('');
   pb.value = mpLoad('map_push_barge', FLEET[0]);
   mpCfgTypeUI();
