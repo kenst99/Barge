@@ -252,6 +252,7 @@ function systemPrompt(ctx) {
   L.push('- Con nước: get_tide, kèm link giờ nước của trạm tham chiếu.');
   L.push('- Giá cả (xăng dầu DO, giá cát, phí…) và tin mới: tìm web, ghi rõ nguồn và ngày áp dụng, nói đây là giá tham khảo.');
   L.push('- Khi người dùng hỏi tuyến/sà lan cụ thể, dùng dữ liệu ngữ cảnh bên dưới.');
+  L.push('- Hỏi tiền qua trạm, chi phí chuyến: cộng số tiền các trạm gắn vào tuyến trong danh sách trạm bên dưới (mỗi lần qua một trạm tính một lần; chuyến khứ hồi thì nhân đôi nếu người dùng hỏi). Không có trạm nào thì nói chưa có dữ liệu trạm cho tuyến đó.');
   L.push('');
   L.push('NGỮ CẢNH TỪ APP:');
   const routes = ctx.routes || [];
@@ -259,6 +260,11 @@ function systemPrompt(ctx) {
   if (ctx.selectedRoute) { const r = routes.find(x => x.id === ctx.selectedRoute); L.push(`Tuyến đang chọn trên bản đồ: ${ctx.selectedRoute}${r ? ' (' + r.name + ')' : ''}`); }
   if (Array.isArray(ctx.barges) && ctx.barges.length) L.push('Sà lan: ' + ctx.barges.map(b => `${b.code} ${b.label || ''}${b.lat != null ? ` tại ${(+b.lat).toFixed(4)},${(+b.lon).toFixed(4)}` : ' (chưa có vị trí)'}${b.status ? ', ' + b.status : ''}${b.ago ? ', cập nhật ' + b.ago : ''}`).join('; '));
   if (Array.isArray(ctx.pois) && ctx.pois.length) L.push('Địa điểm đã lưu: ' + ctx.pois.slice(0, 40).map(p => `${p.name} (${p.type}) ${(+p.lat).toFixed(4)},${(+p.lon).toFixed(4)}`).join('; '));
+  if (Array.isArray(ctx.stations) && ctx.stations.length) {
+    const rn = id => { const r = routes.find(x => x.id === id); return r ? r.name.split(' (')[0] : id; };
+    L.push('Trạm thu tiền / cảng vụ phải ghé (tỉnh · sông · tên · số tiền mỗi lần qua · tuyến): ' + ctx.stations.slice(0, 80).map(t =>
+      `${t.prov || '?'} · ${t.river || '?'} · ${t.name} · ${Math.round(+t.fee || 0).toLocaleString('vi-VN')} đ · ${(t.routes || []).length ? (t.routes || []).map(rn).join(', ') : 'chưa gắn tuyến'}${t.note ? ' · ' + t.note : ''}`).join(' | '));
+  }
   if (ctx.center) L.push(`Tâm bản đồ đang xem: ${(+ctx.center[0]).toFixed(4)},${(+ctx.center[1]).toFixed(4)}`);
   if (ctx.speed) L.push(`Tốc độ sà lan mặc định: ${ctx.speed} km/h`);
   return L.join('\n');
