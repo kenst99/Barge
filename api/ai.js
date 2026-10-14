@@ -252,6 +252,7 @@ function systemPrompt(ctx) {
   L.push('- Con nước: get_tide, kèm link giờ nước của trạm tham chiếu.');
   L.push('- Giá cả (xăng dầu DO, giá cát, phí…) và tin mới: tìm web, ghi rõ nguồn và ngày áp dụng, nói đây là giá tham khảo.');
   L.push('- Khi người dùng hỏi tuyến/sà lan cụ thể, dùng dữ liệu ngữ cảnh bên dưới.');
+  L.push('- Hỏi giá một trạm: trả lời theo giá thực chi trong nhật ký (thấp nhất – cao nhất, mức thường gặp). Hỏi tuyến chở hàng đi qua trạm nào, chuyến tốn bao nhiêu: dựa vào nhật ký chuyến của tuyến đó trước.');
   L.push('- Hỏi tiền qua trạm, chi phí chuyến: cộng số tiền các trạm gắn vào tuyến trong danh sách trạm bên dưới (mỗi lần qua một trạm tính một lần; chuyến khứ hồi thì nhân đôi nếu người dùng hỏi). Không có trạm nào thì nói chưa có dữ liệu trạm cho tuyến đó.');
   L.push('');
   L.push('NGỮ CẢNH TỪ APP:');
@@ -262,8 +263,19 @@ function systemPrompt(ctx) {
   if (Array.isArray(ctx.pois) && ctx.pois.length) L.push('Địa điểm đã lưu: ' + ctx.pois.slice(0, 40).map(p => `${p.name} (${p.type}) ${(+p.lat).toFixed(4)},${(+p.lon).toFixed(4)}`).join('; '));
   if (Array.isArray(ctx.stations) && ctx.stations.length) {
     const rn = id => { const r = routes.find(x => x.id === id); return r ? r.name.split(' (')[0] : id; };
-    L.push('Trạm thu tiền / cảng vụ phải ghé (tỉnh · sông · tên · số tiền mỗi lần qua · tuyến): ' + ctx.stations.slice(0, 80).map(t =>
-      `${t.prov || '?'} · ${t.river || '?'} · ${t.name} · ${Math.round(+t.fee || 0).toLocaleString('vi-VN')} đ · ${(t.routes || []).length ? (t.routes || []).map(rn).join(', ') : 'chưa gắn tuyến'}${t.note ? ' · ' + t.note : ''}`).join(' | '));
+    const vnd = n => Math.round(+n || 0).toLocaleString('vi-VN');
+    L.push('Trạm thu tiền / cảng vụ phải ghé (tỉnh · sông · tên · số tiền mặc định · giá thực chi theo nhật ký thấp–cao, số lần · tuyến chở hàng trong nhật ký · tuyến bản đồ): ' + ctx.stations.slice(0, 100).map(t => {
+      const rs = t.routes || [];
+      return `${t.prov || '?'} · ${t.river || '?'} · ${t.name} · ${vnd(t.fee)} đ` +
+        (t.seen ? ` · thực chi ${vnd(t.min)}–${vnd(t.max)} đ (${t.seen} lần)` : '') +
+        ((t.tripRoutes || []).length ? ` · ${t.tripRoutes.join(', ')}` : '') +
+        (rs.length ? ` · ${rs.length > 4 ? rs.length + ' tuyến bản đồ' : rs.map(rn).join(', ')}` : '') + (t.note ? ' · ' + t.note : '');
+    }).join(' | '));
+  }
+  if (Array.isArray(ctx.trips) && ctx.trips.length) {
+    const vnd = n => Math.round(+n || 0).toLocaleString('vi-VN');
+    L.push('Nhật ký chuyến gần đây (ngày · tuyến · sà lan · hàng · tiền qua trạm · chi khác · số trạm): ' + ctx.trips.slice(0, 40).map(t =>
+      `${t.d || 'không ngày'} · ${t.r || '?'} · ${t.b || '?'} · ${t.c || ''} · ${vnd(t.tram)} đ · ${vnd(t.khac)} đ · ${t.stations}`).join(' | '));
   }
   if (ctx.center) L.push(`Tâm bản đồ đang xem: ${(+ctx.center[0]).toFixed(4)},${(+ctx.center[1]).toFixed(4)}`);
   if (ctx.speed) L.push(`Tốc độ sà lan mặc định: ${ctx.speed} km/h`);
