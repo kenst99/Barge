@@ -703,6 +703,48 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
 .mp-tf-loc summary{cursor:pointer;font-size:14px;color:#38bdf8;font-weight:600;padding:6px 0;}
 #s-map .mp-trmk .lbl{fill:#9a3b22;font-size:10px;font-weight:700;}
 
+/* nhật ký chuyến + bảng giá trạm */
+#s-map .mp-trseg{margin-bottom:12px;}
+#s-map .mp-trseg button{border-radius:99px;font-size:13.5px;min-width:0;padding:8px 4px;font-family:var(--pp-sans);font-weight:600;}
+#s-map .mp-pr{background:var(--pp-paper);border:1px solid var(--pp-line);border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;}
+#s-map .mp-pr:hover{border-color:#e6c9a0;}
+#s-map .mp-pr .hd{display:flex;align-items:baseline;gap:10px;}
+#s-map .mp-pr .nm{flex:1;min-width:0;font-weight:700;font-size:14.5px;color:var(--pp-ink);line-height:1.3;}
+#s-map .mp-pr .nm i{font-style:normal;color:var(--pp-tan);font-family:var(--pp-mono);font-size:11px;margin-right:6px;}
+#s-map .mp-pr .rg{font-weight:800;color:#9a3b22;white-space:nowrap;font-size:14px;}
+#s-map .mp-pr .sb{font-size:12.5px;color:var(--pp-mute);margin-top:3px;line-height:1.4;}
+#s-map .mp-pr .sb b{color:var(--pp-ink2);}
+#s-map .mp-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
+#s-map .mp-chips span{font-size:11.5px;background:#fff;border:1px solid var(--pp-line);border-radius:99px;padding:2px 8px;color:var(--pp-ink2);}
+#s-map .mp-trip{background:var(--pp-paper);border:1px solid var(--pp-line);border-left:3px solid #b54a3a;border-radius:12px;padding:10px 12px;margin-bottom:8px;}
+#s-map .mp-trip .hd{display:flex;gap:10px;align-items:baseline;cursor:pointer;}
+#s-map .mp-trip .rt{flex:1;min-width:0;font-weight:700;font-size:14.5px;color:var(--pp-ink);line-height:1.3;}
+#s-map .mp-trip .dt{display:block;font-family:var(--pp-mono);font-size:11px;font-weight:600;color:var(--pp-tan);letter-spacing:.04em;margin-bottom:2px;}
+#s-map .mp-trip .tt{font-weight:800;color:#9a3b22;white-space:nowrap;font-size:14.5px;}
+#s-map .mp-trip .sb{font-size:12.5px;color:var(--pp-mute);margin-top:3px;}
+#s-map .mp-trip .warn{font-size:12.5px;color:#b45309;margin-top:4px;}
+#s-map .mp-trip table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13.5px;}
+#s-map .mp-trip td{padding:4px 2px;border-bottom:1px dashed #efe4d6;color:var(--pp-ink2);vertical-align:top;}
+#s-map .mp-trip td:last-child{text-align:right;white-space:nowrap;color:var(--pp-ink);font-weight:600;}
+#s-map .mp-trip td small{display:block;color:#b19a7e;font-size:11px;}
+#s-map .mp-trip tr.k td:first-child{font-style:italic;}
+#s-map .mp-trip tr.sum td{border-bottom:none;font-weight:800;color:var(--pp-ink);padding-top:6px;}
+#s-map .mp-trip .nt{font-size:12.5px;color:var(--pp-ink2);margin-top:8px;line-height:1.5;white-space:pre-wrap;}
+#s-map .mp-trip .act{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap;}
+#s-map .mp-trip .act .btn{font-size:12.5px;padding:5px 11px;}
+.mp-tj-copy{width:100%;margin-bottom:8px;font-size:13px;}
+.mp-trow{display:flex;gap:6px;align-items:center;margin-bottom:6px;}
+.mp-trow select,.mp-trow input{background:#0e1117;border:1px solid var(--border);color:#f0f5fa;font-size:14.5px;padding:8px;font-family:'Roboto',sans-serif;outline:none;min-width:0;}
+.mp-trow select,.mp-trow input.n{flex:1;}
+.mp-trow input.a{width:112px;flex:0 0 112px;text-align:right;}
+.mp-trow input.n{font-style:italic;}
+.mp-trow button{flex:0 0 32px;height:36px;background:none;border:1px solid var(--border);color:#94a3b8;cursor:pointer;font-size:15px;}
+.mp-tj-add{display:flex;gap:8px;margin-top:4px;}
+.mp-tj-add .btn{flex:1;font-size:13px;}
+.mp-tj-tot{margin-top:10px;font-size:14px;color:#cbd5e1;line-height:1.6;}
+.mp-tj-tot b{color:#e8a020;font-size:16px;}
+.mp-tj-tot .w{color:#fbbf24;}
+
 /* trợ lý AI */
 #mp-p-ai.on{display:flex;flex-direction:column;min-height:100%;}
 .mp-ai-top{display:flex;align-items:center;gap:6px;margin-bottom:10px;}
@@ -1390,13 +1432,34 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
 
       <!-- TRẠM THU TIỀN / CẢNG VỤ -->
       <div class="mp-pane" id="mp-p-tram">
-        <div class="mp-toolbar">
-          <button class="btn pri" onclick="mpOpenTram(null)">➕ Thêm trạm</button>
-          <select id="mp-tr-rt" onchange="mpRenderTramList()" title="Lọc theo tuyến"></select>
+        <div class="mp-seg mp-trseg" id="mp-tr-view">
+          <button data-v="list" onclick="mpTramView('list')">Trạm</button>
+          <button data-v="price" onclick="mpTramView('price')">Bảng giá</button>
+          <button data-v="log" onclick="mpTramView('log')">Nhật ký chuyến</button>
         </div>
-        <div id="mp-tr-sum"></div>
-        <div id="mp-tramlist"></div>
-        <div class="mp-f"><div class="hint">Trạm kiểm soát, cảng vụ, đồn biên phòng… nơi sà lan phải ghé và chi tiền khi đi qua. Gắn trạm vào tuyến để biết mỗi chuyến tốn bao nhiêu tiền qua trạm. Trạm có tọa độ sẽ hiện trên bản đồ.</div></div>
+        <div id="mp-tr-v-list">
+          <div class="mp-toolbar">
+            <button class="btn pri" onclick="mpOpenTram(null)">➕ Thêm trạm</button>
+            <select id="mp-tr-rt" onchange="mpRenderTramList()" title="Lọc theo tuyến trên bản đồ"></select>
+          </div>
+          <div id="mp-tr-sum"></div>
+          <div id="mp-tramlist"></div>
+          <div class="mp-f"><div class="hint">Trạm kiểm soát, cảng vụ, đồn biên phòng… nơi sà lan phải ghé và chi tiền khi đi qua. Gắn trạm vào tuyến để biết mỗi chuyến tốn bao nhiêu tiền qua trạm. Trạm có tọa độ sẽ hiện trên bản đồ.</div></div>
+        </div>
+        <div id="mp-tr-v-price" hidden>
+          <div class="mp-toolbar"><select id="mp-tp-rt" onchange="mpRenderPrice()" title="Lọc theo tuyến chở hàng" style="flex:1"></select></div>
+          <div id="mp-tp-sum"></div>
+          <div id="mp-tp-list"></div>
+          <div class="mp-f"><div class="hint">Giá thấp nhất – cao nhất mỗi trạm, tính từ các chuyến trong Nhật ký chuyến. Chọn một tuyến để xem tuyến đó đi qua những trạm nào, theo thứ tự trong sổ.</div></div>
+        </div>
+        <div id="mp-tr-v-log" hidden>
+          <div class="mp-toolbar">
+            <button class="btn pri" onclick="mpOpenTrip(null)">➕ Thêm chuyến</button>
+            <select id="mp-tl-rt" onchange="mpRenderTrips()" title="Lọc theo tuyến"></select>
+          </div>
+          <div id="mp-tl-sum"></div>
+          <div id="mp-tl-list"></div>
+        </div>
       </div>
 
       <!-- TRỢ LÝ AI -->
@@ -1550,6 +1613,31 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
 </div>
 
 <!-- Form địa điểm -->
+<div class="mp-modal" id="mp-m-trip" onclick="if(event.target===this)mpCloseModal()">
+  <div class="mp-mbox">
+    <h3><span id="mp-tj-title">Thêm chuyến</span><button onclick="mpCloseModal()">✕</button></h3>
+    <div class="mp-row">
+      <div class="mp-f"><label>Ngày (nhận hàng / chi phí)</label><input id="mp-tj-d" type="date"></div>
+      <div class="mp-f"><label>Sà lan</label><select id="mp-tj-b"></select></div>
+    </div>
+    <div class="mp-f"><label>Tuyến chở hàng</label><input id="mp-tj-r" list="mp-tj-rs" placeholder="VD: Gạch Vĩnh Long → Cần Giờ" autocomplete="off"><datalist id="mp-tj-rs"></datalist></div>
+    <div class="mp-f"><label>Hàng</label><input id="mp-tj-c" placeholder="VD: Gạch, 485 kiện · Đá 1x2, 996 tấn"></div>
+    <div class="mp-f"><label>Các khoản chi <span class="mp-tf-cnt" id="mp-tj-cnt"></span></label>
+      <button class="btn mp-tj-copy" type="button" onclick="mpTripCopyLast()">📋 Điền theo chuyến trước cùng tuyến</button>
+      <div id="mp-tj-rows"></div>
+      <div class="mp-tj-add"><button class="btn" type="button" onclick="mpTripRow({t:''},true)">➕ Trạm</button><button class="btn" type="button" onclick="mpTripRow({k:1,n:'',a:0},true)">➕ Chi phí khác</button></div>
+      <div class="mp-tj-tot" id="mp-tj-tot"></div>
+    </div>
+    <div class="mp-f"><label>Tổng ghi trong sổ (nếu có, để đối chiếu)</label><input id="mp-tj-w" inputmode="numeric" oninput="mpTramFeeInput(this);mpTripTotal()"></div>
+    <div class="mp-f"><label>Ghi chú</label><textarea id="mp-tj-n" placeholder="Giờ chạy, bơm dầu, tiền ứng…"></textarea></div>
+    <div class="mp-mact">
+      <button class="btn" id="mp-tj-del" style="border-color:#dc2626;color:#dc2626" onclick="mpDelTrip()">Xóa</button>
+      <button class="btn" onclick="mpCloseModal()">Hủy</button>
+      <button class="btn pri" onclick="mpSaveTrip()">💾 Lưu</button>
+    </div>
+  </div>
+</div>
+
 <div class="mp-modal" id="mp-m-tram" onclick="if(event.target===this)mpCloseModal()">
   <div class="mp-mbox">
     <h3><span id="mp-tf-title">Thêm trạm</span><button onclick="mpCloseModal()">✕</button></h3>
@@ -1560,6 +1648,7 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
     <div class="mp-f"><label>Tên trạm</label><input id="mp-tf-name" placeholder="VD: Trạm CSGT đường thủy Mỹ Thuận"></div>
     <div class="mp-f"><label>Số tiền mỗi lần qua (đồng)</label>
       <input id="mp-tf-fee" inputmode="numeric" placeholder="VD: 200.000" oninput="mpTramFeeInput(this)">
+      <div class="hint" id="mp-tf-stat"></div>
     </div>
     <div class="mp-f"><label>Áp dụng cho tuyến <span class="mp-tf-cnt" id="mp-tf-cnt"></span></label>
       <div class="mp-tf-rts" id="mp-tf-rts"></div>
@@ -3477,7 +3566,7 @@ function mpBuild(){
 }
 
 // ═══ MẠNG ĐƯỜNG THỦY THẬT (OpenStreetMap) – tải riêng map-data.json ═══
-// Dữ liệu dựng sẵn: mặt nước sông lớn, sông/kênh theo 3 mức chi tiết, luồng biển, nhãn tên sông và 33 tuyến vận chuyển.
+// Dữ liệu dựng sẵn: mặt nước sông lớn, sông/kênh theo 3 mức chi tiết, luồng biển, nhãn tên sông và 37 tuyến vận chuyển (4 tuyến theo nhật ký chở hàng).
 let MP_WATER = null, mpWaterP = null;
 function mpDecode(str, q){                       // polyline (thuật toán Google) trên tọa độ lượng tử
   const out=[]; let i=0, x=0, y=0;
@@ -3859,9 +3948,25 @@ function mpPoiClick(id){
 // Mỗi trạm: tỉnh, sông/kênh, tên, số tiền mỗi lần qua, các tuyến đi ngang (để cộng tiền theo tuyến), vị trí (tùy chọn).
 let mpTrams = mpLoad('map_tram', []);       // [{id,prov,river,name,fee,routes:[],lat,lon,note}]
 let mpTramEdit = null;
+let mpTrips = mpLoad('map_trip', []);       // nhật ký chuyến [{id,d,b,r,rid,c,w,n,items:[{t,n,a}]}]  t = mã trạm, rỗng = chi phí khác
+// Dữ liệu ban đầu đọc từ sổ tay của chủ tàu (tools/tram/seed_tram.py) – thêm một lần, người dùng sửa/xóa thoải mái.
+const MP_SEED_TRAM = {"v":1,"stations":[{"id":"s-cv-vl","prov":"Vĩnh Long","river":"Sông Cổ Chiên","name":"Cảng vụ Vĩnh Long","fee":500000,"routes":["hcm-cangio"],"note":"","lat":null,"lon":null},{"id":"s-cuc-vl","prov":"Vĩnh Long","river":"Sông Cổ Chiên","name":"Trạm Cục Vĩnh Long","fee":500000,"routes":["hcm-cangio"],"note":"","lat":null,"lon":null},{"id":"s-mang-thit","prov":"Vĩnh Long","river":"Sông Măng Thít","name":"Trạm Mang Thít","fee":400000,"routes":["hcm-cangio","st-bienhoa"],"note":"","lat":null,"lon":null},{"id":"s-phong-vl","prov":"Vĩnh Long","river":"Sông Cổ Chiên","name":"Trạm Phòng Vĩnh Long","fee":400000,"routes":["hcm-cangio","st-bienhoa"],"note":"","lat":null,"lon":null},{"id":"s-tram-vl","prov":"Vĩnh Long","river":"Sông Tiền","name":"Trạm Vĩnh Long","fee":400000,"routes":["mt-caisan","st-bienhoa"],"note":"","lat":null,"lon":null},{"id":"s-ben-tre","prov":"Vĩnh Long","river":"Sông Tiền","name":"Trạm Bến Tre","fee":400000,"routes":["hcm-cangio","mt-caisan","st-bienhoa"],"note":"Bến Tre cũ","lat":null,"lon":null},{"id":"s-rau-ram","prov":"Vĩnh Long","river":"Sông Tiền","name":"Trạm Rau Răm","fee":400000,"routes":["hcm-cangio","st-bienhoa"],"note":"Vị trí chưa rõ","lat":null,"lon":null},{"id":"s-cho-lach","prov":"Vĩnh Long","river":"Sông Cổ Chiên","name":"Trạm Chợ Lách","fee":400000,"routes":["hcm-cangio","st-bienhoa"],"note":"Bến Tre cũ","lat":null,"lon":null},{"id":"s-giao-hoa","prov":"Vĩnh Long","river":"Sông Tiền","name":"Trạm Giao Hòa (?)","fee":400000,"routes":["st-bienhoa"],"note":"Chữ trong sổ chưa rõ","lat":null,"lon":null},{"id":"s-tam-binh","prov":"Vĩnh Long","river":"Sông Măng Thít","name":"Trạm Tam Bình","fee":400000,"routes":["st-bienhoa"],"note":"","lat":null,"lon":null},{"id":"s-cuc-vl-hau","prov":"Vĩnh Long","river":"Sông Hậu","name":"Trạm Cục Vĩnh Long (sông Hậu)","fee":400000,"routes":["st-bienhoa","st-cantho"],"note":"Khu Trà Ôn","lat":null,"lon":null},{"id":"s-binh-minh","prov":"Vĩnh Long","river":"Sông Hậu","name":"Trạm Bình Minh","fee":300000,"routes":["st-cantho"],"note":"","lat":null,"lon":null},{"id":"s-dong-tam","prov":"Đồng Tháp","river":"Sông Tiền","name":"Trạm Đồng Tâm","fee":400000,"routes":["hcm-cangio"],"note":"Tiền Giang cũ","lat":null,"lon":null},{"id":"s-my-tho","prov":"Đồng Tháp","river":"Sông Tiền","name":"Trạm Mỹ Tho","fee":400000,"routes":["hcm-cangio","mt-caisan"],"note":"Tiền Giang cũ","lat":null,"lon":null},{"id":"s-phong-tg","prov":"Đồng Tháp","river":"Sông Tiền","name":"Trạm Phòng Tiền Giang (Mỹ Tho)","fee":300000,"routes":["st-bienhoa"],"note":"Tiền Giang cũ","lat":null,"lon":null},{"id":"s-ky-hon","prov":"Đồng Tháp","river":"Rạch Kỳ Hôn","name":"Trạm Kỳ Hôn","fee":300000,"routes":["dn-bienhoa","dn-godau","dn-nhontrach","hcm-cangio","hcm-cantho","hcm-tanthuan","hcm-tdm","la-benluc","la-cangiuoc","la-port","la-tanan","mt-caisan","st-bienhoa","st-vungtau","st-vungtau-bien","vt-baria","vt-phumy","vt-song-dinh","vt-venbien"],"note":"Đi Kỳ Hôn hoặc Chợ Gạo","lat":null,"lon":null},{"id":"s-cho-gao","prov":"Đồng Tháp","river":"Kênh Chợ Gạo","name":"Trạm Chợ Gạo","fee":300000,"routes":["dn-bienhoa","dn-godau","dn-nhontrach","hcm-cangio","hcm-cantho","hcm-tanthuan","hcm-tdm","la-benluc","la-cangiuoc","la-port","la-tanan","mt-caisan","st-bienhoa","st-vungtau","st-vungtau-bien","vt-baria","vt-phumy","vt-song-dinh","vt-venbien"],"note":"","lat":null,"lon":null},{"id":"s-cai-be","prov":"Đồng Tháp","river":"Sông Tiền","name":"Trạm Cái Bè","fee":300000,"routes":["mt-caisan"],"note":"","lat":null,"lon":null},{"id":"s-sa-dec","prov":"Đồng Tháp","river":"Sông Tiền","name":"Trạm Sa Đéc","fee":300000,"routes":["mt-caisan"],"note":"","lat":null,"lon":null},{"id":"s-cai-sach","prov":"","river":"","name":"Trạm Cái Sách (?)","fee":500000,"routes":["st-bienhoa"],"note":"Chữ trong sổ chưa rõ, sau Tam Bình","lat":null,"lon":null},{"id":"s-knm","prov":"Tây Ninh","river":"Kênh Nước Mặn","name":"Trạm Kinh Nước Mặn","fee":500000,"routes":["hcm-cangio","la-duchoa-bd","la-duchoa-dn","mt-caisan","st-bienhoa"],"note":"Long An cũ","lat":null,"lon":null},{"id":"s-ben-luc","prov":"Tây Ninh","river":"Sông Vàm Cỏ Đông","name":"Trạm Bến Lức","fee":500000,"routes":["la-duchoa-bd","la-duchoa-dn"],"note":"Long An cũ","lat":null,"lon":null},{"id":"s-tay-ninh","prov":"Tây Ninh","river":"Sông Vàm Cỏ Đông","name":"Trạm Tây Ninh","fee":500000,"routes":["la-duchoa-bd"],"note":"","lat":null,"lon":null},{"id":"s-cv-duchoa","prov":"Tây Ninh","river":"Sông Vàm Cỏ Đông","name":"Cảng vụ Đức Hòa","fee":850000,"routes":["la-duchoa-bd","la-duchoa-dn"],"note":"Sổ ghi kèm tiền xe ôm","lat":null,"lon":null},{"id":"s-doi2","prov":"TP.HCM","river":"Sông Vàm Sát","name":"Trạm Đội 2 (Vàm Sát)","fee":500000,"routes":["hcm-cangio","la-duchoa-bd","st-bienhoa"],"note":"","lat":null,"lon":null},{"id":"s-tram1","prov":"TP.HCM","river":"","name":"Trạm 1 (TP.HCM)","fee":500000,"routes":["hcm-cangio","la-duchoa-bd","la-duchoa-dn","mt-caisan","st-bienhoa"],"note":"","lat":null,"lon":null},{"id":"s-tram2","prov":"TP.HCM","river":"","name":"Trạm 2","fee":500000,"routes":["mt-caisan"],"note":"","lat":null,"lon":null},{"id":"s-tram5","prov":"TP.HCM","river":"","name":"Trạm 5","fee":500000,"routes":["hcm-cangio","mt-caisan"],"note":"","lat":null,"lon":null},{"id":"s-tram6","prov":"TP.HCM","river":"","name":"Trạm 6 (TP.HCM)","fee":500000,"routes":["hcm-cangio","la-duchoa-bd","la-duchoa-dn","st-bienhoa"],"note":"","lat":null,"lon":null},{"id":"s-cuc-hcm","prov":"TP.HCM","river":"","name":"Trạm Cục (TP.HCM)","fee":500000,"routes":["hcm-cangio","la-duchoa-bd","la-duchoa-dn","mt-caisan","st-bienhoa"],"note":"","lat":null,"lon":null},{"id":"s-t363sg","prov":"TP.HCM","river":"","name":"Trạm 363 Sài Gòn","fee":1000000,"routes":["hcm-cangio","la-duchoa-bd","mt-caisan","st-bienhoa"],"note":"","lat":null,"lon":null},{"id":"s-t363vt","prov":"TP.HCM","river":"","name":"Trạm 363 Vũng Tàu","fee":800000,"routes":["hcm-cangio","mt-caisan"],"note":"Vũng Tàu cũ","lat":null,"lon":null},{"id":"s-tram8vt","prov":"TP.HCM","river":"","name":"Trạm 8 Vũng Tàu","fee":700000,"routes":["mt-caisan"],"note":"Vũng Tàu cũ","lat":null,"lon":null},{"id":"s-cv-vt","prov":"TP.HCM","river":"Sông Dinh","name":"Cảng vụ Vũng Tàu","fee":700000,"routes":["mt-caisan"],"note":"Vũng Tàu cũ","lat":null,"lon":null},{"id":"s-can-xac","prov":"TP.HCM","river":"","name":"Cần Xác (?)","fee":1000000,"routes":["mt-caisan"],"note":"Chữ trong sổ chưa rõ, khoản chi đầu chuyến Vũng Tàu","lat":null,"lon":null},{"id":"s-bp-caimep","prov":"TP.HCM","river":"Sông Thị Vải","name":"Biên phòng Cái Mép","fee":300000,"routes":["mt-caisan"],"note":"","lat":null,"lon":null},{"id":"s-bp-thiengl","prov":"TP.HCM","river":"","name":"Biên phòng Thiềng Liềng","fee":300000,"routes":["mt-caisan"],"note":"Cần Giờ","lat":null,"lon":null},{"id":"s-bp-cangio","prov":"TP.HCM","river":"","name":"Biên phòng Cần Giờ","fee":1000000,"routes":["hcm-cangio"],"note":"","lat":null,"lon":null},{"id":"s-bp-donghoa","prov":"TP.HCM","river":"","name":"Biên phòng Đông Hòa","fee":1000000,"routes":["hcm-cangio"],"note":"Cần Giờ","lat":null,"lon":null},{"id":"s-cvhh","prov":"TP.HCM","river":"","name":"Cảng vụ Hàng hải (Cần Giờ)","fee":2000000,"routes":["hcm-cangio"],"note":"","lat":null,"lon":null},{"id":"s-cv-bd","prov":"TP.HCM","river":"","name":"Cảng vụ Bình Dương","fee":700000,"routes":["la-duchoa-bd"],"note":"Bình Dương cũ","lat":null,"lon":null},{"id":"s-doi3-bd","prov":"TP.HCM","river":"","name":"Trạm Đội 3 Bình Dương","fee":500000,"routes":["la-duchoa-bd","st-bienhoa"],"note":"Bình Dương cũ","lat":null,"lon":null},{"id":"s-tram-bd","prov":"TP.HCM","river":"","name":"Trạm Bình Dương","fee":400000,"routes":["la-duchoa-dn","st-bienhoa"],"note":"Bình Dương cũ","lat":null,"lon":null},{"id":"s-t363bd","prov":"TP.HCM","river":"","name":"Trạm 363 Bình Dương","fee":1000000,"routes":["st-bienhoa"],"note":"Bình Dương cũ","lat":null,"lon":null},{"id":"s-binh-loi","prov":"TP.HCM","river":"Sông Sài Gòn","name":"Trạm Bình Lợi (?)","fee":400000,"routes":["la-duchoa-dn","st-bienhoa"],"note":"Chữ trong sổ chưa rõ","lat":null,"lon":null},{"id":"s-cv-dn","prov":"Đồng Nai","river":"Sông Đồng Nai","name":"Cảng vụ Đồng Nai","fee":800000,"routes":["la-duchoa-dn","st-bienhoa"],"note":"","lat":null,"lon":null},{"id":"s-tau","prov":"Đồng Nai","river":"","name":"Trạm Tàu","fee":500000,"routes":["hcm-cangio","la-duchoa-bd","la-duchoa-dn","mt-caisan","st-bienhoa"],"note":"Sổ ghi \"Trạm Tàu Đồng Nai\"","lat":null,"lon":null},{"id":"s-tram4","prov":"Đồng Nai","river":"","name":"Trạm 4","fee":500000,"routes":["hcm-cangio","la-duchoa-bd","la-duchoa-dn","mt-caisan","st-bienhoa"],"note":"Sổ ghi \"Trạm 4 Đồng Nai\"","lat":null,"lon":null},{"id":"s-phong-dn","prov":"Đồng Nai","river":"","name":"Trạm Phòng (Đồng Nai)","fee":500000,"routes":["hcm-cangio","la-duchoa-bd","la-duchoa-dn","mt-caisan","st-bienhoa"],"note":"Sổ thường ghi tắt \"Phòng\"","lat":null,"lon":null},{"id":"s-thanhtra-dn","prov":"Đồng Nai","river":"","name":"Thanh tra Đồng Nai","fee":400000,"routes":["la-duchoa-bd","st-bienhoa"],"note":"","lat":null,"lon":null},{"id":"s-go-dau","prov":"Đồng Nai","river":"Sông Thị Vải","name":"Trạm Gò Dầu","fee":500000,"routes":["mt-caisan"],"note":"","lat":null,"lon":null},{"id":"s-cv-st","prov":"Cần Thơ","river":"Sông Hậu","name":"Cảng vụ Sóc Trăng","fee":500000,"routes":["st-bienhoa","st-cantho"],"note":"Sóc Trăng cũ","lat":null,"lon":null},{"id":"s-dai-ngai","prov":"Cần Thơ","river":"Sông Hậu","name":"Trạm Đại Ngãi","fee":300000,"routes":["st-bienhoa","st-cantho"],"note":"Sóc Trăng cũ","lat":null,"lon":null},{"id":"s-nhon-my","prov":"Cần Thơ","river":"Sông Hậu","name":"Trạm Nhơn Mỹ","fee":300000,"routes":["st-bienhoa","st-cantho"],"note":"Sóc Trăng cũ","lat":null,"lon":null},{"id":"s-cai-con","prov":"Cần Thơ","river":"Sông Hậu","name":"Trạm Cái Côn","fee":300000,"routes":["st-cantho"],"note":"","lat":null,"lon":null},{"id":"s-cuc-ct","prov":"Cần Thơ","river":"Sông Hậu","name":"Trạm Cục Cần Thơ","fee":400000,"routes":["st-cantho"],"note":"","lat":null,"lon":null},{"id":"s-phong-ct","prov":"Cần Thơ","river":"Sông Hậu","name":"Trạm Phòng Cần Thơ","fee":400000,"routes":["st-cantho"],"note":"","lat":null,"lon":null},{"id":"s-tram-ct","prov":"Cần Thơ","river":"Sông Hậu","name":"Trạm Cần Thơ","fee":300000,"routes":["st-cantho"],"note":"","lat":null,"lon":null},{"id":"s-o-mon","prov":"Cần Thơ","river":"Sông Hậu","name":"Trạm Ô Môn","fee":300000,"routes":["st-cantho"],"note":"","lat":null,"lon":null},{"id":"s-binh-thuy","prov":"Cần Thơ","river":"Sông Hậu","name":"Trạm Bình Thủy","fee":300000,"routes":["st-cantho"],"note":"","lat":null,"lon":null},{"id":"s-cv-ct","prov":"Cần Thơ","river":"Sông Hậu","name":"Cảng vụ Cần Thơ","fee":500000,"routes":["st-cantho"],"note":"Cảng vụ nơi giao hàng","lat":null,"lon":null},{"id":"s-cai-san","prov":"An Giang","river":"Kênh Cái Sắn","name":"Trạm Cái Sắn","fee":500000,"routes":["mt-caisan"],"note":"","lat":null,"lon":null},{"id":"s-cv-caisan","prov":"An Giang","river":"Kênh Cái Sắn","name":"Cảng vụ (Cái Sắn)","fee":600000,"routes":["mt-caisan"],"note":"Cảng vụ nơi giao hàng","lat":null,"lon":null}],"trips":[{"id":"nk-0629","d":"2026-06-29","b":"ST-06128","r":"Gạch Vĩnh Long → Cần Giờ","rid":"hcm-cangio","c":"Gạch, 485 kiện","w":13200000,"n":"26/06 20h Cần Giờ → 27/06 13h Vĩnh Long · nhận gạch 27/06–29/06 15h · 29/06 15h chạy → 30/06 19h Cần Giờ · vô giao 01/07 18h, giao xong 12h 03/07. Bơm 800 lít + 500 lít còn = 1.300 lít dầu (27/06). Cô Hằng chuyển 21.500.000 − 13.200.000 = 8.300.000 (29/06).","items":[{"t":"s-cv-vl","n":"Cảng vụ","a":500000},{"t":"s-cuc-vl","n":"Cục Vĩnh Long","a":500000},{"t":"s-mang-thit","n":"Mang Thít","a":400000},{"t":"s-phong-vl","n":"Phòng Vĩnh Long","a":400000},{"t":"s-ben-tre","n":"Bến Tre","a":400000},{"t":"s-rau-ram","n":"Rau Răm","a":400000},{"t":"s-ky-hon","n":"Kỳ Hôn","a":300000},{"t":"s-knm","n":"Kinh Nước Mặn","a":500000},{"t":"s-doi2","n":"Đội 2","a":500000},{"t":"s-tram1","n":"Trạm 1","a":500000},{"t":"s-t363sg","n":"363 Sài Gòn","a":1000000},{"t":"s-cuc-hcm","n":"Cục","a":500000},{"t":"s-tau","n":"Tàu","a":500000},{"t":"s-tram4","n":"Trạm 4","a":500000},{"t":"s-tram6","n":"Trạm 6","a":500000},{"t":"s-phong-dn","n":"Phòng","a":500000},{"t":"s-tram5","n":"Trạm 5","a":500000},{"t":"s-t363vt","n":"363 Vũng Tàu","a":800000},{"t":"s-bp-cangio","n":"Biên phòng Cần Giờ","a":1000000},{"t":"s-bp-donghoa","n":"Biên phòng Đông Hòa","a":1000000},{"t":"s-cvhh","n":"Cảng vụ Hàng hải","a":2000000}]},{"id":"nk-0715","d":"2026-07-15","b":"ST-06128","r":"Gạch Vĩnh Long → Cần Giờ","rid":"hcm-cangio","c":"Gạch, 485 kiện","w":13200000,"n":"07/07 17h Vĩnh Thạnh → 08/07 17h Vĩnh Long · nhận gạch 09/07 12h30 → 15/07 10h xong · 15/07 10h chạy → 16/07 16h Cần Giờ · giao xong 5h 18/07. Bơm 1.300 lít dầu (07/07). Cô Hằng chuyển 22.000.000 − 13.200.000 = 8.800.000 (10/07).","items":[{"t":"s-cv-vl","n":"Cảng vụ","a":500000},{"t":"s-cuc-vl","n":"Cục Vĩnh Long","a":500000},{"t":"s-mang-thit","n":"Mang Thít","a":400000},{"t":"s-phong-vl","n":"Phòng Vĩnh Long","a":400000},{"t":"s-ben-tre","n":"Bến Tre","a":400000},{"t":"s-rau-ram","n":"Rau Răm","a":400000},{"t":"s-cho-gao","n":"Chợ Gạo","a":300000},{"t":"s-knm","n":"Kinh Nước Mặn","a":500000},{"t":"s-doi2","n":"Đội 2","a":500000},{"t":"s-tram1","n":"Trạm 1","a":500000},{"t":"s-t363sg","n":"363 Sài Gòn","a":1000000},{"t":"s-cuc-hcm","n":"Cục","a":500000},{"t":"s-tau","n":"Tàu","a":500000},{"t":"s-tram4","n":"Trạm 4","a":500000},{"t":"s-tram6","n":"Trạm 6","a":500000},{"t":"s-phong-dn","n":"Phòng","a":500000},{"t":"s-tram5","n":"Trạm 5","a":500000},{"t":"s-t363vt","n":"363 Vũng Tàu","a":800000},{"t":"s-bp-cangio","n":"Biên phòng Cần Giờ","a":1000000},{"t":"s-bp-donghoa","n":"Biên phòng Đông Hòa","a":1000000},{"t":"s-cvhh","n":"Cảng vụ Hàng hải","a":2000000}]},{"id":"nk-0722","d":"2026-07-22","b":"ST-06128","r":"Đá Vũng Tàu → Cái Sắn","rid":"mt-caisan","c":"Đá 1x2, 996 tấn","w":13900000,"n":"18/07 5h Cần Giờ → 11h Vũng Tàu · nhận đá xong 9h 22/07 · 22/07 9h Vũng Tàu → 24/07 16h Cái Sắn · cập xong 16h 25/07.","items":[{"t":"s-cv-vt","n":"Cảng vụ","a":700000},{"t":"s-can-xac","n":"Cần Xác","a":1000000},{"t":"s-tram8vt","n":"Trạm 8 Vũng Tàu","a":700000},{"t":"s-bp-caimep","n":"Biên phòng Cái Mép","a":300000},{"t":"s-go-dau","n":"Gò Dầu","a":500000},{"t":"s-bp-thiengl","n":"Biên phòng Thiềng Liềng","a":300000},{"t":"s-tram5","n":"Trạm 5","a":700000},{"t":"s-tram2","n":"Trạm 2","a":500000},{"t":"s-t363vt","n":"363 Vũng Tàu","a":700000},{"t":"s-tram1","n":"Trạm 1","a":500000},{"t":"s-phong-dn","n":"Phòng","a":500000},{"t":"s-tram4","n":"Trạm 4","a":500000},{"t":"s-cuc-hcm","n":"Cục","a":500000},{"t":"s-tau","n":"Tàu","a":500000},{"t":"s-t363sg","n":"363 Sài Gòn","a":700000},{"t":"s-knm","n":"Kinh Nước Mặn","a":500000},{"t":"s-cho-gao","n":"Chợ Gạo","a":300000},{"t":"s-my-tho","n":"Mỹ Tho","a":300000},{"t":"s-ben-tre","n":"Bến Tre","a":300000},{"t":"s-cai-be","n":"Cái Bè","a":300000},{"t":"s-tram-vl","n":"Vĩnh Long","a":400000},{"t":"s-sa-dec","n":"Sa Đéc","a":300000},{"t":"s-cai-san","n":"Cái Sắn","a":500000},{"t":"s-cv-caisan","n":"Cảng vụ","a":600000},{"t":"","n":"Bồi dưỡng cập","a":1800000}]},{"id":"nk-0802","d":"2026-08-02","b":"ST-06128","r":"Gạch Vĩnh Long → Cần Giờ","rid":"hcm-cangio","c":"Gạch, 485 kiện","w":13200000,"n":"25/07 16h Cái Sắn → 26/07 18h Vĩnh Long · 29/07 15h vô nhận hàng → 02/08 9h xong · 10h đi Cần Giờ (sổ ghi 03/07, có lẽ 03/08) · giao xong 06h 04/08. Bơm 1.300 lít dầu (25/07). Cô Hằng chuyển 22 triệu (29/07).","items":[{"t":"s-cv-vl","n":"Cảng vụ","a":500000},{"t":"s-cuc-vl","n":"Cục Vĩnh Long","a":500000},{"t":"s-mang-thit","n":"Mang Thít","a":400000},{"t":"s-phong-vl","n":"Phòng Vĩnh Long","a":400000},{"t":"s-ben-tre","n":"Bến Tre","a":400000},{"t":"s-rau-ram","n":"Rau Răm","a":400000},{"t":"s-cho-gao","n":"Chợ Gạo","a":300000},{"t":"s-knm","n":"Kinh Nước Mặn","a":500000},{"t":"s-doi2","n":"Đội 2","a":500000},{"t":"s-tram1","n":"Trạm 1","a":500000},{"t":"s-t363sg","n":"363 Sài Gòn","a":1000000},{"t":"s-cuc-hcm","n":"Cục","a":500000},{"t":"s-tau","n":"Tàu","a":500000},{"t":"s-tram4","n":"Trạm 4","a":500000},{"t":"s-tram6","n":"Trạm 6","a":500000},{"t":"s-phong-dn","n":"Phòng","a":500000},{"t":"s-tram5","n":"Trạm 5","a":500000},{"t":"s-t363vt","n":"363 Vũng Tàu","a":800000},{"t":"s-bp-cangio","n":"Biên phòng Cần Giờ","a":1000000},{"t":"s-bp-donghoa","n":"Biên phòng Đông Hòa","a":1000000},{"t":"s-cvhh","n":"Cảng vụ Hàng hải","a":2000000}]},{"id":"nk-0901","d":"2026-09-01","b":"ST-06128","r":"Gạch Vĩnh Long → Cần Giờ","rid":"hcm-cangio","c":"Gạch, 485 kiện","w":13200000,"n":"25/08 15h Trần Đề → 20h Đại Ngãi, hàn tàu · 28/08 → 15h 29/08 Vĩnh Long · 30/08 nhận gạch → 01/09 16h xong · 02/09 16h Cần Giờ, giao xong 07h (ngày giao trong sổ chưa rõ). Cô Hằng chuyển 22 triệu (30/08).","items":[{"t":"s-cv-vl","n":"Cảng vụ","a":500000},{"t":"s-cuc-vl","n":"Cục Vĩnh Long","a":500000},{"t":"s-mang-thit","n":"Mang Thít","a":400000},{"t":"s-phong-vl","n":"Phòng Vĩnh Long","a":400000},{"t":"s-ben-tre","n":"Bến Tre","a":400000},{"t":"s-rau-ram","n":"Rau Răm","a":400000},{"t":"s-cho-gao","n":"Chợ Gạo","a":300000},{"t":"s-knm","n":"Kinh Nước Mặn","a":500000},{"t":"s-doi2","n":"Đội 2","a":500000},{"t":"s-tram1","n":"Trạm 1","a":500000},{"t":"s-t363sg","n":"363 Sài Gòn","a":1000000},{"t":"s-cuc-hcm","n":"Cục","a":500000},{"t":"s-tau","n":"Tàu","a":500000},{"t":"s-tram4","n":"Trạm 4","a":500000},{"t":"s-tram6","n":"Trạm 6","a":500000},{"t":"s-phong-dn","n":"Phòng","a":500000},{"t":"s-tram5","n":"Trạm 5","a":500000},{"t":"s-t363vt","n":"363 Vũng Tàu","a":800000},{"t":"s-bp-cangio","n":"Biên phòng Cần Giờ","a":1000000},{"t":"s-bp-donghoa","n":"Biên phòng Đông Hòa","a":1000000},{"t":"s-cvhh","n":"Cảng vụ Hàng hải","a":2000000}]},{"id":"nk-0906","d":"2026-09-06","b":"","r":"Gạch Vĩnh Long → Cần Giờ","rid":"hcm-cangio","c":"Gạch","w":15500000,"n":"Sổ \"Phí gạch Vĩnh Long – Cần Giờ\" 06/09/2026 (chữ khác, không ghi tàu). Tổng phí trạm 13.500.000 + bồi dưỡng tài công 2.000.000.","items":[{"t":"s-cv-vl","n":"Cảng vụ Vĩnh Long","a":500000},{"t":"s-phong-vl","n":"Trạm phòng Vĩnh Long","a":400000},{"t":"s-cuc-vl","n":"Trạm Cục","a":400000},{"t":"s-cho-lach","n":"Trạm Lách","a":400000},{"t":"s-rau-ram","n":"Trạm Rau Răm","a":400000},{"t":"s-dong-tam","n":"Trạm Đồng Tâm","a":400000},{"t":"s-ky-hon","n":"Trạm Kỳ Hôn","a":400000},{"t":"s-knm","n":"Trạm Kinh Nước Mặn","a":400000},{"t":"s-doi2","n":"Đội 2 Vàm Sát Sài Gòn","a":500000},{"t":"s-cuc-hcm","n":"Trạm Cục","a":500000},{"t":"s-t363sg","n":"Trạm 363 Sài Gòn","a":800000},{"t":"s-tram1","n":"Trạm 1","a":500000},{"t":"s-tram4","n":"Trạm 4","a":500000},{"t":"s-phong-dn","n":"Trạm phòng","a":600000},{"t":"s-tram5","n":"Trạm 5","a":500000},{"t":"s-tau","n":"Trạm Tàu","a":500000},{"t":"s-t363vt","n":"Trạm 363 Vũng Tàu","a":800000},{"t":"s-bp-cangio","n":"Biên phòng Cần Giờ","a":1000000},{"t":"s-cvhh","n":"Cảng vụ Hàng hải","a":2000000},{"t":"s-bp-donghoa","n":"Biên phòng cảng Đông Hòa","a":2000000},{"t":"","n":"Bồi dưỡng tài công","a":2000000}]},{"id":"nk-0910","d":"2026-09-10","b":"ST-06128","r":"Gạch Vĩnh Long → Cần Giờ","rid":"hcm-cangio","c":"Gạch, 485 kiện","w":13200000,"n":"07/09 15h Vĩnh Thạnh → 08/09 07h Vĩnh Long nhận gạch · 10/09 15h xong → 11/09 17h Cần Giờ · giao xong 23h 14/09. Bơm 1.300 lít dầu (07/09). Cô Hằng chuyển 22 triệu (08/09).","items":[{"t":"s-cv-vl","n":"Cảng vụ","a":500000},{"t":"s-cuc-vl","n":"Cục Vĩnh Long","a":500000},{"t":"s-mang-thit","n":"Mang Thít","a":400000},{"t":"s-phong-vl","n":"Phòng Vĩnh Long","a":400000},{"t":"s-ben-tre","n":"Bến Tre","a":400000},{"t":"s-rau-ram","n":"Rau Răm","a":400000},{"t":"s-cho-gao","n":"Chợ Gạo","a":300000},{"t":"s-knm","n":"Kinh Nước Mặn","a":500000},{"t":"s-doi2","n":"Đội 2","a":500000},{"t":"s-tram1","n":"Trạm 1","a":500000},{"t":"s-t363sg","n":"363 Sài Gòn","a":1000000},{"t":"s-cuc-hcm","n":"Cục","a":500000},{"t":"s-tau","n":"Tàu","a":500000},{"t":"s-tram4","n":"Trạm 4","a":500000},{"t":"s-tram6","n":"Trạm 6","a":500000},{"t":"s-phong-dn","n":"Phòng","a":500000},{"t":"s-tram5","n":"Trạm 5","a":500000},{"t":"s-t363vt","n":"363 Vũng Tàu","a":800000},{"t":"s-bp-cangio","n":"Biên phòng Cần Giờ","a":1000000},{"t":"s-bp-donghoa","n":"Biên phòng Đông Hòa","a":1000000},{"t":"s-cvhh","n":"Cảng vụ Hàng hải","a":2000000}]},{"id":"nk-0922","d":"2026-09-22","b":"ST-06128","r":"Gạch Vĩnh Long → Cần Giờ","rid":"hcm-cangio","c":"Gạch, 485 kiện","w":13200000,"n":"20/09 17h Ngã 5 → 21/09 12h Vĩnh Long · nhận gạch xong 12h 22/09 → 23/09 Cần Giờ · giao xong 8h 24/09. Bơm 1.300 lít dầu (20/09). Cô Hằng chuyển 23 triệu (21/09).","items":[{"t":"s-cv-vl","n":"Cảng vụ","a":500000},{"t":"s-cuc-vl","n":"Cục Vĩnh Long","a":400000},{"t":"s-phong-vl","n":"Phòng Vĩnh Long","a":400000},{"t":"s-mang-thit","n":"Mang Thít","a":400000},{"t":"s-ben-tre","n":"Bến Tre","a":400000},{"t":"s-my-tho","n":"Mỹ Tho","a":400000},{"t":"s-cho-gao","n":"Chợ Gạo","a":300000},{"t":"s-knm","n":"Kinh Nước Mặn","a":500000},{"t":"s-doi2","n":"Đội 2","a":500000},{"t":"s-tram1","n":"Trạm 1","a":500000},{"t":"s-t363sg","n":"363 Sài Gòn","a":1000000},{"t":"s-cuc-hcm","n":"Cục","a":500000},{"t":"s-tau","n":"Tàu","a":500000},{"t":"s-tram4","n":"Trạm 4","a":500000},{"t":"s-tram6","n":"Trạm 6","a":500000},{"t":"s-phong-dn","n":"Phòng","a":500000},{"t":"s-tram5","n":"Trạm 5","a":500000},{"t":"s-t363vt","n":"363 Vũng Tàu","a":800000},{"t":"s-bp-cangio","n":"Biên phòng Cần Giờ","a":1000000},{"t":"s-bp-donghoa","n":"Biên phòng Đông Hòa","a":1000000},{"t":"s-cvhh","n":"Cảng vụ Hàng hải","a":2000000}]},{"id":"nk-0928","d":"2026-09-28","b":"","r":"Sóc Trăng → Cần Thơ","rid":"st-cantho","c":"","w":6750000,"n":"Sổ \"Chuyến 5\". 23/09 nhận phí ở bến nhà · 25/09 đổ dầu Bình Thủy 1.300 lít · 26/09 tới cảng Cần Thơ · 28/09 cảng … Ứng phí đi đường 6.000.000.","items":[{"t":"","n":"Mua bình nước (?)","a":550000},{"t":"s-cv-st","n":"Cảng vụ Sóc Trăng","a":500000},{"t":"s-dai-ngai","n":"Trạm Đại Ngãi","a":300000},{"t":"s-nhon-my","n":"Trạm Nhơn Mỹ","a":300000},{"t":"s-cuc-vl-hau","n":"Trạm Cục Vĩnh","a":400000},{"t":"s-cai-con","n":"Trạm Cái Côn","a":300000},{"t":"s-phong-ct","n":"Trạm Phòng Cần Thơ","a":400000},{"t":"s-cuc-ct","n":"Trạm Cục Cần Thơ","a":400000},{"t":"s-binh-minh","n":"Trạm Bình Minh","a":300000},{"t":"s-binh-thuy","n":"Trạm Bình Thủy","a":300000},{"t":"","n":"Phí cảng","a":1000000},{"t":"s-cv-ct","n":"Cảng vụ","a":500000},{"t":"","n":"Bồi dưỡng cần cẩu","a":1500000}]},{"id":"nk-251201","d":"2025-12-01","b":"","r":"Đá Đồng Nai → Sóc Trăng","rid":"st-bienhoa","c":"Đá (chị Phương)","w":null,"n":"Trang sổ ngày 01/12/2025, chưa có trang sau nên chưa có tổng.","items":[{"t":"s-cv-dn","n":"Cảng vụ Đồng Nai","a":700000},{"t":"s-doi3-bd","n":"Trạm Đội 3 Bình Dương","a":500000},{"t":"s-phong-dn","n":"Trạm phòng Đồng Nai","a":500000},{"t":"s-tram4","n":"Trạm 4 Đồng Nai","a":500000},{"t":"s-tau","n":"Trạm Tàu Đồng Nai","a":500000},{"t":"s-thanhtra-dn","n":"Thanh tra Đồng Nai","a":300000},{"t":"s-t363bd","n":"Trạm 363 Bình Dương","a":1000000},{"t":"s-tram6","n":"Trạm 6 Thành phố","a":500000},{"t":"s-cuc-hcm","n":"Trạm Cục Thành phố","a":500000},{"t":"s-t363sg","n":"Trạm 363 Thành phố","a":1000000},{"t":"s-tram1","n":"Trạm 1 Thành phố","a":500000},{"t":"s-doi2","n":"Trạm Đội 2 Thành phố","a":500000},{"t":"s-knm","n":"Trạm Kinh Nước Mặn","a":500000},{"t":"s-ky-hon","n":"Trạm Kỳ Hôn","a":300000},{"t":"s-phong-tg","n":"Trạm phòng Tiền Giang","a":300000},{"t":"s-ben-tre","n":"Trạm Bến Tre","a":300000},{"t":"s-rau-ram","n":"Trạm Rau Răm","a":400000},{"t":"s-phong-vl","n":"Trạm phòng Vĩnh Long","a":300000},{"t":"s-mang-thit","n":"Trạm Mang Thít","a":400000},{"t":"s-tam-binh","n":"Trạm Tam Bình","a":400000},{"t":"s-cai-sach","n":"Trạm Cái Sách","a":500000}]},{"id":"nk-251016","d":"2025-10-16","b":"","r":"Đá Bình Dương → Đức Hòa","rid":"la-duchoa-bd","c":"Đá","w":12050000,"n":"Chi chuyến phí đi 12.000.000 (13/10/2025).","items":[{"t":"s-cv-bd","n":"Cảng vụ Bình Dương","a":700000},{"t":"s-doi3-bd","n":"Trạm Đội 3 Bình Dương","a":500000},{"t":"s-tau","n":"Trạm Tàu Đồng Nai","a":500000},{"t":"s-tram4","n":"Trạm 4 Đồng Nai","a":500000},{"t":"s-phong-dn","n":"Trạm phòng Đồng Nai","a":500000},{"t":"s-thanhtra-dn","n":"Thanh tra Đồng Nai","a":400000},{"t":"s-cuc-hcm","n":"Trạm Cục","a":500000},{"t":"s-tram6","n":"Trạm 6 Thành phố","a":500000},{"t":"s-t363sg","n":"Trạm 363","a":1000000},{"t":"s-tram1","n":"Trạm 1 Thành phố","a":500000},{"t":"s-doi2","n":"Trạm Đội 2 Thành phố","a":500000},{"t":"s-knm","n":"Trạm Kinh Nước Mặn","a":500000},{"t":"s-ben-luc","n":"Trạm Bến Lức","a":500000},{"t":"s-tay-ninh","n":"Trạm Tây Ninh","a":500000},{"t":"","n":"Bồi dưỡng máng","a":400000},{"t":"","n":"Bồi dưỡng thợ cẩu","a":1700000},{"t":"s-cv-duchoa","n":"Cảng vụ Đức Hòa + xe ôm","a":850000},{"t":"","n":"Tài công + vét đá","a":1500000}]},{"id":"nk-251008","d":"2025-10-08","b":"","r":"Đá Bình Dương → Đức Hòa","rid":"la-duchoa-bd","c":"Đá","w":12050000,"n":"Chi chuyến ứng 22.000.000 (07/10/2025), còn lại em ứng 9.950.000.","items":[{"t":"s-cv-bd","n":"Cảng vụ Bình Dương","a":700000},{"t":"s-doi3-bd","n":"Trạm Đội 3 Bình Dương","a":500000},{"t":"s-tau","n":"Trạm Tàu Đồng Nai","a":500000},{"t":"s-tram4","n":"Trạm 4 Đồng Nai","a":500000},{"t":"s-phong-dn","n":"Trạm phòng Đồng Nai","a":500000},{"t":"s-thanhtra-dn","n":"Thanh tra Đồng Nai","a":400000},{"t":"s-t363sg","n":"Trạm 363","a":1000000},{"t":"s-cuc-hcm","n":"Trạm Cục","a":500000},{"t":"s-tram6","n":"Trạm 6 Thành phố","a":500000},{"t":"s-tram1","n":"Trạm 1 Thành phố","a":500000},{"t":"s-doi2","n":"Trạm Đội 2","a":500000},{"t":"s-knm","n":"Trạm Kinh Nước Mặn","a":500000},{"t":"s-ben-luc","n":"Trạm Bến Lức","a":500000},{"t":"s-tay-ninh","n":"Trạm Tây Ninh","a":500000},{"t":"s-cv-duchoa","n":"Cảng vụ Đức Hòa + xe ôm","a":850000},{"t":"","n":"Bồi dưỡng máng","a":400000},{"t":"","n":"Bồi dưỡng cập cẩu","a":1700000},{"t":"","n":"Tài công + vét đá","a":1500000}]},{"id":"nk-dn-dh","d":"","b":"","r":"Đá Đồng Nai → Đức Hòa","rid":"la-duchoa-dn","c":"","w":10100000,"n":"Trang sổ không ghi ngày.","items":[{"t":"s-cv-dn","n":"Cảng vụ Đồng Nai","a":800000},{"t":"","n":"Bồi dưỡng cập (1.500 đ/m³)","a":900000},{"t":"s-tram-bd","n":"Trạm Bình Dương","a":400000},{"t":"s-phong-dn","n":"Trạm phòng","a":500000},{"t":"s-binh-loi","n":"Trạm Bình Lợi","a":400000},{"t":"s-tau","n":"Trạm Tàu","a":500000},{"t":"s-tram4","n":"Trạm 4","a":500000},{"t":"s-cuc-hcm","n":"Trạm Cục","a":500000},{"t":"s-tram6","n":"Trạm 6","a":500000},{"t":"s-tram1","n":"Trạm 1","a":500000},{"t":"s-knm","n":"Trạm Kinh","a":500000},{"t":"s-ben-luc","n":"Trạm Bến Lức","a":500000},{"t":"s-cv-duchoa","n":"Cảng vụ Đức Hòa","a":800000},{"t":"","n":"Bồi dưỡng cập lên","a":1800000},{"t":"","n":"Tài công","a":1000000}]},{"id":"nk-dn-st","d":"","b":"","r":"Đá Đồng Nai → Sóc Trăng","rid":"st-bienhoa","c":"","w":10500000,"n":"Trang sổ không ghi ngày.","items":[{"t":"s-cv-dn","n":"Cảng vụ Đồng Nai","a":800000},{"t":"s-tram-bd","n":"Trạm Bình Dương","a":300000},{"t":"s-binh-loi","n":"Trạm Bình Lợi","a":400000},{"t":"s-tau","n":"Trạm Tàu","a":500000},{"t":"s-phong-dn","n":"Trạm phòng","a":500000},{"t":"s-cuc-hcm","n":"Trạm Cục","a":500000},{"t":"s-tram4","n":"Trạm 4","a":500000},{"t":"s-tram6","n":"Trạm 6","a":500000},{"t":"s-tram1","n":"Trạm 1","a":500000},{"t":"s-knm","n":"Trạm Kinh","a":500000},{"t":"s-cho-gao","n":"Trạm Chợ Gạo","a":400000},{"t":"s-phong-tg","n":"Trạm phòng Mỹ Tho","a":300000},{"t":"s-giao-hoa","n":"Trạm Giao Hòa","a":400000},{"t":"s-cho-lach","n":"Trạm Lách BT","a":400000},{"t":"s-tram-vl","n":"Trạm Vĩnh Long","a":400000},{"t":"s-mang-thit","n":"Trạm Mang Thít","a":400000},{"t":"s-tam-binh","n":"Trạm Tam Bình","a":400000},{"t":"s-cuc-vl-hau","n":"Trạm Cục VL","a":400000},{"t":"s-nhon-my","n":"Trạm Nhơn Mỹ","a":500000},{"t":"s-dai-ngai","n":"Trạm Đại Ngãi","a":500000},{"t":"s-cv-st","n":"Cảng vụ ST","a":600000},{"t":"","n":"Bồi dưỡng cập (1.500 đ/m³)","a":800000}]},{"id":"nk-0530","d":"2026-05-30","b":"","r":"Sóc Trăng → Cần Thơ","rid":"st-cantho","c":"","w":7300000,"n":"Sổ \"Chuyến 1\". Ứng phí 10.000.000 − 7.300.000 = 2.700.000. Đổ dầu Hưng Phú 1.150 lít (31/05), đổ 5 can dầu ở bãi nhà.","items":[{"t":"s-cv-st","n":"Cảng vụ ST","a":500000},{"t":"s-dai-ngai","n":"Trạm Đại Ngãi","a":300000},{"t":"s-nhon-my","n":"Trạm Nhơn Mỹ","a":300000},{"t":"s-cuc-ct","n":"Cục Cần Thơ","a":400000},{"t":"s-phong-ct","n":"Phòng","a":200000},{"t":"s-cai-con","n":"Trạm Cái Côn","a":300000},{"t":"s-o-mon","n":"Trạm Ô Môn","a":300000},{"t":"s-tram-ct","n":"Trạm Cần Thơ","a":300000},{"t":"s-binh-minh","n":"Trạm Bình Minh","a":300000},{"t":"s-binh-thuy","n":"Trạm Bình Thủy","a":300000},{"t":"s-cv-ct","n":"Cảng vụ","a":500000},{"t":"","n":"Bến cảng","a":1100000},{"t":"","n":"Bồi dưỡng cập","a":1500000},{"t":"","n":"Thuyền trưởng","a":1000000}]}]};
+(function mpSeedTram(){
+  if(localStorage.getItem('map_seed_tram_v1')) return;
+  const hs = new Set(mpTrams.map(t=>t.id)), ht = new Set(mpTrips.map(t=>t.id));
+  MP_SEED_TRAM.stations.forEach(t=>{ if(!hs.has(t.id)) mpTrams.push(Object.assign({}, t)); });
+  MP_SEED_TRAM.trips.forEach(t=>{ if(!ht.has(t.id)) mpTrips.push(Object.assign({src:'sổ tay'}, t)); });
+  mpSave('map_tram', mpTrams); mpSave('map_trip', mpTrips);
+  try{ localStorage.setItem('map_seed_tram_v1','1'); }catch{}
+})();
 const mpMoney = n => (Math.round(+n||0)).toLocaleString('vi-VN')+' đ';
 function mpTramOf(rid){ return mpTrams.filter(t=>(t.routes||[]).includes(rid)); }
-function mpTramTxt(rid){ const l=mpTramOf(rid); return l.length ? `${l.length} trạm · ${mpMoney(l.reduce((a,t)=>a+(+t.fee||0),0))}` : ''; }
+function mpTramTxt(rid){
+  // có chuyến thật trong nhật ký thì báo tiền trạm thực chi (thấp–cao), không thì cộng số tiền mặc định của các trạm gắn vào tuyến
+  const tr = (typeof mpTrips!=='undefined' ? mpTrips : []).filter(t=>t.rid===rid);
+  if(tr.length){ const v = tr.map(t=>(t.items||[]).reduce((a,i)=>a+(i.t?+i.a||0:0),0)), lo=Math.min(...v), hi=Math.max(...v);
+    return `${lo===hi?mpMoney(lo):(lo).toLocaleString('vi-VN')+' – '+mpMoney(hi)} tiền trạm (${tr.length} chuyến)`; }
+  const l=mpTramOf(rid); return l.length ? `${l.length} trạm · ${mpMoney(l.reduce((a,t)=>a+(+t.fee||0),0))}` : ''; }
 function mpTramFeeInput(el){
   const d = el.value.replace(/\D/g,'').replace(/^0+(?=\d)/,'').slice(0,12);
   el.value = d ? (+d).toLocaleString('vi-VN') : '';
@@ -3886,7 +3991,7 @@ function mpRenderTramList(){
   if(!list.length){
     el.innerHTML = `<div class="mp-empty">${rid ? 'Chưa có trạm nào gắn vào tuyến này.' : 'Chưa có trạm. Bấm "Thêm trạm" để ghi tỉnh, sông, tên trạm và số tiền phải chi khi qua.'}</div>`; return;
   }
-  const by = {};
+  const by = {}, S = mpTramStats();
   list.forEach(t=>{ (by[t.prov||'Chưa rõ tỉnh'] = by[t.prov||'Chưa rõ tỉnh'] || []).push(t); });
   const order = MAP.provinces.map(p=>p.name);
   const provs = Object.keys(by).sort((a,b)=>((order.indexOf(a)+1)||99)-((order.indexOf(b)+1)||99) || a.localeCompare(b,'vi'));
@@ -3897,7 +4002,7 @@ function mpRenderTramList(){
       return `<div class="mp-poiitem mp-tramitem" onclick="mpTramClick('${t.id}')">
         <div class="ic">🚧</div>
         <div style="flex:1;min-width:0"><div class="nm">${mpEsc(t.name)}</div>
-        <div class="sb">${mpEsc([t.river, nr?nr+' tuyến':'chưa gắn tuyến', isFinite(t.lat)?'':'chưa có vị trí', t.note].filter(Boolean).join(' · '))}</div></div>
+        <div class="sb">${mpEsc([S[t.id]?'giá '+mpRange(S[t.id])+' ('+S[t.id].n+' lần)':'', t.river, nr?nr+' tuyến':'', isFinite(t.lat)?'':'chưa có vị trí', t.note].filter(Boolean).join(' · '))}</div></div>
         <span class="fee">${mpMoney(t.fee)}</span>
         <button class="btn" style="font-size:13px;padding:5px 9px" onclick="event.stopPropagation();mpOpenTram('${t.id}')">Sửa</button></div>`; }).join('');
   }).join('');
@@ -3976,6 +4081,8 @@ function mpOpenTram(id){
   g('mp-tf-fee').value = t && t.fee ? (+t.fee).toLocaleString('vi-VN') : '';
   g('mp-tf-lat').value = t && isFinite(t.lat) ? t.lat : ''; g('mp-tf-lon').value = t && isFinite(t.lon) ? t.lon : '';
   g('mp-tf-note').value = t?.note||''; g('mp-tf-paste').value = '';
+  const st = t && mpTramStats()[t.id];
+  g('mp-tf-stat').innerHTML = st ? `Theo nhật ký: <b>${mpRange(st)}</b> · thường ${mpNum(st.mode)} · ${st.n} lần qua · ${Object.keys(st.routes).map(mpEsc).join(', ')}` : '';
   g('mp-tf-locbox').open = !!(t && isFinite(t.lat));
   g('mp-tf-del').style.display = t ? '' : 'none';
   // tuyến: mặc định tick tuyến đang chọn trên bản đồ khi thêm mới
@@ -4001,7 +4108,183 @@ function mpDelTram(){
   if(!confirm(`Xóa trạm "${t.name}"?`)) return;
   mpTrams = mpTrams.filter(x=>x.id!==mpTramEdit); mpSave('map_tram', mpTrams); mpCloseModal(); mpTramChanged(); showToast('Đã xóa trạm','ok');
 }
-function mpTramChanged(){ mpRenderTrams(); mpRenderTramList(); mpRouteInfo(); if(g('mp-p-route')?.classList.contains('on')) mpRenderRouteList(); }
+function mpTramChanged(){ mpRenderTrams(); mpRenderTramList(); mpRenderPrice(); mpRenderTrips(); mpRouteInfo(); if(g('mp-p-route')?.classList.contains('on')) mpRenderRouteList(); }
+
+// ── thống kê giá từ nhật ký ──
+const mpNum = n => (Math.round(+n||0)).toLocaleString('vi-VN');
+const mpDateVN = d => d ? d.split('-').reverse().join('/') : 'không ghi ngày';
+function mpTripSum(tr){ let tram=0, khac=0; (tr.items||[]).forEach(i=>{ if(i.t) tram+=+i.a||0; else khac+=+i.a||0; }); return {tram, khac, all:tram+khac}; }
+function mpTramStats(){                     // {mã trạm: {min,max,n,cnt:{giá:lần},routes:{tuyến:lần},last,lastA}}
+  const S = {};
+  mpTrips.forEach(tr=>(tr.items||[]).forEach(i=>{
+    if(!i.t) return;
+    const s = S[i.t] || (S[i.t] = {min:Infinity, max:0, n:0, cnt:{}, routes:{}, last:'', lastA:0});
+    const a = +i.a||0;
+    s.min = Math.min(s.min,a); s.max = Math.max(s.max,a); s.n++; s.cnt[a] = (s.cnt[a]||0)+1;
+    if(tr.r) s.routes[tr.r] = (s.routes[tr.r]||0)+1;
+    if((tr.d||'') >= s.last){ s.last = tr.d||''; s.lastA = a; }
+  }));
+  Object.values(S).forEach(s=>{ s.mode = +Object.keys(s.cnt).sort((a,b)=>s.cnt[b]-s.cnt[a] || b-a)[0]; });
+  return S;
+}
+const mpRange = s => s.min===s.max ? mpMoney(s.min) : `${mpNum(s.min)} – ${mpMoney(s.max)}`;
+function mpTripRoutes(){                    // tuyến chở hàng trong nhật ký, nhiều chuyến xếp trước
+  const c = {}; mpTrips.forEach(t=>{ if(t.r) c[t.r]=(c[t.r]||0)+1; });
+  return Object.keys(c).sort((a,b)=>c[b]-c[a] || a.localeCompare(b,'vi')).map(r=>({r, n:c[r]}));
+}
+function mpTramView(v){
+  v = v || mpTramView.cur || 'list'; mpTramView.cur = v;
+  mpSeg('mp-tr-view', v);
+  ['list','price','log'].forEach(k=>{ g('mp-tr-v-'+k).hidden = k!==v; });
+  if(v==='list') mpRenderTramList(); else if(v==='price') mpRenderPrice(); else mpRenderTrips();
+}
+function mpRtSelect(id, allTxt){
+  const sel = g(id), cur = sel.value, R = mpTripRoutes();
+  sel.innerHTML = `<option value="">${allTxt}</option>` + R.map(x=>`<option value="${mpEsc(x.r)}">${mpEsc(x.r)} (${x.n} chuyến)</option>`).join('');
+  sel.value = R.some(x=>x.r===cur) ? cur : '';
+  return sel.value;
+}
+
+// ── bảng giá từng trạm ──
+function mpRenderPrice(){
+  const el = g('mp-tp-list'); if(!el || g('mp-tr-v-price').hidden) return;
+  const rt = mpRtSelect('mp-tp-rt', 'Tất cả trạm (theo tỉnh)'), S = mpTramStats(), byId = {};
+  mpTrams.forEach(t=>byId[t.id]=t);
+  const card = (t, s, idx, extra) => `<div class="mp-pr" onclick="mpOpenTram('${t.id}')">
+      <div class="hd"><div class="nm">${idx!=null?`<i>${idx}</i>`:''}${mpEsc(t.name)}</div><span class="rg">${s ? mpRange(s) : mpMoney(t.fee)}</span></div>
+      <div class="sb">${s ? `Thường <b>${mpNum(s.mode)}</b> · ${s.n} lần${s.last?` · gần nhất ${mpNum(s.lastA)} (${mpDateVN(s.last)})`:''}` : 'Chưa có trong nhật ký'}${t.prov||t.river?' · '+mpEsc([t.prov,t.river].filter(Boolean).join(', ')):''}${extra||''}</div>
+      ${!rt && s && Object.keys(s.routes).length ? `<div class="mp-chips">${Object.entries(s.routes).sort((a,b)=>b[1]-a[1]).map(([r,n])=>`<span>${mpEsc(r)} ×${n}</span>`).join('')}</div>` : ''}
+    </div>`;
+  if(rt){
+    // tuyến: các trạm theo thứ tự trong sổ (chuyến gần nhất trước), giá theo các chuyến của tuyến này
+    const trips = mpTrips.filter(t=>t.r===rt).sort((a,b)=>(b.d||'').localeCompare(a.d||''));
+    const order = [], seen = new Set(), RS = {};
+    trips.forEach(tr=>(tr.items||[]).forEach(i=>{ if(!i.t) return; if(!seen.has(i.t)){ seen.add(i.t); order.push(i.t); }
+      const s = RS[i.t] || (RS[i.t]={min:Infinity,max:0,n:0,cnt:{},routes:{},last:'',lastA:0}); const a=+i.a||0;
+      s.min=Math.min(s.min,a); s.max=Math.max(s.max,a); s.n++; s.cnt[a]=(s.cnt[a]||0)+1; if((tr.d||'')>=s.last){ s.last=tr.d||''; s.lastA=a; } }));
+    Object.values(RS).forEach(s=>{ s.mode = +Object.keys(s.cnt).sort((a,b)=>s.cnt[b]-s.cnt[a] || b-a)[0]; });
+    const sums = trips.map(t=>mpTripSum(t).tram), lo = Math.min(...sums), hi = Math.max(...sums), avg = sums.reduce((a,b)=>a+b,0)/sums.length;
+    g('mp-tp-sum').innerHTML = `<div class="mp-tram-sum"><span>${trips.length} chuyến · ${order.length} trạm đã đi qua<br>Phí trạm mỗi chuyến ${lo===hi?mpMoney(lo):mpNum(lo)+' – '+mpMoney(hi)}</span><b>TB ${mpMoney(Math.round(avg/1000)*1000)}</b></div>`;
+    el.innerHTML = order.map((id,k)=>{ const t = byId[id] || {id, name:'(trạm đã xóa)', fee:0};
+      return card(t, RS[id], k+1, RS[id].n<trips.length ? ` · <b>${RS[id].n}/${trips.length} chuyến</b>` : ''); }).join('')
+      || '<div class="mp-empty">Tuyến này chưa ghi trạm nào.</div>';
+    return;
+  }
+  g('mp-tp-sum').innerHTML = '';
+  if(!mpTrams.length){ el.innerHTML = '<div class="mp-empty">Chưa có trạm.</div>'; return; }
+  const by = {}; mpTrams.forEach(t=>{ (by[t.prov||'Chưa rõ tỉnh'] = by[t.prov||'Chưa rõ tỉnh'] || []).push(t); });
+  const pord = MAP.provinces.map(p=>p.name);
+  el.innerHTML = Object.keys(by).sort((a,b)=>((pord.indexOf(a)+1)||99)-((pord.indexOf(b)+1)||99) || a.localeCompare(b,'vi')).map(pv=>
+    `<div class="mp-tram-prov"><span>${mpEsc(pv)}</span><span>${by[pv].length} trạm</span></div>` +
+    by[pv].sort((a,b)=>((S[b.id]||{}).n||0)-((S[a.id]||{}).n||0) || a.name.localeCompare(b.name,'vi')).map(t=>card(t, S[t.id])).join('')).join('');
+}
+
+// ── nhật ký chuyến ──
+let mpTripOpen = null, mpTripEdit = null;
+function mpRenderTrips(){
+  const el = g('mp-tl-list'); if(!el || g('mp-tr-v-log').hidden) return;
+  const rt = mpRtSelect('mp-tl-rt', 'Tất cả tuyến'), byId = {};
+  mpTrams.forEach(t=>byId[t.id]=t);
+  const list = mpTrips.filter(t=>!rt || t.r===rt).sort((a,b)=>(b.d||'0').localeCompare(a.d||'0'));
+  const tot = list.reduce((a,t)=>a+mpTripSum(t).tram,0);
+  g('mp-tl-sum').innerHTML = list.length ? `<div class="mp-tram-sum"><span>${list.length} chuyến · tiền qua trạm</span><b>${mpMoney(tot)}</b></div>` : '';
+  if(!list.length){ el.innerHTML = '<div class="mp-empty">Chưa có chuyến nào. Bấm "Thêm chuyến" để ghi các khoản chi qua trạm của một chuyến.</div>'; return; }
+  el.innerHTML = list.map(tr=>{
+    const s = mpTripSum(tr), ntram = (tr.items||[]).filter(i=>i.t).length, open = mpTripOpen===tr.id;
+    const warn = tr.w && tr.w!==s.all ? `<div class="warn">⚠ Sổ ghi ${mpMoney(tr.w)}, cộng lại ${mpMoney(s.all)} – kiểm tra lại</div>` : '';
+    const det = open ? `<table>${(tr.items||[]).map(i=>{ const st = i.t && byId[i.t];
+        const nm = st ? st.name : (i.n||'(không tên)'), sub = st && i.n && !mpNormVi(st.name).includes(mpNormVi(i.n).replace(/^tram /,'')) ? `<small>sổ ghi: ${mpEsc(i.n)}</small>` : '';
+        return `<tr class="${i.t?'':'k'}"><td>${mpEsc(nm)}${sub}</td><td>${mpNum(i.a)}</td></tr>`; }).join('')}
+        <tr class="sum"><td>Tiền qua trạm${s.khac?' + chi khác '+mpNum(s.khac):''}</td><td>${mpNum(s.tram)}${s.khac?' / '+mpNum(s.all):''}</td></tr></table>
+        ${tr.n?`<div class="nt">${mpEsc(tr.n)}</div>`:''}
+        <div class="act"><button class="btn" onclick="mpOpenTrip('${tr.id}')">Sửa</button><button class="btn" onclick="mpOpenTrip(null,'${tr.id}')">Chép thành chuyến mới</button></div>` : '';
+    return `<div class="mp-trip"><div class="hd" onclick="mpTripOpen=mpTripOpen==='${tr.id}'?null:'${tr.id}';mpRenderTrips()">
+        <div class="rt"><span class="dt">${mpDateVN(tr.d)}${tr.b?' · '+mpEsc(tr.b):''}</span>${mpEsc(tr.r||'(chưa ghi tuyến)')}</div>
+        <span class="tt">${mpMoney(s.all)}</span></div>
+      <div class="sb">${[tr.c, ntram+' trạm', s.khac?'chi khác '+mpNum(s.khac):''].filter(Boolean).map(mpEsc).join(' · ')} · ${open?'thu gọn ▴':'xem chi tiết ▾'}</div>${warn}${det}</div>`;
+  }).join('');
+}
+function mpTramOpts(sel){
+  const by = {}; mpTrams.forEach(t=>{ (by[t.prov||'Chưa rõ tỉnh'] = by[t.prov||'Chưa rõ tỉnh'] || []).push(t); });
+  return `<option value="">— chọn trạm —</option>` + Object.keys(by).sort((a,b)=>a.localeCompare(b,'vi')).map(pv=>`<optgroup label="${mpEsc(pv)}">${
+    by[pv].sort((a,b)=>a.name.localeCompare(b.name,'vi')).map(t=>`<option value="${t.id}"${t.id===sel?' selected':''}>${mpEsc(t.name)}</option>`).join('')}</optgroup>`).join('');
+}
+function mpTripRow(it, focus){
+  const box = g('mp-tj-rows'), row = document.createElement('div');
+  row.className = 'mp-trow'; row.dataset.k = it.t || !it.k ? 'tram' : 'khac'; row.dataset.n = it.n||'';
+  row.innerHTML = (row.dataset.k==='tram'
+      ? `<select class="t">${mpTramOpts(it.t)}</select>`
+      : `<input class="n" placeholder="Chi phí khác: bồi dưỡng cập, tài công…" value="${mpEsc(it.n||'')}">`)
+    + `<input class="a" inputmode="numeric" placeholder="Số tiền" value="${it.a?mpNum(it.a):''}"><button type="button" aria-label="Xóa dòng">✕</button>`;
+  const sel = row.querySelector('select.t'), amt = row.querySelector('input.a');
+  amt.oninput = () => { mpTramFeeInput(amt); mpTripTotal(); };
+  if(sel) sel.onchange = () => {            // chọn trạm: điền sẵn số tiền thường gặp nếu chưa nhập
+    row.dataset.n = '';
+    if(!amt.value){ const s = mpTramStats()[sel.value], t = mpTrams.find(x=>x.id===sel.value); const v = s ? s.lastA : t && t.fee; if(v) amt.value = mpNum(v); }
+    mpTripTotal();
+  };
+  row.querySelector('button').onclick = () => { row.remove(); mpTripTotal(); };
+  box.appendChild(row);
+  if(focus){ (sel||row.querySelector('input.n')).focus(); }
+  mpTripTotal();
+}
+function mpTripItems(){
+  return [...g('mp-tj-rows').children].map(r=>{
+    const a = +r.querySelector('input.a').value.replace(/\D/g,'')||0;
+    if(r.dataset.k==='tram'){ const t = r.querySelector('select.t').value, st = mpTrams.find(x=>x.id===t);
+      return t ? {t, n: r.dataset.n || (st?st.name:''), a} : null; }
+    const n = r.querySelector('input.n').value.trim(); return n || a ? {t:'', n: n||'Chi phí khác', a} : null;
+  }).filter(Boolean);
+}
+function mpTripTotal(){
+  const s = mpTripSum({items: mpTripItems()}), w = +g('mp-tj-w').value.replace(/\D/g,'')||0;
+  g('mp-tj-cnt').textContent = g('mp-tj-rows').children.length ? `· ${g('mp-tj-rows').children.length} dòng` : '';
+  g('mp-tj-tot').innerHTML = `Tiền qua trạm: <b>${mpMoney(s.tram)}</b>${s.khac?`<br>Chi khác: ${mpMoney(s.khac)} · Tổng: <b>${mpMoney(s.all)}</b>`:''}`
+    + (w && w!==s.all ? `<br><span class="w">⚠ Sổ ghi ${mpMoney(w)} – lệch ${mpMoney(Math.abs(w-s.all))}</span>` : '');
+}
+function mpOpenTrip(id, copyFrom){
+  mpTripEdit = id || null;
+  const tr = id ? mpTrips.find(x=>x.id===id) : copyFrom ? mpTrips.find(x=>x.id===copyFrom) : null;
+  g('mp-tj-title').textContent = id ? 'Sửa chuyến' : 'Thêm chuyến';
+  g('mp-tj-b').innerHTML = `<option value="">Không ghi / tàu khác</option>` + FLEET.map(c=>`<option value="${c}">${c} · ${LABELS[c]||''}</option>`).join('');
+  g('mp-tj-rs').innerHTML = [...new Set([...mpTripRoutes().map(x=>x.r), ...MP_RT.map(r=>`${r.from} → ${r.to}`)])].map(r=>`<option value="${mpEsc(r)}">`).join('');
+  g('mp-tj-d').value = id && tr ? (tr.d||'') : new Date(Date.now()+7*3600000).toISOString().slice(0,10);
+  g('mp-tj-b').value = tr && FLEET.includes(tr.b) ? tr.b : (id ? '' : (mpSel||''));
+  g('mp-tj-r').value = tr ? (tr.r||'') : ''; g('mp-tj-c').value = tr ? (tr.c||'') : '';
+  g('mp-tj-w').value = id && tr && tr.w ? mpNum(tr.w) : ''; g('mp-tj-n').value = id && tr ? (tr.n||'') : '';
+  g('mp-tj-rows').innerHTML = '';
+  (tr ? tr.items||[] : []).forEach(i=>mpTripRow(i.t ? i : Object.assign({k:1}, i)));
+  if(!tr) mpTripRow({t:''});
+  g('mp-tj-del').style.display = id ? '' : 'none';
+  mpTripTotal();
+  g('mp-m-trip').classList.add('show');
+}
+function mpTripCopyLast(){
+  const r = g('mp-tj-r').value.trim();
+  const prev = mpTrips.filter(t=>t.id!==mpTripEdit && (!r || t.r===r)).sort((a,b)=>(b.d||'').localeCompare(a.d||''))[0];
+  if(!prev){ showToast(r ? 'Chưa có chuyến nào cùng tuyến này' : 'Nhập tuyến trước','warn'); return; }
+  if(!r) g('mp-tj-r').value = prev.r||'';
+  if(!g('mp-tj-c').value) g('mp-tj-c').value = prev.c||'';
+  g('mp-tj-rows').innerHTML = '';
+  (prev.items||[]).forEach(i=>mpTripRow(i.t ? i : Object.assign({k:1}, i)));
+  showToast(`Đã điền ${prev.items.length} khoản theo chuyến ${mpDateVN(prev.d)} – sửa số tiền nếu khác`,'ok');
+}
+function mpSaveTrip(){
+  const items = mpTripItems();
+  if(!items.length){ showToast('Chưa có khoản chi nào','warn'); return; }
+  if([...g('mp-tj-rows').querySelectorAll('select.t')].some(s=>!s.value)){ showToast('Còn dòng chưa chọn trạm – chọn trạm hoặc xóa dòng đó','warn'); return; }
+  const o = {d: g('mp-tj-d').value, b: g('mp-tj-b').value, r: g('mp-tj-r').value.trim(), c: g('mp-tj-c').value.trim(),
+    w: +g('mp-tj-w').value.replace(/\D/g,'') || null, n: g('mp-tj-n').value.trim(), items};
+  const rr = MP_RT.find(r=>`${r.from} → ${r.to}`===o.r); if(rr) o.rid = rr.id;
+  if(mpTripEdit) Object.assign(mpTrips.find(x=>x.id===mpTripEdit), o);
+  else { o.id = 'nk'+Date.now().toString(36); mpTrips.push(o); mpTripOpen = o.id; }
+  mpSave('map_trip', mpTrips); mpCloseModal(); mpTramChanged(); showToast('✅ Đã lưu chuyến','ok');
+}
+function mpDelTrip(){
+  const t = mpTrips.find(x=>x.id===mpTripEdit); if(!t) return;
+  if(!confirm(`Xóa chuyến "${t.r||''}" ${mpDateVN(t.d)}?`)) return;
+  mpTrips = mpTrips.filter(x=>x.id!==mpTripEdit); mpSave('map_trip', mpTrips); mpCloseModal(); mpTramChanged(); showToast('Đã xóa chuyến','ok');
+}
 
 // ═══ TRỢ LÝ AI (Gemini / Claude / GPT qua api/ai) ═══
 // Máy chủ api/ai.js giữ khóa API và chạy các công cụ: tìm địa điểm thật trên OpenStreetMap (dọc tuyến hoặc quanh điểm),
@@ -4113,7 +4396,10 @@ function mpAiCtx(){
     selectedRoute: mpRt||'', selectedBarge: mpSel||'',
     barges: FLEET.map(c=>{ const p=mpPos[c]; return p ? {code:c, label:LABELS[c]||'', lat:p.lat, lon:p.lon, status:(MP_ST[p.status]||{}).t, ago:mpAgo(p.ts)} : {code:c, label:LABELS[c]||''}; }),
     pois: mpPois.map(p=>({name:p.name, type:(MP_POI[p.type]||MP_POI.other).t, lat:p.lat, lon:p.lon})),
-    stations: mpTrams.map(t=>({prov:t.prov, river:t.river, name:t.name, fee:t.fee, routes:t.routes||[], note:t.note||'', lat:t.lat, lon:t.lon})),
+    stations: (()=>{ const S = mpTramStats(); return mpTrams.map(t=>({prov:t.prov, river:t.river, name:t.name, fee:t.fee, routes:t.routes||[], note:t.note||'', lat:t.lat, lon:t.lon,
+      min:S[t.id]?S[t.id].min:undefined, max:S[t.id]?S[t.id].max:undefined, seen:S[t.id]?S[t.id].n:0, tripRoutes:S[t.id]?Object.keys(S[t.id].routes):[]})); })(),
+    trips: mpTrips.slice().sort((a,b)=>(b.d||'').localeCompare(a.d||'')).slice(0,40).map(t=>{ const s = mpTripSum(t);
+      return {d:t.d, r:t.r, b:t.b, c:t.c, tram:s.tram, khac:s.khac, stations:(t.items||[]).filter(i=>i.t).length}; }),
     center: mpAiCenter(), speed: mpCfg.spd,
   };
 }
@@ -4210,7 +4496,7 @@ function openMap(code){
 function mpTab(t){
   document.querySelectorAll('.mp-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
   ['fleet','route','tide','poi','tram','ai','api'].forEach(k=>g('mp-p-'+k).classList.toggle('on',k===t));
-  if(t==='tram'){ mpLoadWater().then(()=>mpRenderTramList()); mpRenderTramList(); }
+  if(t==='tram'){ mpLoadWater().then(()=>mpTramView()); mpTramView(); }
   if(t==='ai') mpAiOpen();
   if(t==='api') mpFillCfg();
   if(t==='route') mpRenderRouteList();

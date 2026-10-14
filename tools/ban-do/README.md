@@ -7,7 +7,7 @@ trong app có ghi nguồn "© OpenStreetMap"). File `map-data.json` ở thư m�
 - nhãn tên sông, luồng biển (Gành Rái, ven biển, ra Phú Quốc – OSM không có, vẽ thêm),
 - đất Campuchia/Thái Lan và đường biên giới (Natural Earth), tên cửa sông, Biển Đông, Vịnh Thái Lan,
 - mạng tuyến gộp (vẽ nét đứt) và điểm đầu/cuối tuyến,
-- 33 tuyến vận chuyển tính đường ngắn nhất trên mạng sông OSM (ưu tiên sông lớn, kênh chính).
+- 37 tuyến vận chuyển tính đường ngắn nhất trên mạng sông OSM (ưu tiên sông lớn, kênh chính), trong đó 4 tuyến theo nhật ký chở hàng: gạch Mang Thít → Cần Giờ, đá Vũng Tàu → Cái Sắn, Bình Dương / Biên Hòa → Đức Hòa.
 
 ## Cập nhật khi OSM có dữ liệu mới
 

@@ -231,11 +231,18 @@ N = {
  'CHAUDOC': ((105.130,10.710),'Sông Hậu'), 'VINHTE': ((104.850,10.520),'Kênh Vĩnh Tế'), 'KIENTUONG': ((105.925,10.775),'Sông Vàm Cỏ Tây'),
  'CAICON': ((105.850,9.880),'Kinh Cái Côn'), 'QLPH': ((105.600,9.560),'Kênh Quản Lộ - Phụng Hiệp'), 'CAMAU': ((105.150,9.180),'Sông Quản Lộ|Kênh Quản Lộ - Phụng Hiệp'),
  'SOCTRANG': ((105.980,9.603),''), 'HAUSOC': ((106.10,9.70),'Sông Hậu'),
+ # tuyến theo nhật ký chở hàng (sổ tay của chủ tàu, 2025–2026)
+ 'GACHVL': ((106.100,10.160),'Sông Mang Thít'), 'VAMSAT': ((106.775,10.525),'Sông Vàm Sát'),
+ 'CANGIO': ((106.865,10.425),'Vịnh Đồng Tranh'), 'SADEC': ((105.700,10.310),'Sông Sa Đéc'),
+ 'CAISAN': ((105.420,10.250),'Kênh Cái Sắn'), 'DUCHOA': ((106.400,10.900),'Sông Vàm Cỏ Đông'),
+ 'BINHDUONG': ((106.860,11.030),'Sông Đồng Nai'),
 }
 LBL = {'VX':'Vĩnh Xương','BIENHOA':'Biên Hòa','CATLAI':'Nhơn Trạch – Phú Hữu','GODAU':'Gò Dầu – Long Thành','PHUMY':'Phú Mỹ – Cái Mép',
  'VUNGTAU':'Vũng Tàu (sông Dinh)','BARIA':'Bà Rịa','TANAN':'Tân An','BENLUC':'Bến Lức','LAPORT':'Cảng Long An','CANGIUOC':'Cần Giuộc',
  'SAIGON':'TP.HCM (Tân Thuận)','TDM':'Thủ Dầu Một','VINHLONG':'TP. Vĩnh Long','TRAVINH':'Trà Vinh','BENTRE':'Bến Tre','CANTHO':'Cần Thơ',
- 'RACHGIA':'Rạch Giá','HATIEN':'Hà Tiên','BAIVONG':'Phú Quốc (Bãi Vòng)','CAMAU':'Cà Mau','MYTHO':'Mỹ Tho','SOCTRANG':'Sóc Trăng (cảng nhà)'}
+ 'RACHGIA':'Rạch Giá','HATIEN':'Hà Tiên','BAIVONG':'Phú Quốc (Bãi Vòng)','CAMAU':'Cà Mau','MYTHO':'Mỹ Tho','SOCTRANG':'Sóc Trăng (cảng nhà)',
+ 'GACHVL':'Lò gạch Mang Thít (Vĩnh Long)','CANGIO':'Cần Giờ (Vịnh Đồng Tranh)','CAISAN':'Cái Sắn','DUCHOA':'Đức Hòa (Vàm Cỏ Đông)',
+ 'BINHDUONG':'Bình Dương (Tân Uyên)'}
 SNAP = {k: snap(p, h) for k, (p, h) in N.items()}
 VXH = ['VX','MYTHO','CHOGAO','VAMCO','SOAIRAP','NHABE']
 GR = 'Qua vịnh Gành Rái – kiểm tra cấp sà lan trước khi chạy.'
@@ -262,6 +269,10 @@ ROUTES = [
  ('st-vungtau','Sóc Trăng', ['VUNGTAU','GRBAY','LONGTAU','NHABE','SOAIRAP','VAMCO','CHOGAO','MYTHO','VINHLONG','MANGTHIT','TRAON','HAUSOC','SOCTRANG'], GR),
  ('st-vungtau-bien','Sóc Trăng', ['VUNGTAU','SOAIMOUTH','VAMCO','CHOGAO','MYTHO','VINHLONG','MANGTHIT','TRAON','HAUSOC','SOCTRANG'], 'Đi biển ven bờ Vũng Tàu – cửa Soài Rạp – cần sà lan đăng kiểm VR-SB.'),
  ('st-cantho','Sóc Trăng', ['CANTHO','HAUSOC','SOCTRANG'], ''),
+ ('hcm-cangio','TP.HCM', ['GACHVL','MYTHO','CHOGAO','VAMCO','SOAIRAP','CANGIO'], 'Tuyến chở gạch theo nhật ký (vào Cần Giờ qua sông Lòng Tàu, Dinh Bà).'),
+ ('mt-caisan','Miền Tây', ['VUNGTAU','PHUMY','GODAU','NHABE','SOAIRAP','VAMCO','CHOGAO','MYTHO','CAISAN'], 'Tuyến chở đá theo nhật ký (qua Cái Mép, Gò Dầu).'),
+ ('la-duchoa-bd','Long An', ['BINHDUONG','BIENHOA','CATLAI','SAIGON','KENHTE','BENLUC','DUCHOA'], 'Tuyến chở đá theo nhật ký (qua Bến Lức).'),
+ ('la-duchoa-dn','Long An', ['BIENHOA','CATLAI','SAIGON','KENHTE','BENLUC','DUCHOA'], 'Tuyến chở đá theo nhật ký (qua Bến Lức).'),
  ('hcm-tanthuan','TP.HCM', ['VX','MYTHO','CHOGAO','VAMCO','CANGIUOC','KENHTE','SAIGON'], ''),
  ('hcm-tdm','TP.HCM', VXH+['SAIGON','TDM'], ''),
  ('hcm-cantho','TP.HCM', ['CANTHO','TRAON','MANGTHIT','VINHLONG','MYTHO','CHOGAO','VAMCO','CANGIUOC','KENHTE','SAIGON'], ''),
