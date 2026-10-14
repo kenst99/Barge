@@ -686,6 +686,23 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
 #s-map .mp-locbtns button{border-color:rgba(31,120,180,.5);color:var(--pp-blue);}
 #s-map .mp-tidest a{color:var(--pp-blue);border-color:var(--pp-line);background:#fff;border-radius:99px;}
 #s-map .mp-tidesub b{color:#b7791f;}
+/* trạm thu tiền */
+#s-map .mp-tram-sum{display:flex;align-items:baseline;justify-content:space-between;gap:10px;background:#fdf1e0;border:1px solid #f0d9b8;border-radius:12px;padding:10px 13px;margin-bottom:10px;color:var(--pp-ink2);font-size:13.5px;}
+#s-map .mp-tram-sum b{font-size:17px;color:#9a3b22;white-space:nowrap;}
+#s-map .mp-tram-prov{display:flex;justify-content:space-between;font-family:var(--pp-mono);font-weight:600;font-size:10.5px;letter-spacing:.16em;color:#b19a7e;margin:14px 2px 6px;text-transform:uppercase;}
+#s-map .mp-tram-prov span:last-child{letter-spacing:.02em;color:#9a3b22;}
+#s-map .mp-tramitem .fee{font-weight:800;color:#9a3b22;white-space:nowrap;font-size:14px;}
+#s-map .mp-tramitem .ic{background:#b54a3a;}
+#s-map .mp-rt .nt.tr{color:#9a3b22;}
+.mp-tf-rts{max-height:180px;overflow-y:auto;border:1px solid var(--border);padding:4px 10px;background:#0e1117;}
+.mp-f .mp-tf-rts label{display:flex;gap:9px;align-items:flex-start;font-size:14px;padding:6px 0;margin:0;color:#e2e8f0;cursor:pointer;font-weight:500;text-transform:none;letter-spacing:0;}
+.mp-tf-rts label input{width:18px;height:18px;margin:1px 0 0;flex:0 0 auto;accent-color:#e8a020;}
+.mp-tf-rts .grp{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#94a3b8;margin:9px 0 1px;}
+.mp-tf-cnt{font-weight:500;color:#e8a020;text-transform:none;letter-spacing:0;}
+.mp-tf-loc{margin:4px 0 12px;}
+.mp-tf-loc summary{cursor:pointer;font-size:14px;color:#38bdf8;font-weight:600;padding:6px 0;}
+#s-map .mp-trmk .lbl{fill:#9a3b22;font-size:10px;font-weight:700;}
+
 /* trợ lý AI */
 #mp-p-ai.on{display:flex;flex-direction:column;min-height:100%;}
 .mp-ai-top{display:flex;align-items:center;gap:6px;margin-bottom:10px;}
@@ -1292,6 +1309,7 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
       <div class="r"><span class="sw sq" style="background:#c17f4e"></span>Sửa chữa</div>
       <div class="r"><span class="sw sq" style="background:#3f8ea3"></span>Cảng giao nhận</div>
       <div class="r"><span class="sw sq" style="background:#8b7bb0"></span>Khác</div>
+      <div class="r"><span class="sw sq" style="background:#b54a3a"></span>Trạm thu tiền</div>
       <div class="r"><span class="ic"><svg width="12" height="12"><circle cx="6" cy="6" r="4" fill="#fff" stroke="#1f78b4" stroke-width="1.6"/></svg></span>Tỉnh / thành</div>
       <div class="r"><span class="ic"><svg width="12" height="12"><circle cx="6" cy="6" r="4" fill="#c45a3c"/></svg></span>Cảng nhà</div>
       <div class="r"><span class="ic"><svg width="26" height="6"><path d="M1 3H25" stroke="#1f78b4" stroke-width="2.2" stroke-dasharray="6 3.5"/></svg></span>Tuyến đường sông</div>
@@ -1322,6 +1340,7 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
       <button data-t="route" onclick="mpTab('route')">🛳 Tuyến</button>
       <button data-t="tide" onclick="mpTab('tide')">🌊 Nước</button>
       <button data-t="poi" onclick="mpTab('poi')">📍 Địa điểm</button>
+      <button data-t="tram" onclick="mpTab('tram')">🚧 Trạm</button>
       <button data-t="ai" onclick="mpTab('ai')">🤖 AI</button>
       <button data-t="api" onclick="mpTab('api')">📡 Kết nối</button>
     </div>
@@ -1367,6 +1386,17 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
           <button class="btn pri" onclick="mpOpenPoi(null,'port')">➕ Thêm địa điểm</button>
         </div>
         <div id="mp-poilist"></div>
+      </div>
+
+      <!-- TRẠM THU TIỀN / CẢNG VỤ -->
+      <div class="mp-pane" id="mp-p-tram">
+        <div class="mp-toolbar">
+          <button class="btn pri" onclick="mpOpenTram(null)">➕ Thêm trạm</button>
+          <select id="mp-tr-rt" onchange="mpRenderTramList()" title="Lọc theo tuyến"></select>
+        </div>
+        <div id="mp-tr-sum"></div>
+        <div id="mp-tramlist"></div>
+        <div class="mp-f"><div class="hint">Trạm kiểm soát, cảng vụ, đồn biên phòng… nơi sà lan phải ghé và chi tiền khi đi qua. Gắn trạm vào tuyến để biết mỗi chuyến tốn bao nhiêu tiền qua trạm. Trạm có tọa độ sẽ hiện trên bản đồ.</div></div>
       </div>
 
       <!-- TRỢ LÝ AI -->
@@ -1520,6 +1550,45 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
 </div>
 
 <!-- Form địa điểm -->
+<div class="mp-modal" id="mp-m-tram" onclick="if(event.target===this)mpCloseModal()">
+  <div class="mp-mbox">
+    <h3><span id="mp-tf-title">Thêm trạm</span><button onclick="mpCloseModal()">✕</button></h3>
+    <div class="mp-row">
+      <div class="mp-f"><label>Tỉnh / thành</label><input id="mp-tf-prov" list="mp-tf-provs" placeholder="VD: Vĩnh Long" autocomplete="off"><datalist id="mp-tf-provs"></datalist></div>
+      <div class="mp-f"><label>Sông / kênh</label><input id="mp-tf-river" list="mp-tf-rivers" placeholder="VD: Sông Tiền" autocomplete="off" onchange="mpTramSuggestRoutes(false)"><datalist id="mp-tf-rivers"></datalist></div>
+    </div>
+    <div class="mp-f"><label>Tên trạm</label><input id="mp-tf-name" placeholder="VD: Trạm CSGT đường thủy Mỹ Thuận"></div>
+    <div class="mp-f"><label>Số tiền mỗi lần qua (đồng)</label>
+      <input id="mp-tf-fee" inputmode="numeric" placeholder="VD: 200.000" oninput="mpTramFeeInput(this)">
+    </div>
+    <div class="mp-f"><label>Áp dụng cho tuyến <span class="mp-tf-cnt" id="mp-tf-cnt"></span></label>
+      <div class="mp-tf-rts" id="mp-tf-rts"></div>
+      <div class="hint">Tick các tuyến đi ngang trạm này. Nhập sông hoặc vị trí thì app tự gợi ý.</div>
+    </div>
+    <details class="mp-tf-loc" id="mp-tf-locbox">
+      <summary>📍 Vị trí trên bản đồ (tùy chọn)</summary>
+      <div class="mp-locbtns">
+        <button onclick="mpPickOnMap('tram')">🗺️ Chọn trên bản đồ</button>
+        <button onclick="mpUseGPS('mp-tf');setTimeout(mpTramLocChanged,1500)">🛰️ GPS máy này</button>
+      </div>
+      <div class="mp-f"><label>Dán tọa độ hoặc link Google Maps</label>
+        <input id="mp-tf-paste" placeholder="Link Google Maps hoặc 10.27, 105.91" oninput="mpParsePaste(this.value,'mp-tf');setTimeout(mpTramLocChanged,50)">
+        <div class="hint" id="mp-tf-paste-h">Có vị trí thì app tự điền tỉnh và gợi ý tuyến đi qua.</div>
+      </div>
+      <div class="mp-row">
+        <div class="mp-f"><label>Vĩ độ</label><input id="mp-tf-lat" inputmode="decimal" onchange="mpTramLocChanged()"></div>
+        <div class="mp-f"><label>Kinh độ</label><input id="mp-tf-lon" inputmode="decimal" onchange="mpTramLocChanged()"></div>
+      </div>
+    </details>
+    <div class="mp-f"><label>Ghi chú</label><textarea id="mp-tf-note" placeholder="VD: thu theo tấn, mức phạt thường gặp, giờ làm việc, số điện thoại…"></textarea></div>
+    <div class="mp-mact">
+      <button class="btn" id="mp-tf-del" style="border-color:#dc2626;color:#dc2626" onclick="mpDelTram()">Xóa</button>
+      <button class="btn" onclick="mpCloseModal()">Hủy</button>
+      <button class="btn pri" onclick="mpSaveTram()">💾 Lưu</button>
+    </div>
+  </div>
+</div>
+
 <div class="mp-modal" id="mp-m-poi" onclick="if(event.target===this)mpCloseModal()">
   <div class="mp-mbox">
     <h3><span id="mp-pi-title">Địa điểm</span><button onclick="mpCloseModal()">✕</button></h3>
@@ -3399,6 +3468,7 @@ function mpBuild(){
   MAP.cities.forEach(c=>{ const big=BIG.has(c.name), k=mpEl('g',{class:'mp-lbl'+(big?'':' minor'),'data-x':c.x,'data-y':c.y,'data-k':'c'},gc);
     mpEl('circle',{cx:0,cy:0,r:2,class:'mp-city'},k); mpEl('text',{x:4.5,y:3.2,class:'mp-citylbl'+(big?' b':'')},k).textContent=c.name; });
   mpEl('g',{id:'mp-g-trail'},svg2);
+  mpEl('g',{id:'mp-g-tram'},svg2);
   mpEl('g',{id:'mp-g-poi'},svg2);
   mpEl('g',{id:'mp-g-ai'},svg2);
   mpEl('g',{id:'mp-g-barge'},svg2);
@@ -3551,7 +3621,7 @@ function mpScaleMarkers(){
 }
 
 function mpRenderAll(animate){
-  if(mpBuilt){ mpRenderRoutes(); mpRenderTrails(); mpRenderPois(); mpRenderAiMarks(); mpRenderBarges(animate); mpPopPos(); }
+  if(mpBuilt){ mpRenderRoutes(); mpRenderTrails(); mpRenderTrams(); mpRenderPois(); mpRenderAiMarks(); mpRenderBarges(animate); mpPopPos(); }
   mpRenderFleet(); mpRenderPoiList(); mpRenderHomeLive();
 }
 
@@ -3785,6 +3855,154 @@ function mpPoiClick(id){
   if(innerWidth<=900) { g('mp-side').classList.add('min'); setTimeout(mpResize,280); }
 }
 
+// ═══ TRẠM THU TIỀN / CẢNG VỤ (phí "qua trạm") ═══
+// Mỗi trạm: tỉnh, sông/kênh, tên, số tiền mỗi lần qua, các tuyến đi ngang (để cộng tiền theo tuyến), vị trí (tùy chọn).
+let mpTrams = mpLoad('map_tram', []);       // [{id,prov,river,name,fee,routes:[],lat,lon,note}]
+let mpTramEdit = null;
+const mpMoney = n => (Math.round(+n||0)).toLocaleString('vi-VN')+' đ';
+function mpTramOf(rid){ return mpTrams.filter(t=>(t.routes||[]).includes(rid)); }
+function mpTramTxt(rid){ const l=mpTramOf(rid); return l.length ? `${l.length} trạm · ${mpMoney(l.reduce((a,t)=>a+(+t.fee||0),0))}` : ''; }
+function mpTramFeeInput(el){
+  const d = el.value.replace(/\D/g,'').replace(/^0+(?=\d)/,'').slice(0,12);
+  el.value = d ? (+d).toLocaleString('vi-VN') : '';
+}
+function mpProvAt(lat, lon){                // tỉnh chứa điểm (dùng chính đường ranh trên bản đồ)
+  if(!mpBuilt || !isFinite(lat) || !isFinite(lon)) return '';
+  const [x,y] = mpXY(lon,lat), pt = new DOMPoint(x,y);
+  const paths = document.querySelectorAll('#mp-svg .mp-prov');
+  for(let i=0;i<paths.length;i++){ try{ if(paths[i].isPointInFill(pt)) return MAP.provinces[i].name; }catch{ return ''; } }
+  return '';
+}
+function mpTramRtLabel(r){ return `${r.from} → ${r.to}`; }
+function mpRenderTramList(){
+  const el = g('mp-tramlist'); if(!el) return;
+  // bộ lọc tuyến
+  const sel = g('mp-tr-rt'), cur = sel.value;
+  sel.innerHTML = `<option value="">Tất cả trạm</option>` + MP_RT.map(r=>`<option value="${r.id}">${mpEsc(mpTramRtLabel(r))}</option>`).join('');
+  sel.value = MP_RT.some(r=>r.id===cur) ? cur : '';
+  const rid = sel.value, list = rid ? mpTramOf(rid) : mpTrams.slice();
+  const total = list.reduce((a,t)=>a+(+t.fee||0),0), r = MP_RT.find(x=>x.id===rid);
+  g('mp-tr-sum').innerHTML = mpTrams.length ? `<div class="mp-tram-sum"><span>${r ? `Đi tuyến <b style="font-size:inherit;color:var(--pp-ink)">${mpEsc(mpTramRtLabel(r))}</b>: ${list.length} trạm` : `${list.length} trạm đã lưu`}</span><b>${mpMoney(total)}</b></div>` : '';
+  if(!list.length){
+    el.innerHTML = `<div class="mp-empty">${rid ? 'Chưa có trạm nào gắn vào tuyến này.' : 'Chưa có trạm. Bấm "Thêm trạm" để ghi tỉnh, sông, tên trạm và số tiền phải chi khi qua.'}</div>`; return;
+  }
+  const by = {};
+  list.forEach(t=>{ (by[t.prov||'Chưa rõ tỉnh'] = by[t.prov||'Chưa rõ tỉnh'] || []).push(t); });
+  const order = MAP.provinces.map(p=>p.name);
+  const provs = Object.keys(by).sort((a,b)=>((order.indexOf(a)+1)||99)-((order.indexOf(b)+1)||99) || a.localeCompare(b,'vi'));
+  el.innerHTML = provs.map(pv=>{
+    const ts = by[pv], sub = ts.reduce((a,t)=>a+(+t.fee||0),0);
+    return `<div class="mp-tram-prov"><span>${mpEsc(pv)}</span><span>${mpMoney(sub)}</span></div>` + ts.map(t=>{
+      const nr = (t.routes||[]).length;
+      return `<div class="mp-poiitem mp-tramitem" onclick="mpTramClick('${t.id}')">
+        <div class="ic">🚧</div>
+        <div style="flex:1;min-width:0"><div class="nm">${mpEsc(t.name)}</div>
+        <div class="sb">${mpEsc([t.river, nr?nr+' tuyến':'chưa gắn tuyến', isFinite(t.lat)?'':'chưa có vị trí', t.note].filter(Boolean).join(' · '))}</div></div>
+        <span class="fee">${mpMoney(t.fee)}</span>
+        <button class="btn" style="font-size:13px;padding:5px 9px" onclick="event.stopPropagation();mpOpenTram('${t.id}')">Sửa</button></div>`; }).join('');
+  }).join('');
+}
+function mpTramClick(id){
+  const t = mpTrams.find(x=>x.id===id); if(!t) return;
+  if(!isFinite(t.lat) || !isFinite(t.lon)){ mpOpenTram(id); return; }
+  const [x,y]=mpXY(t.lon,t.lat), w=mpWrap(); vs=Math.max(vs,3);
+  vx=w.clientWidth/2-x*vs; vy=w.clientHeight/2-y*vs; mpTouched=true; mpApply();
+  if(innerWidth<=900){ g('mp-side').classList.add('min'); setTimeout(mpResize,280); }
+}
+function mpRenderTrams(){
+  const gr = g('mp-g-tram'); if(!gr) return;
+  gr.innerHTML = '';
+  mpTrams.forEach(t=>{
+    if(!isFinite(t.lat) || !isFinite(t.lon)) return;
+    const [x,y] = mpXY(t.lon,t.lat);
+    const el = mpEl('g',{class:'mp-mk mp-poi mp-trmk','data-x':x,'data-y':y},gr);
+    el.innerHTML = `<path d="M0 -21 L10 -11 L0 -1 L-10 -11 Z" fill="#b54a3a" stroke="#fffdf8" stroke-width="1.6"></path>
+      <text x="0" y="-7.5" text-anchor="middle" font-size="9.5">🚧</text>
+      <text class="lbl" x="0" y="12" text-anchor="middle">${mpEsc(t.name)} · ${mpEsc(mpMoney(t.fee))}</text>`;
+    el.addEventListener('click',e=>{ e.stopPropagation(); if(mpMoved) return; mpOpenTram(t.id); });
+  });
+  mpScaleMarkers();
+}
+function mpTramRoutesUI(checked){
+  const box = g('mp-tf-rts'); let html='', grp='';
+  MP_RT.forEach(r=>{
+    if(r.grp!==grp){ grp=r.grp; html+=`<div class="grp">${mpEsc(grp.toUpperCase())}</div>`; }
+    html += `<label><input type="checkbox" value="${r.id}" ${checked.includes(r.id)?'checked':''} onchange="mpTramCnt()"><span>${mpEsc(mpTramRtLabel(r))}</span></label>`;
+  });
+  box.innerHTML = html || '<div class="hint" style="padding:8px 0">⏳ Đang tải danh sách tuyến…</div>';
+  mpTramCnt();
+}
+function mpTramCnt(){ const n = g('mp-tf-rts').querySelectorAll('input:checked').length; g('mp-tf-cnt').textContent = n ? `· đã chọn ${n}` : ''; }
+function mpTramChecked(){ return [...g('mp-tf-rts').querySelectorAll('input:checked')].map(i=>i.value); }
+function mpTramSuggestRoutes(fromLoc){
+  // chỉ gợi ý khi chưa tick tuyến nào, để không ghi đè lựa chọn của người dùng
+  if(mpTramChecked().length) return;
+  let ids = [];
+  const lat = parseFloat(String(g('mp-tf-lat').value).replace(',','.')), lon = parseFloat(String(g('mp-tf-lon').value).replace(',','.'));
+  if(isFinite(lat) && isFinite(lon)){
+    const [x,y] = mpXY(lon,lat), tol = 2/ mpKm(mpLL(0,0).reverse(), mpLL(1,0).reverse());   // 2 km theo đơn vị bản đồ
+    ids = MP_RT.filter(r=>(r.pts||[]).some((p,i,a)=>{ if(!i) return false; return mpSegDist(x,y,a[i-1],p) <= tol; })).map(r=>r.id);
+  }
+  if(!ids.length && !fromLoc){
+    const rv = mpNormVi(g('mp-tf-river').value.trim());
+    if(rv.length>=4) ids = MP_RT.filter(r=>mpNormVi(r.via).includes(rv)).map(r=>r.id);
+    if(ids.length>6){ showToast(`${ids.length} tuyến đi qua sông này – chọn vị trí trạm để gợi ý đúng hơn, hoặc tick tay`,'ok'); return; }
+  }
+  if(ids.length){ g('mp-tf-rts').querySelectorAll('input').forEach(i=>{ i.checked = ids.includes(i.value); }); mpTramCnt();
+    showToast(`Gợi ý ${ids.length} tuyến đi qua – kiểm tra lại trước khi lưu`,'ok'); }
+}
+function mpSegDist(x,y,a,b){
+  const dx=b[0]-a[0], dy=b[1]-a[1], l2=dx*dx+dy*dy;
+  const t = l2 ? Math.max(0,Math.min(1,((x-a[0])*dx+(y-a[1])*dy)/l2)) : 0;
+  return Math.hypot(x-a[0]-t*dx, y-a[1]-t*dy);
+}
+function mpTramLocChanged(){
+  const lat = parseFloat(String(g('mp-tf-lat').value).replace(',','.')), lon = parseFloat(String(g('mp-tf-lon').value).replace(',','.'));
+  if(!isFinite(lat) || !isFinite(lon)) return;
+  const pv = mpProvAt(lat,lon); if(pv && !g('mp-tf-prov').value.trim()) g('mp-tf-prov').value = pv;
+  mpTramSuggestRoutes(true);
+}
+function mpOpenTram(id){
+  if(!mpBuilt){ mpBuild(); mpInitPointer(); }
+  mpTramEdit = id||null;
+  const t = id ? mpTrams.find(x=>x.id===id) : null;
+  g('mp-tf-title').textContent = t ? 'Sửa trạm' : 'Thêm trạm';
+  const provs = new Set([...MAP.provinces.map(p=>p.name), ...mpTrams.map(x=>x.prov).filter(Boolean)]);
+  g('mp-tf-provs').innerHTML = [...provs].map(v=>`<option value="${mpEsc(v)}">`).join('');
+  const rivers = new Set(mpTrams.map(x=>x.river).filter(Boolean));
+  MP_RT.forEach(r=>String(r.via||'').split('→').forEach(v=>{ v=v.trim(); if(v) rivers.add(v); }));
+  g('mp-tf-rivers').innerHTML = [...rivers].sort((a,b)=>a.localeCompare(b,'vi')).map(v=>`<option value="${mpEsc(v)}">`).join('');
+  g('mp-tf-prov').value = t?.prov||''; g('mp-tf-river').value = t?.river||''; g('mp-tf-name').value = t?.name||'';
+  g('mp-tf-fee').value = t && t.fee ? (+t.fee).toLocaleString('vi-VN') : '';
+  g('mp-tf-lat').value = t && isFinite(t.lat) ? t.lat : ''; g('mp-tf-lon').value = t && isFinite(t.lon) ? t.lon : '';
+  g('mp-tf-note').value = t?.note||''; g('mp-tf-paste').value = '';
+  g('mp-tf-locbox').open = !!(t && isFinite(t.lat));
+  g('mp-tf-del').style.display = t ? '' : 'none';
+  // tuyến: mặc định tick tuyến đang chọn trên bản đồ khi thêm mới
+  mpTramRoutesUI(t ? (t.routes||[]) : (mpRt ? [mpRt] : []));
+  if(!MP_RT.length) mpLoadWater().then(()=>{ if(g('mp-m-tram').classList.contains('show')) mpTramRoutesUI(mpTramChecked()); });
+  g('mp-m-tram').classList.add('show');
+}
+function mpSaveTram(){
+  const name = g('mp-tf-name').value.trim(), prov = g('mp-tf-prov').value.trim(), river = g('mp-tf-river').value.trim();
+  const fee = +g('mp-tf-fee').value.replace(/\D/g,'');
+  if(!name){ showToast('Nhập tên trạm','warn'); return; }
+  if(!prov){ showToast('Nhập tỉnh của trạm','warn'); return; }
+  if(!g('mp-tf-fee').value.trim()){ showToast('Nhập số tiền (0 nếu không mất tiền)','warn'); return; }
+  const lat = parseFloat(String(g('mp-tf-lat').value).replace(',','.')), lon = parseFloat(String(g('mp-tf-lon').value).replace(',','.'));
+  const o = {prov, river, name, fee, routes: mpTramChecked(), note: g('mp-tf-note').value.trim(),
+    lat: isFinite(lat)&&isFinite(lon) ? lat : null, lon: isFinite(lat)&&isFinite(lon) ? lon : null};
+  if(mpTramEdit) Object.assign(mpTrams.find(x=>x.id===mpTramEdit), o);
+  else mpTrams.push(Object.assign({id:'t'+Date.now().toString(36)}, o));
+  mpSave('map_tram', mpTrams); mpCloseModal(); mpTramChanged(); showToast('✅ Đã lưu trạm','ok');
+}
+function mpDelTram(){
+  const t = mpTrams.find(x=>x.id===mpTramEdit); if(!t) return;
+  if(!confirm(`Xóa trạm "${t.name}"?`)) return;
+  mpTrams = mpTrams.filter(x=>x.id!==mpTramEdit); mpSave('map_tram', mpTrams); mpCloseModal(); mpTramChanged(); showToast('Đã xóa trạm','ok');
+}
+function mpTramChanged(){ mpRenderTrams(); mpRenderTramList(); mpRouteInfo(); if(g('mp-p-route')?.classList.contains('on')) mpRenderRouteList(); }
+
 // ═══ TRỢ LÝ AI (Gemini / Claude / GPT qua api/ai) ═══
 // Máy chủ api/ai.js giữ khóa API và chạy các công cụ: tìm địa điểm thật trên OpenStreetMap (dọc tuyến hoặc quanh điểm),
 // thời tiết Open-Meteo, con nước, tìm web giá cả. Địa điểm AI tìm được ghim tạm lên bản đồ (lớp mp-g-ai), người dùng bấm Lưu mới vào Địa điểm.
@@ -3895,6 +4113,7 @@ function mpAiCtx(){
     selectedRoute: mpRt||'', selectedBarge: mpSel||'',
     barges: FLEET.map(c=>{ const p=mpPos[c]; return p ? {code:c, label:LABELS[c]||'', lat:p.lat, lon:p.lon, status:(MP_ST[p.status]||{}).t, ago:mpAgo(p.ts)} : {code:c, label:LABELS[c]||''}; }),
     pois: mpPois.map(p=>({name:p.name, type:(MP_POI[p.type]||MP_POI.other).t, lat:p.lat, lon:p.lon})),
+    stations: mpTrams.map(t=>({prov:t.prov, river:t.river, name:t.name, fee:t.fee, routes:t.routes||[], note:t.note||'', lat:t.lat, lon:t.lon})),
     center: mpAiCenter(), speed: mpCfg.spd,
   };
 }
@@ -3990,7 +4209,8 @@ function openMap(code){
 }
 function mpTab(t){
   document.querySelectorAll('.mp-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
-  ['fleet','route','tide','poi','ai','api'].forEach(k=>g('mp-p-'+k).classList.toggle('on',k===t));
+  ['fleet','route','tide','poi','tram','ai','api'].forEach(k=>g('mp-p-'+k).classList.toggle('on',k===t));
+  if(t==='tram'){ mpLoadWater().then(()=>mpRenderTramList()); mpRenderTramList(); }
   if(t==='ai') mpAiOpen();
   if(t==='api') mpFillCfg();
   if(t==='route') mpRenderRouteList();
@@ -4122,7 +4342,7 @@ function mpRouteInfo(){
   const el = g('mp-rtinfo'); if(!el) return;
   const r = MP_RT.find(x=>x.id===mpRt);
   if(!r){ el.classList.remove('show'); return; }
-  el.innerHTML = `<span><b>${mpEsc(r.from)} – ${mpEsc(r.to)}</b> · ${mpKmTxt(r.km)} · ≈ ${mpHours(r.km/(mpCfg.spd||8))}${r.sea?' · có đoạn biển':''}</span><button onclick="mpRouteClick(mpRt)" aria-label="Bỏ chọn tuyến">✕</button>`;
+  el.innerHTML = `<span><b>${mpEsc(r.from)} – ${mpEsc(r.to)}</b> · ${mpKmTxt(r.km)} · ≈ ${mpHours(r.km/(mpCfg.spd||8))}${r.sea?' · có đoạn biển':''}${mpTramTxt(r.id)?' · 🚧 '+mpTramTxt(r.id):''}</span><button onclick="mpRouteClick(mpRt)" aria-label="Bỏ chọn tuyến">✕</button>`;
   el.classList.add('show');
 }
 function mpRenderRouteList(){
@@ -4141,6 +4361,7 @@ function mpRenderRouteList(){
       <div class="rk"><span class="km">${mpKmTxt(r.km)}</span><span class="hr">≈ ${h<1?Math.max(1,Math.round(h*60))+' phút':Math.round(h)+' giờ'}</span></div>
       ${sel?`<div class="more">${mpEsc(r.via)}<br>≈ ${mpHours(h)} chạy liên tục ở ${String(spd).replace('.',',')} km/h${r.sea?' · <b>có đoạn biển</b>':''}</div>`:''}
       ${r.note?`<div class="nt">⚠ ${mpEsc(r.note)}</div>`:''}
+      ${mpTramTxt(r.id)?`<div class="nt tr">🚧 ${mpTramTxt(r.id)}</div>`:''}
     </div>`;
   });
   el.innerHTML = html;
@@ -4190,12 +4411,13 @@ function mpPickOnMap(kind){
 function mpCancelPlace(){
   const k = mpPlacing; mpPlacing=null;
   g('mp-banner').classList.remove('show'); mpWrap().classList.remove('placing');
-  if(k) g(k==='pos'?'mp-m-pos':'mp-m-poi').classList.add('show');
+  if(k) g(k==='pos'?'mp-m-pos':k==='tram'?'mp-m-tram':'mp-m-poi').classList.add('show');
 }
 function mpFinishPlace(lat,lon){
-  const pre = mpPlacing==='pos' ? 'mp-pf' : 'mp-pi';
+  const pre = mpPlacing==='pos' ? 'mp-pf' : mpPlacing==='tram' ? 'mp-tf' : 'mp-pi';
   g(pre+'-lat').value = lat.toFixed(5); g(pre+'-lon').value = lon.toFixed(5);
-  mpCancelPlace();
+  const k = mpPlacing; mpCancelPlace();
+  if(k==='tram') mpTramLocChanged();
 }
 function mpUseGPS(pre){
   if(!navigator.geolocation){ showToast('Thiết bị không hỗ trợ GPS','err'); return; }
