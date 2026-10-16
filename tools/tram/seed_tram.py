@@ -47,14 +47,15 @@ ST = [
  ('bp-donghoa','Biên phòng Đông Hòa','TP.HCM','','Cần Giờ'),
  ('cvhh','Cảng vụ Hàng hải (Cần Giờ)','TP.HCM','',''),
  ('cv-bd','Cảng vụ Bình Dương','TP.HCM','','Bình Dương cũ'),
- ('doi3-bd','Trạm Đội 3 Bình Dương','TP.HCM','','Bình Dương cũ'),
+ ('doi3-bd','Trạm Đội 3 (Bình Dương)','TP.HCM','','Bình Dương cũ; sổ ghi "Đội 3 SG", "Trạm 3 Bình Dương"'),
  ('tram-bd','Trạm Bình Dương','TP.HCM','','Bình Dương cũ'),
- ('t363bd','Trạm 363 Bình Dương','TP.HCM','','Bình Dương cũ'),
+ ('t363bd','Trạm 363 Bình Dương / Đồng Nai','TP.HCM','','Sổ ghi "363 Bình Dương" hoặc "363 Đồng Nai"'),
  ('binh-loi','Trạm Bình Lợi (?)','TP.HCM','Sông Sài Gòn','Chữ trong sổ chưa rõ'),
  ('cv-dn','Cảng vụ Đồng Nai','Đồng Nai','Sông Đồng Nai',''),
  ('tau','Trạm Tàu','Đồng Nai','','Sổ ghi "Trạm Tàu Đồng Nai"'),
  ('tram4','Trạm 4','Đồng Nai','','Sổ ghi "Trạm 4 Đồng Nai"'),
- ('phong-dn','Trạm Phòng (Đồng Nai)','Đồng Nai','','Sổ thường ghi tắt "Phòng"'),
+ ('phong-dn','Trạm Phòng Đồng Nai','Đồng Nai','',''),
+ ('phong-sg','Trạm Phòng Sài Gòn','TP.HCM','','Sổ tuyến gạch ghi tắt "Phòng" / "Trạm Phòng"'),
  ('thanhtra-dn','Thanh tra Đồng Nai','Đồng Nai','',''),
  ('go-dau','Trạm Gò Dầu','Đồng Nai','Sông Thị Vải',''),
  ('cv-st','Cảng vụ Sóc Trăng','Cần Thơ','Sông Hậu','Sóc Trăng cũ'),
@@ -67,20 +68,31 @@ ST = [
  ('o-mon','Trạm Ô Môn','Cần Thơ','Sông Hậu',''),
  ('binh-thuy','Trạm Bình Thủy','Cần Thơ','Sông Hậu',''),
  ('cv-ct','Cảng vụ Cần Thơ','Cần Thơ','Sông Hậu','Cảng vụ nơi giao hàng'),
- ('cai-san','Trạm Cái Sắn','An Giang','Kênh Cái Sắn',''),
- ('cv-caisan','Cảng vụ (Cái Sắn)','An Giang','Kênh Cái Sắn','Cảng vụ nơi giao hàng'),
+ ('cai-san','Trạm Cái Sắn','An Giang','Kênh Cái Sắn','Trên đường vào Vĩnh Thạnh'),
+ ('cv-caisan','Cảng vụ (Vĩnh Thạnh – Cái Sắn)','Cần Thơ','Kênh Cái Sắn','Cảng vụ nơi giao hàng'),
+ ('my-thoi','Trạm Mỹ Thới (?)','An Giang','Sông Hậu','Chữ trong sổ chưa rõ, trước Cái Sắn'),
+ ('doi4-vt','Trạm Đội 4 Vũng Tàu','TP.HCM','','Vũng Tàu cũ'),
+ ('bp-trande','Biên phòng Trần Đề','Cần Thơ','Sông Hậu','Sóc Trăng cũ'),
+ ('tram-cangio','Trạm Cần Giờ','TP.HCM','',''),
+ ('cv-cangio','Cảng vụ Cần Giờ','TP.HCM','','Cảng vụ nơi giao hàng'),
+ ('cv-vx','Cảng vụ (bến cát Vĩnh Xương)','An Giang','Sông Tiền','Sổ ghi "cảng vụ + giấy"'),
+ ('tan-chau','Trạm Tân Châu','An Giang','Sông Tiền',''),
+ ('hong-ngu','Trạm Hồng Ngự','Đồng Tháp','Sông Tiền',''),
+ ('vinh-hoa','Trạm Vĩnh Hòa (?)','An Giang','Sông Tiền','Chữ trong sổ chưa rõ, giữa Hồng Ngự và Cao Lãnh'),
+ ('cao-lanh','Trạm Cao Lãnh','Đồng Tháp','Sông Tiền',''),
+ ('cv-hcm','Cảng vụ (TP.HCM)','TP.HCM','','Cảng vụ nơi giao hàng'),
 ]
 SID = {s[0] for s in ST}
 
 GVL = 'Gạch Vĩnh Long → Cần Giờ'
-def gach(k7, cucvl=500, phong_vl=400, extra=None):
+def gach(k7, cucvl=500, phong_vl=400, cvhh=2000, bpdh=True):
     # danh sách chuẩn của tàu ST-06128 tuyến gạch (ghi giống nhau mỗi chuyến)
     L = [('cv-vl','Cảng vụ',500),('cuc-vl','Cục Vĩnh Long',cucvl),('mang-thit','Mang Thít',400),('phong-vl','Phòng Vĩnh Long',phong_vl),
          ('ben-tre','Bến Tre',400),('rau-ram','Rau Răm',400),k7,('knm','Kinh Nước Mặn',500),('doi2','Đội 2',500),('tram1','Trạm 1',500),
          ('t363sg','363 Sài Gòn',1000),('cuc-hcm','Cục',500),('tau','Tàu',500),('tram4','Trạm 4',500),('tram6','Trạm 6',500),
-         ('phong-dn','Phòng',500),('tram5','Trạm 5',500),('t363vt','363 Vũng Tàu',800),('bp-cangio','Biên phòng Cần Giờ',1000),
-         ('bp-donghoa','Biên phòng Đông Hòa',1000),('cvhh','Cảng vụ Hàng hải',2000)]
-    return L
+         ('phong-sg','Phòng',500),('tram5','Trạm 5',500),('t363vt','363 Vũng Tàu',800),('bp-cangio','Biên phòng Cần Giờ',1000),
+         ('bp-donghoa','Biên phòng Đông Hòa',1000),('cvhh','Cảng vụ Hàng hải',cvhh)]
+    return [x for x in L if bpdh or x[0]!='bp-donghoa']
 KH = ('ky-hon','Kỳ Hôn',300); CG = ('cho-gao','Chợ Gạo',300)
 K = lambda n,a: ('',n,a)     # chi phí khác (không phải trạm)
 
@@ -89,10 +101,10 @@ TRIPS = [
       n='26/06 20h Cần Giờ → 27/06 13h Vĩnh Long · nhận gạch 27/06–29/06 15h · 29/06 15h chạy → 30/06 19h Cần Giờ · vô giao 01/07 18h, giao xong 12h 03/07. Bơm 800 lít + 500 lít còn = 1.300 lít dầu (27/06). Cô Hằng chuyển 21.500.000 − 13.200.000 = 8.300.000 (29/06).'),
  dict(id='nk-0715', d='2026-07-15', b='ST-06128', r=GVL, rid='hcm-cangio', c='Gạch, 485 kiện', w=13200000, items=gach(CG),
       n='07/07 17h Vĩnh Thạnh → 08/07 17h Vĩnh Long · nhận gạch 09/07 12h30 → 15/07 10h xong · 15/07 10h chạy → 16/07 16h Cần Giờ · giao xong 5h 18/07. Bơm 1.300 lít dầu (07/07). Cô Hằng chuyển 22.000.000 − 13.200.000 = 8.800.000 (10/07).'),
- dict(id='nk-0722', d='2026-07-22', b='ST-06128', r='Đá Vũng Tàu → Cái Sắn', rid='mt-caisan', c='Đá 1x2, 996 tấn', w=13900000, items=[
+ dict(id='nk-0722', d='2026-07-22', b='ST-06128', r='Đá Vũng Tàu → Vĩnh Thạnh (Cái Sắn)', rid='mt-caisan', c='Đá 1x2, 996 tấn', w=13900000, items=[
    ('cv-vt','Cảng vụ',700),('can-xac','Cần Xác',1000),('tram8vt','Trạm 8 Vũng Tàu',700),('bp-caimep','Biên phòng Cái Mép',300),('go-dau','Gò Dầu',500),
    ('bp-thiengl','Biên phòng Thiềng Liềng',300),('tram5','Trạm 5',700),('tram2','Trạm 2',500),('t363vt','363 Vũng Tàu',700),('tram1','Trạm 1',500),
-   ('phong-dn','Phòng',500),('tram4','Trạm 4',500),('cuc-hcm','Cục',500),('tau','Tàu',500),('t363sg','363 Sài Gòn',700),('knm','Kinh Nước Mặn',500),
+   ('phong-sg','Phòng',500),('tram4','Trạm 4',500),('cuc-hcm','Cục',500),('tau','Tàu',500),('t363sg','363 Sài Gòn',700),('knm','Kinh Nước Mặn',500),
    ('cho-gao','Chợ Gạo',300),('my-tho','Mỹ Tho',300),('ben-tre','Bến Tre',300),('cai-be','Cái Bè',300),('tram-vl','Vĩnh Long',400),('sa-dec','Sa Đéc',300),
    ('cai-san','Cái Sắn',500),('cv-caisan','Cảng vụ',600),K('Bồi dưỡng cập',1800)],
       n='18/07 5h Cần Giờ → 11h Vũng Tàu · nhận đá xong 9h 22/07 · 22/07 9h Vũng Tàu → 24/07 16h Cái Sắn · cập xong 16h 25/07.'),
@@ -104,7 +116,7 @@ TRIPS = [
    ('cv-vl','Cảng vụ Vĩnh Long',500),('phong-vl','Trạm phòng Vĩnh Long',400),('cuc-vl','Trạm Cục',400),('cho-lach','Trạm Lách',400),
    ('rau-ram','Trạm Rau Răm',400),('dong-tam','Trạm Đồng Tâm',400),('ky-hon','Trạm Kỳ Hôn',400),('knm','Trạm Kinh Nước Mặn',400),
    ('doi2','Đội 2 Vàm Sát Sài Gòn',500),('cuc-hcm','Trạm Cục',500),('t363sg','Trạm 363 Sài Gòn',800),('tram1','Trạm 1',500),('tram4','Trạm 4',500),
-   ('phong-dn','Trạm phòng',600),('tram5','Trạm 5',500),('tau','Trạm Tàu',500),('t363vt','Trạm 363 Vũng Tàu',800),('bp-cangio','Biên phòng Cần Giờ',1000),
+   ('phong-sg','Trạm phòng',600),('tram5','Trạm 5',500),('tau','Trạm Tàu',500),('t363vt','Trạm 363 Vũng Tàu',800),('bp-cangio','Biên phòng Cần Giờ',1000),
    ('cvhh','Cảng vụ Hàng hải',2000),('bp-donghoa','Biên phòng cảng Đông Hòa',2000),K('Bồi dưỡng tài công',2000)],
       n='Sổ "Phí gạch Vĩnh Long – Cần Giờ" 06/09/2026 (chữ khác, không ghi tàu). Tổng phí trạm 13.500.000 + bồi dưỡng tài công 2.000.000.'),
  dict(id='nk-0910', d='2026-09-10', b='ST-06128', r=GVL, rid='hcm-cangio', c='Gạch, 485 kiện', w=13200000, items=gach(CG),
@@ -112,7 +124,7 @@ TRIPS = [
  dict(id='nk-0922', d='2026-09-22', b='ST-06128', r=GVL, rid='hcm-cangio', c='Gạch, 485 kiện', w=13200000, items=[
    ('cv-vl','Cảng vụ',500),('cuc-vl','Cục Vĩnh Long',400),('phong-vl','Phòng Vĩnh Long',400),('mang-thit','Mang Thít',400),('ben-tre','Bến Tre',400),
    ('my-tho','Mỹ Tho',400),('cho-gao','Chợ Gạo',300),('knm','Kinh Nước Mặn',500),('doi2','Đội 2',500),('tram1','Trạm 1',500),('t363sg','363 Sài Gòn',1000),
-   ('cuc-hcm','Cục',500),('tau','Tàu',500),('tram4','Trạm 4',500),('tram6','Trạm 6',500),('phong-dn','Phòng',500),('tram5','Trạm 5',500),
+   ('cuc-hcm','Cục',500),('tau','Tàu',500),('tram4','Trạm 4',500),('tram6','Trạm 6',500),('phong-sg','Phòng',500),('tram5','Trạm 5',500),
    ('t363vt','363 Vũng Tàu',800),('bp-cangio','Biên phòng Cần Giờ',1000),('bp-donghoa','Biên phòng Đông Hòa',1000),('cvhh','Cảng vụ Hàng hải',2000)],
       n='20/09 17h Ngã 5 → 21/09 12h Vĩnh Long · nhận gạch xong 12h 22/09 → 23/09 Cần Giờ · giao xong 8h 24/09. Bơm 1.300 lít dầu (20/09). Cô Hằng chuyển 23 triệu (21/09).'),
  dict(id='nk-0928', d='2026-09-28', b='', r='Sóc Trăng → Cần Thơ', rid='st-cantho', c='', w=6750000, items=[
@@ -160,6 +172,50 @@ TRIPS = [
    ('cai-con','Trạm Cái Côn',300),('o-mon','Trạm Ô Môn',300),('tram-ct','Trạm Cần Thơ',300),('binh-minh','Trạm Bình Minh',300),('binh-thuy','Trạm Bình Thủy',300),
    ('cv-ct','Cảng vụ',500),K('Bến cảng',1100),K('Bồi dưỡng cập',1500),K('Thuyền trưởng',1000)],
       n='Sổ "Chuyến 1". Ứng phí 10.000.000 − 7.300.000 = 2.700.000. Đổ dầu Hưng Phú 1.150 lít (31/05), đổ 5 can dầu ở bãi nhà.'),
+ dict(id='nk-0622', d='2026-06-22', b='ST-06128', r=GVL, rid='hcm-cangio', c='Gạch, 485 kiện', w=11500000, items=gach(KH, cvhh=1300, bpdh=False),
+      n='18/06 19h Trà Cú → 19/06 21h Vĩnh Long · vô nhận hàng 18h 20/06 → 12h xong 22/06 · 22/06 12h Vĩnh Long → 23/06 14h Cần Giờ · vô bến 13h 25/06, cập xong 20h 26/06. Bơm 1.300 lít dầu (18/06), còn 500 lít (25/06). Cô Hằng chuyển 22 triệu − 11.500.000 phí đi gạch = 10.500.000.'),
+ dict(id='nk-0904', d='2026-09-04', b='ST-06128', r='Đá Vũng Tàu → Vĩnh Thạnh (Cái Sắn)', rid='mt-caisan', c='Đá 1x2, 993 tấn', w=13900000, items=[
+   ('cv-vt','Cảng vụ',700),('can-xac','Cần Xác',1000),('tram8vt','Trạm 8 Vũng Tàu',700),('bp-caimep','Biên phòng Cái Mép',300),('go-dau','Gò Dầu',500),
+   ('bp-thiengl','Biên phòng Thiềng Liềng',300),('tram5','Trạm 5',700),('tram2','Trạm 2',500),('t363vt','363 Vũng Tàu',700),('tram1','Trạm 1',500),
+   ('phong-sg','Phòng',500),('tau','Tàu',500),('tram4','Trạm 4',500),('cuc-hcm','Cục',500),('t363sg','363 SG',700),('knm','Kinh Nước Mặn',500),
+   ('cho-gao','Chợ Gạo',300),('my-tho','Mỹ Tho',300),('ben-tre','Bến Tre',300),('cai-be','Cái Bè',300),('tram-vl','Vĩnh Long',400),('sa-dec','Sa Đéc',300),
+   ('cai-san','Cái Sắn',500),('cv-caisan','Cảng vụ',600),K('Bồi dưỡng cập',1800)],
+      n='03/09 07h Cần Giờ → 14h Vũng Tàu · nhận đá xong 21h 04/09 → 06/09 17h Vĩnh Thạnh · cập xong 15h 07/09. Cô Hằng chuyển phí 12 triệu, thiếu lại 1.900.000 (03/09).'),
+ dict(id='nk-0805', d='2026-08-05', b='', r='Đá Vũng Tàu → Vĩnh Thạnh (Cái Sắn)', rid='mt-caisan', c='Đá (chú Thủy)', w=15600000, items=[
+   ('cv-vt','Cảng vụ',600),K('Bồi dưỡng',900),('tram8vt','Trạm 8 VT',600),('doi4-vt','Đội 4 VT',500),('tram5','Trạm 5 Sài Gòn',600),('go-dau','Trạm Gò Dầu',400),
+   ('tram1','Trạm 1 Sài Gòn',500),('tram4','Trạm 4 Sài Gòn',500),('t363sg','Trạm 363 Sài Gòn',600),('t363vt','Trạm 363 VT',600),('doi2','Thủy đội 2 Vàm Sát',500),
+   ('knm','Trạm Kinh Nước Mặn',500),('ky-hon','Trạm Kỳ Hôn',500),('dong-tam','Trạm Đồng Tâm',500),('cho-lach','Trạm Lách',500),('cai-be','Trạm Cái Bè',500),
+   ('sa-dec','Trạm Sa Đéc',500),('my-thoi','Trạm Mỹ Thới',400),('cai-san','Trạm Cái Sắn',500),('cv-caisan','Cảng vụ',600),K('Bồi dưỡng cẩu',1800),
+   K('Bồi dưỡng tài công',1000),K('Đóng phạt + đò + xe (06/08)',2000)],
+      n='Sổ ngày 05/08/2026, tổng phí 13.600.000; 06/08 đóng phạt + đò + xe 2.000.000.'),
+ dict(id='nk-0714', d='2026-07-14', b='', r='Đá Đồng Nai → Trần Đề', rid='st-trande', c='Đá (anh Dương)', w=17400000, items=[
+   ('cv-dn','Cảng vụ',500),('doi3-bd','Trạm 3 Bình Dương',600),('tram4','Trạm 4',600),('tau','Trạm Tàu',600),('cuc-hcm','Trạm Cục',600),
+   ('t363bd','Trạm 363 Đồng Nai',1000),('phong-dn','Trạm phòng Đồng Nai',800),('tram6','Trạm 6',600),('phong-sg','Trạm phòng Sài Gòn',800),
+   ('t363sg','Trạm 363 Sài Gòn',1000),('tram1','Trạm 1',600),('doi2','Trạm 2 Vàm Sát',500),('knm','Trạm Kinh Nước Mặn',500),('ky-hon','Trạm Kỳ Hôn',500),
+   ('dong-tam','Trạm Đồng Tâm',500),('cho-lach','Trạm Lách Bến Tre',400),('phong-vl','Trạm phòng Vĩnh Long',500),('mang-thit','Trạm Mang Thít',400),
+   ('tam-binh','Trạm Tam Bình',400),('nhon-my','Trạm Nhơn Mỹ',400),('dai-ngai','Trạm Đại Ngãi',400),('cv-st','Cảng vụ',500),K('Bồi dưỡng cập lên',1800),
+   ('bp-trande','Biên phòng Trần Đề',1000),K('Bồi dưỡng tài công',1000),K('Bồi cập thợ cẩu Đồng Nai',900)],
+      n='Sổ "Đá anh Dương", nhận đá 14/07/2026 → Trần Đề.'),
+ dict(id='nk-0810', d='2026-08-10', b='', r='Cát Vĩnh Xương → Sài Gòn', rid='hcm-tanthuan', c='Cát (chị Thúy)', w=27510000, items=[
+   ('cv-vx','Cảng vụ + giấy',600),K('Bồi dưỡng cẩu',1260),('tan-chau','Trạm Tân Châu',700),('hong-ngu','Trạm Hồng Ngự',700),('vinh-hoa','Trạm Vĩnh Hòa',500),
+   ('cao-lanh','Trạm Cao Lãnh',700),('sa-dec','Trạm Sa Đéc',600),('phong-vl','Trạm phòng Vĩnh Long',800),('cuc-vl','Trạm Cục Vĩnh Long',800),
+   ('cai-be','Trạm Cái Bè',600),('cho-lach','Trạm Lách Bến Tre',500),('rau-ram','Trạm Rau Răm',500),('ky-hon','Trạm Kỳ Hôn',500),('knm','Trạm Kinh Nước Mặn',600),
+   ('doi2','Đội 2 Sài Gòn',600),('cuc-hcm','Trạm Cục Sài Gòn',2000),('t363sg','Trạm 363 Sài Gòn',2000),('tau','Trạm Tàu Sài Gòn',1500),('tram1','Trạm 1 Sài Gòn',2000),
+   ('tram4','Trạm 4',1500),('phong-sg','Trạm phòng Sài Gòn',2000),('tram6','Trạm 6 Sài Gòn',2000),('tram5','Trạm 5 Sài Gòn',2000),('cv-hcm','Cảng vụ',600),
+   K('Bồi dưỡng cẩu cập',1950)],
+      n='Sổ "Chị Thúy – Cát Vĩnh Xương → Sài Gòn" ngày 10/08/2026. Dòng Đội 2 viết đè, ghi 600.000 cho khớp tổng trong sổ – kiểm tra lại.'),
+ dict(id='nk-250916', d='2025-09-16', b='ST-06128', r='Đá Đồng Nai → Cần Giờ', rid='hcm-cangio-dn', c='Đá mi bụi + đá 1x2', w=12300000, items=[
+   ('cv-dn','Cảng vụ ĐN',800),('can-xac','Cần Xác',400),('thanhtra-dn','Thanh tra',400),('doi3-bd','Đội 3 SG',500),('phong-dn','Phòng ĐN',500),
+   ('tau','Tàu ĐN',500),('tram4','Trạm 4 ĐN',500),('cuc-hcm','Cục',500),('t363sg','Trạm 363',1000),('tram6','Trạm 6',500),('tram1','Trạm 1',500),
+   ('go-dau','Gò Dầu',400),('tram5','Trạm 5',500),('tram-cangio','Trạm Cần Giờ',500),('bp-thiengl','Biên phòng Thiềng Liềng',200),('bp-cangio','Biên phòng Cần Giờ',500),
+   K('Vét đá',500),K('Tài công',1000),K('Bồi dưỡng cập Cần Giờ',1800),('cv-cangio','Cảng vụ Cần Giờ',800)],
+      n='06/09/2025 17h Trà Cú → 07/09 23h Đồng Nai · nhận đá xong 09h 16/09 → 17/09 17h Cần Giờ. Ứng phí 10 triệu: 12.300.000 − 10.000.000 = 2.300.000 (thiếu lại).'),
+ dict(id='nk-250726', d='2025-07-26', b='ST-06128', r='Đá Bình Dương → Đức Hòa', rid='la-duchoa-bd', c='Đá, 579 khối', w=12300000, items=[
+   ('cv-bd','Cảng vụ',800),('can-xac','Cần Xác',400),('thanhtra-dn','Thanh tra',400),('doi3-bd','Đội 3',500),('phong-dn','Phòng Đồng Nai',500),
+   ('tau','Tàu ĐN',500),('tram4','Trạm 4 ĐN',500),('cuc-hcm','Cục SG',500),('tram6','Trạm 6',500),('tram1','Trạm 1',600),('doi2','Đội 2',500),
+   ('t363sg','Trạm 363',1000),('knm','Trạm Kinh',500),('ben-luc','Bến Lức',500),('tay-ninh','Tây Ninh',500),('cv-duchoa','Cảng vụ',800),
+   K('Tài công',1000),K('Vét đá',500),K('Bồi dưỡng cập',1800)],
+      n='Sổ ghi "Đá Bình Dương → Trà Cú, Đức Hòa". 24/07/2025 20h Nhơn Trạch → 25/07 07h Bình Dương · nhận đá xong 17h 26/07 · 26/07 18h Bình Dương → 28/07 06h Trà Cú · cập xong 17h 28/07.'),
 ]
 
 # kiểm tra: mã trạm hợp lệ, tổng khớp sổ
