@@ -7,7 +7,8 @@ trong app có ghi nguồn "© OpenStreetMap"). File `map-data.json` ở thư m�
 - nhãn tên sông, luồng biển (Gành Rái, ven biển, ra Phú Quốc – OSM không có, vẽ thêm),
 - đất Campuchia/Thái Lan và đường biên giới (Natural Earth), tên cửa sông, Biển Đông, Vịnh Thái Lan,
 - mạng tuyến gộp (vẽ nét đứt) và điểm đầu/cuối tuyến,
-- 40 tuyến vận chuyển tính đường ngắn nhất trên mạng sông OSM (ưu tiên sông lớn, kênh chính), trong đó 7 tuyến theo nhật ký chở hàng: gạch Mang Thít → Cần Giờ, đá Vũng Tàu → Vĩnh Thạnh (kênh Cái Sắn), Bình Dương / Biên Hòa → Đức Hòa, Biên Hòa → Cần Giờ (Thiềng Liềng), Biên Hòa → Vĩnh Thạnh, Biên Hòa → Trần Đề.
+- 43 tuyến vận chuyển tính đường ngắn nhất trên mạng sông OSM (ưu tiên sông lớn, kênh chính), gồm các tuyến theo nhật ký chở hàng và Sóc Trăng → Trà Nóc / cảng Hoàng Diệu / Cái Cui (Cần Thơ),
+- `route-graph.json`: mạng sông rút gọn (~13 nghìn nút) để app tự tìm đường giữa hai điểm bất kỳ, có tuyến thay thế. App chỉ tải file này khi bấm tìm đường.
 
 ## Cập nhật khi OSM có dữ liệu mới
 
@@ -24,9 +25,12 @@ K=https://s3.dualstack.us-east-1.amazonaws.com/production-raw-data-api/ISO3/KHM/
 curl -O $K/lines/hotosm_khm_waterways_lines_geojson.zip && curl -O $K/polygons/hotosm_khm_waterways_polygons_geojson.zip && unzip -o '*.zip'
 curl -o /tmp/ne_countries.geojson https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_0_countries.geojson
 cd -   # về thư mục repo
-python3 -I tools/ban-do/build_water.py /tmp/osm index.html map-data.json --khm=/tmp/khm --ne=/tmp/ne_countries.geojson
+python3 -I tools/ban-do/build_water.py /tmp/osm index.html map-data.json --khm=/tmp/khm --ne=/tmp/ne_countries.geojson --graph=route-graph.json
 ```
 
 Sau đó tăng `VERSION` trong `sw.js` để máy đã cài app tải bản đồ mới.
 
 Sửa tuyến: danh sách `ROUTES` và các điểm `N` (tọa độ + tên sông để bắt điểm) trong `build_water.py`.
+
+
+Tên sông OSM còn thiếu nhiều (vd. sông quanh cảng nhà Sóc Trăng): trong app nhấn giữ trên sông → "Đặt tên sông / kênh ở đây". Tên lưu trên máy, nằm trong file Xuất dữ liệu, và được dùng khi tìm đường.

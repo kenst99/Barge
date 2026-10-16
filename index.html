@@ -624,6 +624,8 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
 #s-map .mp-rtbg{stroke:rgba(255,255,255,.85);}
 #s-map .mp-rt{stroke:var(--pp-blue);animation:mpdash 1.3s linear infinite;}
 #s-map .mp-rt.sel{stroke:var(--pp-red);}
+#s-map .mp-rt.alt{stroke:#7f95a6;animation:none;pointer-events:stroke;cursor:pointer;}
+#s-map .mp-rtbg.alt{stroke:rgba(255,255,255,.9);}
 #s-map .mp-rtend{pointer-events:none;}
 #s-map .mp-rtend .dot{fill:#fff;stroke:var(--pp-blue);stroke-width:1.8;}
 #s-map .mp-rtend .home{fill:var(--pp-red);stroke:#fff;stroke-width:1.6;}
@@ -810,106 +812,142 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
   #s-map .mp-rtinfo{bottom:80px;max-width:calc(100% - 20px);}
   #s-map .mp-legend{top:auto;bottom:34px;padding:5px 9px;}
 }
+
+/* ═══ BẢN ĐỒ LÀ MÀN HÌNH CHÍNH – bố cục điện thoại kiểu Google Maps ═══ */
+:root{--tbh:65px;}
+.screen{top:var(--tbh);}
+.tb-logo,.tb-brand{cursor:pointer;}
+#nb-map{border-color:rgba(232,160,32,.55);color:#e8a020;}
+#nb-map:not(.show){display:none;}
+@media(max-width:640px){
+  :root{--tbh:52px;}
+  #topbar{height:52px;padding:6px 10px;}
+  .tb-logo{width:30px;height:30px;font-size:15px;}
+  .tb-brand{display:block;font-size:14px;letter-spacing:1.5px;white-space:nowrap;}
+  .nb .t,#nb-export .t,#nb-import .t{display:none;}
+  .nb,#nb-export,#nb-import{min-width:38px;height:36px;justify-content:center;font-size:17px;padding:0 9px;}
+  #nb-map .mp-livedot{margin-right:3px;}
+}
+/* hình sà lan */
+.bg-svg{display:block;width:100%;height:auto;overflow:visible;}
+.dh-hero{display:flex;gap:18px;align-items:center;flex-wrap:wrap;background:var(--panel);border:1px solid var(--border);padding:14px 18px;margin:-6px 0 18px;}
+.dh-hero .pic{flex:1 1 300px;max-width:420px;}
+.dh-hero .bspec{max-width:none;flex:1 1 220px;margin:0;}
+#s-map .mp-card .top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+#s-map .mp-card .pic{flex:0 0 78px;width:78px;margin:-6px 2px -4px -4px;}
+#s-map .mp-card .top .mp-badge{margin-left:auto;}
+
+/* ô tìm đường trên bản đồ */
+.mp-search{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:9;display:flex;align-items:center;gap:8px;width:min(440px,calc(100% - 140px));height:44px;padding:0 16px;border-radius:22px;border:1px solid rgba(0,0,0,.08);background:rgba(255,255,255,.97);box-shadow:0 2px 10px rgba(30,20,10,.18);color:#6b5a4a;font:500 15px var(--pp-sans,'Roboto');cursor:pointer;text-align:left;}
+.mp-search .t{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mp-search .ic{font-size:16px;}
+/* nút trợ lý AI */
+.mp-ai-fab{position:absolute;right:12px;bottom:72px;z-index:9;display:flex;align-items:center;gap:7px;height:52px;padding:0 18px 0 14px;border-radius:26px;border:none;background:linear-gradient(135deg,#1f78b4,#155a88);color:#fff;font:700 15px var(--pp-sans,'Roboto');box-shadow:0 6px 18px rgba(21,90,136,.4);cursor:pointer;}
+.mp-ai-fab span{font-size:22px;}
+.mp-ai-fab:active{transform:scale(.96);}
+#s-map.ai-open .mp-ai-fab{display:none;}
+/* bảng trợ lý AI */
+.mp-ai-sheet{position:absolute;top:0;right:0;bottom:0;width:420px;max-width:100%;z-index:40;background:#fff;box-shadow:-8px 0 30px rgba(30,20,10,.18);display:flex;flex-direction:column;transform:translateX(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1);visibility:hidden;}
+#s-map.ai-open .mp-ai-sheet{transform:none;visibility:visible;}
+.mp-ai-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--pp-line);flex:0 0 auto;}
+.mp-ai-head b{font-size:16px;color:var(--pp-ink);}
+.mp-ai-head .sub{flex:1;font-size:12.5px;color:var(--pp-mute);}
+.mp-ai-head button{background:none;border:none;font-size:22px;color:var(--pp-mute);cursor:pointer;width:36px;height:36px;}
+.mp-ai-body{flex:1;overflow-y:auto;padding:12px 14px 0;-webkit-overflow-scrolling:touch;}
+#s-map .mp-ai-body .mp-ai-in{bottom:0;}
+#s-map .mp-ai-mic{width:48px;height:44px;padding:0;font-size:20px;flex:0 0 auto;}
+#s-map .mp-ai-mic.rec{background:#c45a3c;border-color:#c45a3c;color:#fff;animation:mpMic 1.1s infinite;}
+@keyframes mpMic{0%{box-shadow:0 0 0 0 rgba(196,90,60,.55)}70%{box-shadow:0 0 0 12px rgba(196,90,60,0)}100%{box-shadow:0 0 0 0 rgba(196,90,60,0)}}
+/* menu nhấn giữ trên bản đồ */
+.mp-ctx{position:absolute;z-index:12;display:none;min-width:210px;background:#fff;border:1px solid var(--pp-line);border-radius:14px;box-shadow:0 10px 30px rgba(30,20,10,.22);padding:6px;font-family:var(--pp-sans);}
+.mp-ctx.show{display:block;}
+.mp-ctx .hd{font:600 11.5px var(--pp-mono);color:var(--pp-mute);padding:6px 10px 4px;}
+.mp-ctx button{display:flex;width:100%;gap:10px;align-items:center;background:none;border:none;border-radius:9px;padding:10px;font:500 14.5px var(--pp-sans);color:var(--pp-ink);cursor:pointer;text-align:left;}
+.mp-ctx button:hover{background:#f6efe2;}
+/* tìm đường */
+.mp-find{background:var(--pp-paper);border:1px solid var(--pp-line);border-radius:14px;padding:10px;margin-bottom:12px;}
+.mp-fd-rows{position:relative;padding-right:40px;}
+.mp-fd-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.mp-fd-row .dot{flex:0 0 12px;height:12px;border-radius:50%;border:3px solid #1f78b4;background:#fff;}
+.mp-fd-row .dot.b{border-color:#c45a3c;background:#c45a3c;}
+#s-map .mp-fd-row input{flex:1;min-width:0;height:40px;border:1px solid var(--pp-line);border-radius:10px;padding:0 10px;font:15px var(--pp-sans);color:var(--pp-ink);background:#fff;outline:none;}
+#s-map .mp-fd-row input:focus{border-color:var(--pp-blue);}
+.mp-fd-row button{flex:0 0 38px;height:40px;border:1px solid var(--pp-line);border-radius:10px;background:#fff;cursor:pointer;font-size:16px;}
+.mp-fd-swap{position:absolute;right:0;top:20px;width:34px;height:40px;border:1px solid var(--pp-line);border-radius:10px;background:#fff;font-size:18px;color:var(--pp-blue);cursor:pointer;}
+.mp-fd-sug{display:none;background:#fff;border:1px solid var(--pp-line);border-radius:12px;max-height:270px;overflow-y:auto;margin:2px 0 8px;box-shadow:0 6px 18px rgba(30,20,10,.1);}
+.mp-fd-sug.show{display:block;}
+.mp-fd-sug button{display:flex;width:100%;gap:10px;align-items:center;background:none;border:none;border-bottom:1px solid #f3ece1;padding:10px 12px;font:14.5px var(--pp-sans);color:var(--pp-ink);text-align:left;cursor:pointer;}
+.mp-fd-sug button:last-child{border-bottom:none;}
+.mp-fd-sug button small{display:block;color:var(--pp-mute);font-size:12px;}
+.mp-fd-sug button:hover,.mp-fd-sug button.on{background:#fbf6ee;}
+.mp-fd-opt{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--pp-ink2);margin:2px 2px 0;}
+.mp-fd-opt label{display:flex;gap:6px;align-items:center;}
+.mp-fd-alt{border:1px solid var(--pp-line);border-radius:12px;padding:10px 12px;margin-top:8px;background:#fff;cursor:pointer;}
+.mp-fd-alt.on{border-color:#c45a3c;box-shadow:0 0 0 2px rgba(196,90,60,.15);}
+.mp-fd-alt .hd{display:flex;align-items:baseline;gap:8px;}
+.mp-fd-alt .hd b{font-size:17px;color:var(--pp-ink);}
+.mp-fd-alt .hd .km{margin-left:auto;font-weight:700;color:var(--pp-blue);white-space:nowrap;}
+.mp-fd-alt.on .hd .km{color:#c45a3c;}
+.mp-fd-alt .tg{font:600 11.5px var(--pp-sans);color:#fff;background:#1f78b4;border-radius:99px;padding:2px 8px;}
+.mp-fd-alt .tg.g{background:#8d7d6e;}
+.mp-fd-alt .via{font-size:12.5px;color:var(--pp-mute);margin-top:3px;line-height:1.45;}
+.mp-fd-alt .nt{font-size:12.5px;color:#b45309;margin-top:3px;}
+.mp-fd-alt .act{display:flex;gap:6px;margin-top:8px;}
+#s-map .mp-fd-alt .act .btn{font-size:12.5px;padding:5px 11px;}
+.mp-fd-msg{font-size:13.5px;color:var(--pp-mute);padding:10px 4px;}
+#s-map .mp-rt .del{grid-column:3;justify-self:end;background:none;border:none;color:#b45309;font-size:12px;cursor:pointer;padding:2px 0;}
+/* tên sông do người dùng đặt */
+#s-map .mp-rvuser{fill:#155a88;font-weight:700;pointer-events:auto;cursor:pointer;}
+
+@media(max-width:640px){
+  .dh{padding:12px 14px;gap:10px;}
+  .dh h2{font-size:22px;letter-spacing:3px;}
+  .dh p{font-size:13px;letter-spacing:1px;}
+  .dpill{font-size:12px;letter-spacing:1px;padding:3px 8px;white-space:nowrap;}
+  .dh-hero{padding:10px 12px;gap:10px;}
+}
+/* ── điện thoại: bản đồ toàn màn hình, bảng kéo lên/xuống ── */
+@media(max-width:900px){
+  #s-map.active{display:block;}
+  #s-map .mp-wrap{position:absolute;inset:0;}
+  #s-map .mp-side{position:absolute;left:0;right:0;bottom:0;height:var(--sh,96px);flex:none;width:auto;z-index:20;border:none;border-radius:18px 18px 0 0;box-shadow:0 -6px 24px rgba(30,20,10,.16);transition:height .28s cubic-bezier(.2,.8,.2,1);overflow:hidden;}
+  #s-map .mp-side.drag{transition:none;}
+  #s-map .mp-side.min .mp-tabs{display:flex;}
+  #s-map .mp-side-head{position:relative;display:flex;height:44px;padding:10px 14px 0;justify-content:space-between;align-items:center;cursor:grab;touch-action:none;border-bottom:none;}
+  #s-map .mp-side-head .grip{position:absolute;top:7px;left:50%;width:42px;height:5px;margin-left:-21px;border-radius:3px;background:#dccdb9;}
+  #s-map .mp-tabs{overflow-x:auto;scrollbar-width:none;}
+  #s-map .mp-body{padding-bottom:calc(14px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+  .mp-compass{display:none;}
+  .mp-search{left:10px;transform:none;width:calc(100% - 72px);}
+  #s-map .mp-zoom{top:10px;right:10px;}
+  #s-map .mp-legend{top:62px;bottom:auto;left:10px;}
+  #s-map .mp-live{top:62px;bottom:auto;right:60px;left:auto;max-width:calc(100% - 190px);}
+  .mp-scale{bottom:calc(var(--sh,96px) + 10px);}
+  #s-map .mp-attr{bottom:calc(var(--sh,96px) + 2px);}
+  #s-map .mp-rtinfo{bottom:calc(var(--sh,96px) + 34px);left:10px;right:auto;max-width:calc(100% - 92px);}
+  .mp-ai-fab{bottom:calc(var(--sh,96px) + 14px);height:56px;width:56px;padding:0;justify-content:center;border-radius:50%;}
+  .mp-ai-fab b{display:none;}
+  .mp-ai-sheet{width:100%;top:0;border-radius:0;transform:translateY(105%);}
+  #s-map.sheet-full .mp-ai-fab,#s-map.sheet-full .mp-rtinfo,#s-map.sheet-full .mp-scale{visibility:hidden;}
+}
 </style>
 </head>
 <body>
 
 <div id="topbar">
-  <div class="tb-logo">⚓</div>
-  <div class="tb-brand">QUẢN LÝ SÀ LAN</div>
+  <div class="tb-logo" onclick="goHome()" title="Bản đồ điều phối">⚓</div>
+  <div class="tb-brand" onclick="goHome()">SÀ LAN TRUNG HIẾU</div>
   <span class="tb-barge" id="tb-barge"></span>
   <div class="tb-nav">
-    <button class="nb show" id="nb-map" onclick="openMap()" title="Bản đồ điều phối"><span class="mp-livedot"></span>🗺️ BẢN ĐỒ</button>
-    <button class="nb show" id="nb-export" onclick="exportData()" title="Xuất toàn bộ dữ liệu ra file JSON">📤 XUẤT</button>
+    <button class="nb" id="nb-back" onclick="goBack()">←<span class="t">&nbsp;QUAY LẠI</span></button>
+    <button class="nb" id="nb-map" onclick="goHome()" title="Bản đồ điều phối"><span class="mp-livedot"></span>🗺️<span class="t">&nbsp;BẢN ĐỒ</span></button>
+    <button class="nb show" id="nb-export" onclick="exportData()" title="Xuất toàn bộ dữ liệu ra file JSON">📤<span class="t">&nbsp;XUẤT</span></button>
     <label class="nb show" id="nb-import" title="Nhập dữ liệu từ file JSON" style="cursor:pointer;">
-      📥 NHẬP
+      📥<span class="t">&nbsp;NHẬP</span>
       <input type="file" id="import-file-input" accept=".json" style="display:none;" onchange="importData(this)">
     </label>
-    <button class="nb" id="nb-home" onclick="goHome()">🏠 TRANG CHỦ</button>
-    <button class="nb" id="nb-back" onclick="goBack()">← QUAY LẠI</button>
+    <button class="nb" id="nb-home" onclick="goHome()" style="display:none">🏠</button>
   </div>
-</div>
-
-<div class="screen active" id="s-home">
-  <div class="ht"><h2>SÀ LAN TRUNG HIẾU</h2><p>// CHỌN SÀ LAN ĐỂ QUẢN LÝ //</p></div>
-  <div class="br">
-
-    <div class="bc" style="--cc:#e8a020;--cg:rgba(232,160,32,.5)" onclick="openDetail('ST-06128')">
-      <div class="bsw"><svg width="200" height="122" viewBox="0 0 200 122">
-        <ellipse cx="100" cy="114" rx="86" ry="7" fill="rgba(232,160,32,.1)"/>
-        <path d="M7 83 L24 46 L176 46 L193 83 L183 97 L17 97Z" fill="#1a1200" stroke="#e8a020" stroke-width="2"/>
-        <rect x="24" y="36" width="152" height="11" rx="2" fill="#2a1e00" stroke="#e8a020" stroke-width="1.5"/>
-        <rect x="130" y="15" width="48" height="23" rx="2" fill="#1a1200" stroke="#e8a020" stroke-width="1.5"/>
-        <rect x="136" y="20" width="9" height="7" rx="1" fill="#e8a020" opacity=".7"/><rect x="149" y="20" width="9" height="7" rx="1" fill="#e8a020" opacity=".5"/><rect x="162" y="20" width="9" height="7" rx="1" fill="#e8a020" opacity=".3"/>
-        <line x1="35" y1="36" x2="35" y2="48" stroke="#e8a020" stroke-width="1.2"/><line x1="62" y1="36" x2="62" y2="48" stroke="#e8a020" stroke-width="1.2"/><line x1="89" y1="36" x2="89" y2="48" stroke="#e8a020" stroke-width="1.2"/><line x1="116" y1="36" x2="116" y2="48" stroke="#e8a020" stroke-width="1.2"/>
-        <rect x="33" y="49" width="85" height="16" rx="1" fill="#302000" stroke="#e8a020" stroke-width="1" opacity=".8"/>
-        <line x1="176" y1="16" x2="176" y2="36" stroke="#e8a020" stroke-width="1.5"/><polygon points="176,16 191,21 176,26" fill="#e8a020" opacity=".8"/>
-        <text x="100" y="76" text-anchor="middle" font-family="Roboto,sans-serif" font-weight="700" font-size="18" fill="#e8a020" letter-spacing="3">ST-06128</text>
-      </svg></div>
-      <div class="bl">ST-06128</div><div class="bs">SÀ LAN 01</div>
-      <div class="bc-live" data-live="ST-06128" onclick="event.stopPropagation();openMap('ST-06128')" title="Xem trên bản đồ"></div>
-      <div class="bspec" onclick="event.stopPropagation()">
-        <div class="bsf"><label>TRỌNG TẢI</label><div class="bsv" contenteditable="true" data-ph="— tấn" data-key="ST-06128_trongtai" onblur="saveSpec(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div></div>
-        <div class="bsf"><label>NĂM SX</label><div class="bsv" contenteditable="true" data-ph="——" data-key="ST-06128_namsx" onblur="saveSpec(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div></div>
-        <div class="bsf"><label>DÀI (m)</label><div class="bsv" contenteditable="true" data-ph="——" data-key="ST-06128_dai" onblur="saveSpec(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div></div>
-        <div class="bsf"><label>RỘNG (m)</label><div class="bsv" contenteditable="true" data-ph="——" data-key="ST-06128_rong" onblur="saveSpec(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div></div>
-        <div class="bsf" style="grid-column:1/-1"><label>CAO (m)</label><div class="bsv" contenteditable="true" data-ph="——" data-key="ST-06128_cao" onblur="saveSpec(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div></div>
-        <div class="bspec-edit-hint">✎ bấm để chỉnh sửa</div>
-      </div>
-    </div>
-
-    <div class="bc" style="--cc:#2ea8e0;--cg:rgba(46,168,224,.5)" onclick="openDetail('ST-06413')">
-      <div class="bsw"><svg width="220" height="136" viewBox="0 0 220 136">
-        <ellipse cx="110" cy="128" rx="98" ry="7" fill="rgba(46,168,224,.1)"/>
-        <path d="M6 94 L28 52 L192 52 L214 94 L201 110 L19 110Z" fill="#001825" stroke="#2ea8e0" stroke-width="2"/>
-        <rect x="28" y="41" width="164" height="13" rx="2" fill="#00253a" stroke="#2ea8e0" stroke-width="1.5"/>
-        <rect x="136" y="11" width="60" height="32" rx="2" fill="#001825" stroke="#2ea8e0" stroke-width="2"/>
-        <rect x="143" y="17" width="11" height="10" rx="1" fill="#2ea8e0" opacity=".8"/><rect x="159" y="17" width="11" height="10" rx="1" fill="#2ea8e0" opacity=".55"/><rect x="175" y="17" width="11" height="10" rx="1" fill="#2ea8e0" opacity=".3"/>
-        <line x1="166" y1="11" x2="166" y2="4" stroke="#2ea8e0" stroke-width="1.5"/><line x1="160" y1="7" x2="172" y2="7" stroke="#2ea8e0" stroke-width="1" opacity=".6"/>
-        <line x1="40" y1="41" x2="40" y2="55" stroke="#2ea8e0" stroke-width="1.2"/><line x1="70" y1="41" x2="70" y2="55" stroke="#2ea8e0" stroke-width="1.2"/><line x1="100" y1="41" x2="100" y2="55" stroke="#2ea8e0" stroke-width="1.2"/><line x1="126" y1="41" x2="126" y2="55" stroke="#2ea8e0" stroke-width="1.2"/>
-        <rect x="38" y="56" width="92" height="20" rx="1" fill="#003050" stroke="#2ea8e0" stroke-width="1" opacity=".9"/>
-        <line x1="194" y1="20" x2="194" y2="41" stroke="#2ea8e0" stroke-width="1.5"/><polygon points="194,20 210,26 194,32" fill="#2ea8e0" opacity=".8"/>
-        <text x="110" y="91" text-anchor="middle" font-family="Roboto,sans-serif" font-weight="700" font-size="18" fill="#2ea8e0" letter-spacing="3">ST-06413</text>
-      </svg></div>
-      <div class="bl">ST-06413</div><div class="bs">SÀ LAN 02</div>
-      <div class="bc-live" data-live="ST-06413" onclick="event.stopPropagation();openMap('ST-06413')" title="Xem trên bản đồ"></div>
-      <div class="bspec" onclick="event.stopPropagation()">
-        <div class="bsf"><label>TRỌNG TẢI</label><div class="bsv" contenteditable="true" data-ph="— tấn" data-key="ST-06413_trongtai" onblur="saveSpec(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div></div>
-        <div class="bsf"><label>NĂM SX</label><div class="bsv" contenteditable="true" data-ph="——" data-key="ST-06413_namsx" onblur="saveSpec(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div></div>
-        <div class="bsf"><label>DÀI (m)</label><div class="bsv" contenteditable="true" data-ph="——" data-key="ST-06413_dai" onblur="saveSpec(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div></div>
-        <div class="bsf"><label>RỘNG (m)</label><div class="bsv" contenteditable="true" data-ph="——" data-key="ST-06413_rong" onblur="saveSpec(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div></div>
-        <div class="bsf" style="grid-column:1/-1"><label>CAO (m)</label><div class="bsv" contenteditable="true" data-ph="——" data-key="ST-06413_cao" onblur="saveSpec(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div></div>
-        <div class="bspec-edit-hint">✎ bấm để chỉnh sửa</div>
-      </div>
-    </div>
-
-    <div class="bc" style="--cc:#e05050;--cg:rgba(224,80,80,.5)" onclick="openDetail('ST-06369')">
-      <div class="bsw"><svg width="200" height="122" viewBox="0 0 200 122">
-        <ellipse cx="100" cy="114" rx="86" ry="7" fill="rgba(224,80,80,.1)"/>
-        <path d="M7 83 L24 46 L176 46 L193 83 L183 97 L17 97Z" fill="#1a0000" stroke="#e05050" stroke-width="2"/>
-        <rect x="24" y="36" width="152" height="11" rx="2" fill="#2a0000" stroke="#e05050" stroke-width="1.5"/>
-        <rect x="130" y="15" width="48" height="23" rx="2" fill="#1a0000" stroke="#e05050" stroke-width="1.5"/>
-        <rect x="136" y="20" width="9" height="7" rx="1" fill="#e05050" opacity=".7"/><rect x="149" y="20" width="9" height="7" rx="1" fill="#e05050" opacity=".5"/><rect x="162" y="20" width="9" height="7" rx="1" fill="#e05050" opacity=".3"/>
-        <line x1="35" y1="36" x2="35" y2="48" stroke="#e05050" stroke-width="1.2"/><line x1="62" y1="36" x2="62" y2="48" stroke="#e05050" stroke-width="1.2"/><line x1="89" y1="36" x2="89" y2="48" stroke="#e05050" stroke-width="1.2"/><line x1="116" y1="36" x2="116" y2="48" stroke="#e05050" stroke-width="1.2"/>
-        <rect x="33" y="49" width="85" height="16" rx="1" fill="#300000" stroke="#e05050" stroke-width="1" opacity=".8"/>
-        <line x1="176" y1="16" x2="176" y2="36" stroke="#e05050" stroke-width="1.5"/><polygon points="176,16 191,21 176,26" fill="#e05050" opacity=".8"/>
-        <text x="100" y="76" text-anchor="middle" font-family="Roboto,sans-serif" font-weight="700" font-size="18" fill="#e05050" letter-spacing="3">ST-06369</text>
-      </svg></div>
-      <div class="bl">ST-06369</div><div class="bs">SÀ LAN 03</div>
-      <div class="bc-live" data-live="ST-06369" onclick="event.stopPropagation();openMap('ST-06369')" title="Xem trên bản đồ"></div>
-      <div class="bspec" onclick="event.stopPropagation()">
-        <div class="bsf"><label>TRỌNG TẢI</label><div class="bsv" contenteditable="true" data-ph="— tấn" data-key="ST-06369_trongtai" onblur="saveSpec(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div></div>
-        <div class="bsf"><label>NĂM SX</label><div class="bsv" contenteditable="true" data-ph="——" data-key="ST-06369_namsx" onblur="saveSpec(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div></div>
-        <div class="bsf"><label>DÀI (m)</label><div class="bsv" contenteditable="true" data-ph="——" data-key="ST-06369_dai" onblur="saveSpec(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div></div>
-        <div class="bsf"><label>RỘNG (m)</label><div class="bsv" contenteditable="true" data-ph="——" data-key="ST-06369_rong" onblur="saveSpec(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div></div>
-        <div class="bsf" style="grid-column:1/-1"><label>CAO (m)</label><div class="bsv" contenteditable="true" data-ph="——" data-key="ST-06369_cao" onblur="saveSpec(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div></div>
-        <div class="bspec-edit-hint">✎ bấm để chỉnh sửa</div>
-      </div>
-    </div>
-
-  </div>
-  <button class="home-map-cta" onclick="openMap()">🗺️ BẢN ĐỒ ĐIỀU PHỐI ĐỘI TÀU</button>
-  <div class="hint">// BẤM VÀO SÀ LAN ĐỂ QUẢN LÝ //</div>
 </div>
 
 <div class="screen" id="s-detail">
@@ -918,6 +956,7 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
       <div><h2 id="dh-t">—</h2><p id="dh-s">—</p></div>
       <div class="dpill" id="dh-p">● HOẠT ĐỘNG</div>
     </div>
+    <div class="dh-hero" id="dh-hero"></div>
     <div class="mg" id="mg"></div>
   </div>
 </div>
@@ -1366,6 +1405,10 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
     <div class="mp-banner" id="mp-banner">Chạm vào bản đồ để chọn vị trí<button onclick="mpCancelPlace()">Hủy</button></div>
     <div class="mp-pop" id="mp-pop"></div>
 
+    <button class="mp-search" id="mp-search" onclick="mpFindOpen('b')"><span class="ic">🔍</span><span class="t" id="mp-search-t">Tìm đường đi trên sông…</span></button>
+    <button class="mp-ai-fab" id="mp-ai-fab" onclick="mpAiSheet(true)" aria-label="Trợ lý AI"><span>🤖</span><b>Trợ lý AI</b></button>
+    <div class="mp-ctx" id="mp-ctx"></div>
+
     <div class="mp-zoom">
       <button onclick="mpZoomBy(1.3)" aria-label="Phóng to">+</button>
       <button onclick="mpZoomBy(0.77)" aria-label="Thu nhỏ">&minus;</button>
@@ -1374,8 +1417,8 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
   </div>
 
   <div class="mp-side" id="mp-side">
-    <div class="mp-side-head" onclick="g('mp-side').classList.toggle('min');setTimeout(mpResize,280)">
-      <span id="mp-side-sum">Đội tàu</span><span>Thu gọn / mở</span>
+    <div class="mp-side-head" id="mp-side-head">
+      <i class="grip"></i><span id="mp-side-sum">Đội tàu</span><span class="tgl" id="mp-side-tgl">Thu gọn / mở</span>
     </div>
     <div class="mp-tabs">
       <button class="on" data-t="fleet" onclick="mpTab('fleet')">⛴ Đội tàu</button>
@@ -1383,7 +1426,6 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
       <button data-t="tide" onclick="mpTab('tide')">🌊 Nước</button>
       <button data-t="poi" onclick="mpTab('poi')">📍 Địa điểm</button>
       <button data-t="tram" onclick="mpTab('tram')">🚧 Trạm</button>
-      <button data-t="ai" onclick="mpTab('ai')">🤖 AI</button>
       <button data-t="api" onclick="mpTab('api')">📡 Kết nối</button>
     </div>
     <div class="mp-body">
@@ -1406,6 +1448,19 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
 
       <!-- TUYẾN VẬN CHUYỂN -->
       <div class="mp-pane" id="mp-p-route">
+        <div class="mp-find" id="mp-find">
+          <div class="mp-fd-rows">
+            <div class="mp-fd-row"><i class="dot a"></i><input id="mp-fd-a" placeholder="Điểm đi: cảng, bến, sà lan, tọa độ…" autocomplete="off" spellcheck="false"><button type="button" onclick="mpFindPick('a')" title="Chọn trên bản đồ">📍</button></div>
+            <div class="mp-fd-row"><i class="dot b"></i><input id="mp-fd-b" placeholder="Điểm đến" autocomplete="off" spellcheck="false"><button type="button" onclick="mpFindPick('b')" title="Chọn trên bản đồ">📍</button></div>
+            <button type="button" class="mp-fd-swap" onclick="mpFindSwap()" title="Đổi chiều">⇅</button>
+          </div>
+          <div class="mp-fd-sug" id="mp-fd-sug"></div>
+          <div class="mp-fd-opt">
+            <label><input type="checkbox" id="mp-fd-nosea" onchange="mpFindRun()"> Tránh đi biển</label>
+            <label><input type="checkbox" id="mp-fd-big" onchange="mpFindRun()"> Ưu tiên sông lớn</label>
+          </div>
+          <div id="mp-fd-res"></div>
+        </div>
         <div class="mp-rtopt">
           <label><input type="checkbox" id="mp-rt-all" onchange="mpSetRouteOpts()"> Hiện mạng tuyến</label>
           <label style="margin-left:auto">Tốc độ <input type="number" id="mp-rt-spd" min="1" max="40" step="0.5" onchange="mpSetRouteOpts()"> km/h</label>
@@ -1460,42 +1515,6 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
           <div id="mp-tl-sum"></div>
           <div id="mp-tl-list"></div>
         </div>
-      </div>
-
-      <!-- TRỢ LÝ AI -->
-      <div class="mp-pane" id="mp-p-ai">
-        <div class="mp-ai-top">
-          <span class="who" id="mp-ai-who">Trợ lý AI</span>
-          <button class="btn" id="mp-ai-clr" onclick="mpAiClearMarks()" style="display:none">Bỏ ghim AI</button>
-          <button class="btn" onclick="mpAiNew()">Hỏi mới</button>
-          <button class="btn" onclick="g('mp-ai-set').classList.toggle('show')" aria-label="Cài đặt AI">⚙️</button>
-        </div>
-        <div class="mp-sec mp-ai-set" id="mp-ai-set">
-          <h5>Cài đặt trợ lý AI</h5>
-          <div class="mp-row">
-            <div class="mp-f"><label>Hãng AI</label>
-              <select id="mp-ai-prov" onchange="mpAiProvUI()">
-                <option value="gemini">Google Gemini</option>
-                <option value="claude">Anthropic Claude</option>
-                <option value="openai">OpenAI GPT</option>
-              </select>
-            </div>
-            <div class="mp-f"><label>Mô hình</label><input id="mp-ai-model" list="mp-ai-models" autocomplete="off" spellcheck="false"><datalist id="mp-ai-models"></datalist></div>
-          </div>
-          <div class="mp-f"><label>Khóa API của bạn (tùy chọn)</label>
-            <input id="mp-ai-key" type="password" autocomplete="off" spellcheck="false" placeholder="Để trống nếu máy chủ đã có khóa">
-            <div class="hint" id="mp-ai-keyhint"></div>
-          </div>
-          <div class="mp-f" id="mp-ai-pass-f" style="display:none"><label>Mật khẩu trợ lý (do quản trị đặt)</label><input id="mp-ai-pass" type="password" autocomplete="off"></div>
-          <div class="mp-mact"><button class="btn pri" onclick="mpAiSaveCfg()">Lưu cài đặt</button></div>
-          <div class="hint" style="margin-top:8px">Khóa chỉ lưu trên máy này (không nằm trong file Xuất dữ liệu), mỗi lần hỏi được gửi qua máy chủ của app tới hãng AI. Tìm địa điểm dùng dữ liệu OpenStreetMap, thời tiết từ Open-Meteo, giá cả tìm trên web – nên kiểm tra lại trước khi quyết định.</div>
-        </div>
-        <div class="mp-ai-chips" id="mp-ai-chips"></div>
-        <div id="mp-ai-log"></div>
-        <form class="mp-ai-in" onsubmit="event.preventDefault();mpAiSend()">
-          <textarea id="mp-ai-q" rows="2" placeholder="Hỏi: cây xăng dọc tuyến, chỗ sửa tàu gần Cái Răng, con nước, thời tiết, giá dầu…" onkeydown="if(event.key==='Enter'&&!event.shiftKey&&innerWidth>900){event.preventDefault();mpAiSend();}"></textarea>
-          <button class="btn pri" id="mp-ai-go" type="submit">Gửi</button>
-        </form>
       </div>
 
       <!-- API -->
@@ -1572,6 +1591,48 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
           <div class="mp-code"><button class="btn" onclick="mpCopyText(g('mp-gpslogger').textContent)">Sao chép</button><pre id="mp-gpslogger"></pre></div>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="mp-ai-sheet" id="mp-ai-sheet" aria-hidden="true">
+    <div class="mp-ai-head"><b>🤖 Trợ lý AI</b><span class="sub">Gõ hoặc bấm 🎤 để nói</span><button onclick="mpAiSheet(false)" aria-label="Đóng">✕</button></div>
+    <div class="mp-ai-body">
+      <!-- TRỢ LÝ AI -->
+      <div class="mp-pane on" id="mp-p-ai">
+        <div class="mp-ai-top">
+          <span class="who" id="mp-ai-who">Trợ lý AI</span>
+          <button class="btn" id="mp-ai-clr" onclick="mpAiClearMarks()" style="display:none">Bỏ ghim AI</button>
+          <button class="btn" onclick="mpAiNew()">Hỏi mới</button>
+          <button class="btn" onclick="g('mp-ai-set').classList.toggle('show')" aria-label="Cài đặt AI">⚙️</button>
+        </div>
+        <div class="mp-sec mp-ai-set" id="mp-ai-set">
+          <h5>Cài đặt trợ lý AI</h5>
+          <div class="mp-row">
+            <div class="mp-f"><label>Hãng AI</label>
+              <select id="mp-ai-prov" onchange="mpAiProvUI()">
+                <option value="gemini">Google Gemini</option>
+                <option value="claude">Anthropic Claude</option>
+                <option value="openai">OpenAI GPT</option>
+              </select>
+            </div>
+            <div class="mp-f"><label>Mô hình</label><input id="mp-ai-model" list="mp-ai-models" autocomplete="off" spellcheck="false"><datalist id="mp-ai-models"></datalist></div>
+          </div>
+          <div class="mp-f"><label>Khóa API của bạn (tùy chọn)</label>
+            <input id="mp-ai-key" type="password" autocomplete="off" spellcheck="false" placeholder="Để trống nếu máy chủ đã có khóa">
+            <div class="hint" id="mp-ai-keyhint"></div>
+          </div>
+          <div class="mp-f" id="mp-ai-pass-f" style="display:none"><label>Mật khẩu trợ lý (do quản trị đặt)</label><input id="mp-ai-pass" type="password" autocomplete="off"></div>
+          <div class="mp-mact"><button class="btn pri" onclick="mpAiSaveCfg()">Lưu cài đặt</button></div>
+          <div class="hint" style="margin-top:8px">Khóa chỉ lưu trên máy này (không nằm trong file Xuất dữ liệu), mỗi lần hỏi được gửi qua máy chủ của app tới hãng AI. Tìm địa điểm dùng dữ liệu OpenStreetMap, thời tiết từ Open-Meteo, giá cả tìm trên web – nên kiểm tra lại trước khi quyết định.</div>
+        </div>
+        <div class="mp-ai-chips" id="mp-ai-chips"></div>
+        <div id="mp-ai-log"></div>
+        <form class="mp-ai-in" onsubmit="event.preventDefault();mpAiSend()">
+          <textarea id="mp-ai-q" rows="2" placeholder="Hỏi: cây xăng dọc tuyến, chỗ sửa tàu gần Cái Răng, con nước, thời tiết, giá dầu…" onkeydown="if(event.key==='Enter'&&!event.shiftKey&&innerWidth>900){event.preventDefault();mpAiSend();}"></textarea>
+          <button class="btn mp-ai-mic" id="mp-ai-mic" type="button" onclick="mpAiVoice()" aria-label="Nói bằng giọng">🎤</button>
+          <button class="btn pri" id="mp-ai-go" type="submit">Gửi</button>
+        </form>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1739,6 +1800,45 @@ function saveSpec(el){
   const key=el.dataset.key;
   if(key) localStorage.setItem('spec_'+key, el.textContent.trim());
 }
+// Hình sà lan chở cát (nhìn ngang): mũi bên trái, khoang hàng chất cát, cabin lái phía lái, cờ đỏ sao vàng
+let bgSvgN = 0;
+function bargeSVG(code, w){
+  const c = AC[code]||'#e8a020', id = 'bg'+(++bgSvgN), h = Math.round((w||240)*0.5);
+  return `<svg class="bg-svg" viewBox="0 0 260 130" width="${w||240}" height="${h}" role="img" aria-label="Sà lan ${code}">
+  <defs>
+    <linearGradient id="${id}h" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c}"/><stop offset=".55" stop-color="${c}" stop-opacity=".85"/><stop offset="1" stop-color="#1b2633"/></linearGradient>
+    <linearGradient id="${id}s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3d9a1"/><stop offset="1" stop-color="#c79a52"/></linearGradient>
+    <linearGradient id="${id}w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fb6cf" stop-opacity=".75"/><stop offset="1" stop-color="#2f6f8d" stop-opacity=".25"/></linearGradient>
+    <clipPath id="${id}c"><path d="M6 70 L254 70 L249 86 Q240 101 218 102 L42 102 Q20 101 12 88 Z"/></clipPath>
+  </defs>
+  <path d="M0 104 Q16 99 32 104 T64 104 T96 104 T128 104 T160 104 T192 104 T224 104 T260 104 L260 130 L0 130 Z" fill="url(#${id}w)"/>
+  <g clip-path="url(#${id}c)">
+    <rect x="0" y="66" width="260" height="40" fill="url(#${id}h)"/>
+    <rect x="0" y="95" width="260" height="12" fill="#7a2a1f" opacity=".9"/>
+    <rect x="0" y="73" width="260" height="3.2" fill="#fff" opacity=".85"/>
+  </g>
+  <path d="M6 70 L254 70 L249 86 Q240 101 218 102 L42 102 Q20 101 12 88 Z" fill="none" stroke="#0f1720" stroke-opacity=".55" stroke-width="1.4"/>
+  <path d="M22 70 L22 57 L172 57 L172 70" fill="#3b4652" stroke="#273039" stroke-width="1"/>
+  <path d="M25 58 C40 40 62 33 84 41 C100 30 126 30 140 40 C152 35 164 44 169 58 Z" fill="url(#${id}s)"/>
+  <path d="M44 50 C58 44 70 43 80 47 M104 44 C116 39 128 40 136 46" stroke="#fff3d6" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".7"/>
+  <path d="M30 57 L166 57" stroke="#9c7a43" stroke-width="1" opacity=".6"/>
+  <g stroke="#e9eef2" stroke-width="1.2" stroke-linecap="round" opacity=".9"><path d="M8 63 L20 63 M10 63 L10 70 M16 63 L16 70"/><path d="M176 63 L252 63 M246 63 L246 70 M238 63 L238 70"/></g>
+  <rect x="182" y="40" width="54" height="30" rx="2" fill="#f4f1ea" stroke="#9aa3ad"/>
+  <rect x="186" y="25" width="46" height="17" rx="2" fill="#ffffff" stroke="#9aa3ad"/>
+  <rect x="181" y="21" width="56" height="5" rx="1.5" fill="${c}"/>
+  <g fill="#284a63"><rect x="190" y="29" width="8" height="8" rx="1"/><rect x="201" y="29" width="8" height="8" rx="1"/><rect x="212" y="29" width="8" height="8" rx="1"/><rect x="223" y="29" width="6" height="8" rx="1"/></g>
+  <g fill="#284a63" opacity=".8"><circle cx="192" cy="52" r="2.6"/><circle cx="202" cy="52" r="2.6"/><rect x="216" y="45" width="10" height="25" rx="1" fill="#b6bec7"/></g>
+  <path d="M232 21 L232 4" stroke="#55606b" stroke-width="1.6"/>
+  <rect x="232" y="4" width="17" height="11" fill="#da251d"/>
+  <path d="M240.5 6.6 L241.4 9.2 L244.1 9.2 L241.9 10.8 L242.8 13.4 L240.5 11.8 L238.2 13.4 L239.1 10.8 L236.9 9.2 L239.6 9.2 Z" fill="#ffde00"/>
+  <text x="112" y="91" text-anchor="middle" font-family="Be Vietnam Pro,Roboto,sans-serif" font-weight="800" font-size="12.5" letter-spacing="2" fill="#fff" stroke="#0f1720" stroke-opacity=".35" stroke-width=".6">${code}</text>
+  <path d="M10 98 Q4 101 0 100 M16 101 Q10 104 4 104" stroke="#fff" stroke-width="1.4" fill="none" opacity=".75" stroke-linecap="round"/>
+</svg>`;
+}
+const SPEC_F = [['trongtai','TRỌNG TẢI','— tấn'],['namsx','NĂM SX','——'],['dai','DÀI (m)','——'],['rong','RỘNG (m)','——'],['cao','CAO (m)','——']];
+function specHTML(code){
+  return `<div class="bspec">${SPEC_F.map(([k,l,ph],i)=>`<div class="bsf"${i===4?' style="grid-column:1/-1"':''}><label>${l}</label><div class="bsv" contenteditable="true" data-ph="${ph}" data-key="${code}_${k}" onblur="saveSpec(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div></div>`).join('')}<div class="bspec-edit-hint">✎ bấm để chỉnh sửa</div></div>`;
+}
 function loadSpecs(){
   document.querySelectorAll('.bsv[data-key]').forEach(el=>{
     const val=localStorage.getItem('spec_'+el.dataset.key);
@@ -1754,7 +1854,7 @@ const MENU=[
   {n:'06',ico:'📅',t:'LỊCH BOOKING',d:'Gantt chart lịch điều phối 3 sà lan, chia sẻ chung, theo dõi task vận chuyển, bán hàng, cho thuê, sửa chữa.',k:'booking'},
   {n:'07',ico:'🗺️',t:'VỊ TRÍ &\nHÀNH TRÌNH',d:'Vị trí thời gian thực trên bản đồ, cập nhật qua API hoặc nhập tay, xem vệt hành trình.',k:'map'},
 ];
-let barge=null, stack=['s-home'];
+let barge=null, stack=['s-map'];
 
 // ── UTILS ──
 const g=id=>document.getElementById(id);
@@ -1772,8 +1872,8 @@ function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   g(id).classList.add('active');
   window.scrollTo(0,0);
-  const h=(id==='s-home');
-  g('nb-home').classList.toggle('show',!h);
+  const h=(id==='s-map');
+  g('nb-map').classList.toggle('show',!h);
   g('nb-back').classList.toggle('show',!h);
   g('tb-barge').classList.toggle('show',!!barge&&!h);
   // Xuất/Nhập chỉ hiện ở màn hình chính
@@ -1781,8 +1881,8 @@ function show(id){
   g('nb-import').classList.toggle('hide-on-sub',!h);
 }
 function nav(id){stack.push(id);show(id);}
-function goBack(){if(stack.length>1)stack.pop();show(stack[stack.length-1]||'s-home');}
-function goHome(){stack=['s-home'];barge=null;g('tb-barge').textContent='';setAC('#e8a020');show('s-home');}
+function goBack(){if(stack.length>1)stack.pop();const t=stack[stack.length-1]||'s-map'; if(t==='s-map') openMap(); else show(t);}
+function goHome(){stack=['s-map'];barge=null;g('tb-barge').textContent='';setAC('#e8a020');openMap();}
 
 // ── DETAIL ──
 function openDetail(b){
@@ -1794,6 +1894,7 @@ function openDetail(b){
   g('dh-s').textContent=(LABELS[b]||'')+' · ĐOÀN TÀU TRUNG HIẾU';
   g('dh-p').style.cssText=`border-color:${c};color:${c}`;
   g('dh').style.borderLeftColor=c;
+  g('dh-hero').innerHTML = `<div class="pic">${bargeSVG(b,420)}</div>${specHTML(b)}`; loadSpecs();
   const mg=g('mg'); mg.innerHTML='';
   MENU.forEach((m,i)=>{
     const el=document.createElement('div'); el.className='mi';
@@ -3557,6 +3658,8 @@ function mpBuild(){
   MAP.cities.forEach(c=>{ const big=BIG.has(c.name), k=mpEl('g',{class:'mp-lbl'+(big?'':' minor'),'data-x':c.x,'data-y':c.y,'data-k':'c'},gc);
     mpEl('circle',{cx:0,cy:0,r:2,class:'mp-city'},k); mpEl('text',{x:4.5,y:3.2,class:'mp-citylbl'+(big?' b':'')},k).textContent=c.name; });
   mpEl('g',{id:'mp-g-trail'},svg2);
+  mpEl('g',{id:'mp-g-find'},svg2);
+  mpEl('g',{id:'mp-g-rvuser'},svg2);
   mpEl('g',{id:'mp-g-tram'},svg2);
   mpEl('g',{id:'mp-g-poi'},svg2);
   mpEl('g',{id:'mp-g-ai'},svg2);
@@ -3588,7 +3691,7 @@ function mpLoadWater(){
   g('mp-loadchip')?.classList.add('show');
   mpWaterP = fetch('map-data.json').then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(d=>{
     MP_WATER = d;
-    MP_RT = d.routes.map(r=>Object.assign(r, {pts: mpDecode(r.line, d.q)}));
+    MP_RT = d.routes.map(r=>Object.assign(r, {pts: mpDecode(r.line, d.q)})).concat(mpMyRoutes());
     mpBuildWater(); mpRenderRoutes();
     if(g('mp-p-route')?.classList.contains('on')) mpRenderRouteList();
     return d;
@@ -3710,7 +3813,7 @@ function mpScaleMarkers(){
 }
 
 function mpRenderAll(animate){
-  if(mpBuilt){ mpRenderRoutes(); mpRenderTrails(); mpRenderTrams(); mpRenderPois(); mpRenderAiMarks(); mpRenderBarges(animate); mpPopPos(); }
+  if(mpBuilt){ mpRenderRoutes(); mpRenderFind(); mpRenderRvNames(); mpRenderTrails(); mpRenderTrams(); mpRenderPois(); mpRenderAiMarks(); mpRenderBarges(animate); mpPopPos(); }
   mpRenderFleet(); mpRenderPoiList(); mpRenderHomeLive();
 }
 
@@ -3754,7 +3857,7 @@ const MP_STROKES = [
   ['.mp-prov',.5,0,1],['.mp-coast',.8,0,1],['.mp-foreign',.7],['.mp-border',1,[5,3]],
   ['.mp-wl.r.l0',1.5,0,1],['.mp-wl.c.l0',.95,0,1],['.mp-wl.r.l1',.95,0,1],['.mp-wl.c.l1',.65,0,1],['.mp-wl.l2',.42,0,1],
   ['.mp-river.sea',.9,[2,4]],['.mp-rtbg',4.6],['.mp-rtbg.sel',6],['.mp-rt',2.2,[7,4]],['.mp-rt.sea',2.2,[1.5,4.5]],['.mp-rt.sel',3.2,[7,4]],
-  ['.mp-rt.sea.sel',3.2,[1.5,4.5]],['.mp-trail',2.6],['.mp-cross',1.5,[4,3]]];
+  ['.mp-rt.sea.sel',3.2,[1.5,4.5]],['.mp-rt.alt',2.4,[6,4]],['.mp-rt.alt.sea',2.4,[1.5,4.5]],['.mp-trail',2.6],['.mp-cross',1.5,[4,3]]];
 let mpStrokeVs = 0;
 function mpStrokes(){
   if(Math.abs(vs-mpStrokeVs) < mpStrokeVs*0.004) return;
@@ -3773,12 +3876,21 @@ function mpScaleBar(){
   const nice = [0.5,1,2,5,10,20,25,50,100,200,300].reduce((b,v)=> v<=want*1.25 ? v : b, 0.5);
   bar.style.width = Math.round(nice*pxPerKm)+'px'; t.textContent = (nice<1?nice.toLocaleString('vi-VN'):nice)+' km';
 }
+// vùng bản đồ nhìn thấy: trên điện thoại trừ ô tìm đường (trên) và bảng kéo (dưới)
+function mpVisBox(){
+  const w = mpWrap(), ww = w.clientWidth, wh = w.clientHeight;
+  if(innerWidth>900) return {x:0, y:0, w:ww, h:wh};
+  const top = 58, bot = Math.min(mpSheetH||96, wh*0.6);
+  return {x:0, y:top, w:ww, h:Math.max(120, wh-top-bot)};
+}
+const mpCy = () => { const b = mpVisBox(); return b.y + b.h/2; };
 function mpFit(){
   // khung nhìn đầu: vùng hoạt động của đội sà lan (Châu Đốc – Cà Mau – TP.HCM – Vũng Tàu)
   const w=mpWrap(); const ww=w.clientWidth, wh=w.clientHeight; if(!ww||!wh) return;
+  const b = mpVisBox();
   const [x0,y0]=mpXY(104.85,11.05), [x1,y1]=mpXY(107.2,8.95), pad=10;
-  vs = Math.min((ww-pad*2)/(x1-x0), (wh-pad*2)/(y1-y0)); mpVs0 = vs;
-  vx = ww/2-((x0+x1)/2)*vs; vy = wh/2-((y0+y1)/2)*vs; mpApply();
+  vs = Math.min((b.w-pad*2)/(x1-x0), (b.h-pad*2)/(y1-y0)); mpVs0 = vs;
+  vx = b.w/2-((x0+x1)/2)*vs; vy = b.y+b.h/2-((y0+y1)/2)*vs; mpApply();
 }
 function mpFitAll(){
   const pts = FLEET.filter(c=>mpPos[c]).map(c=>mpXY(mpPos[c].lon,mpPos[c].lat));
@@ -3786,20 +3898,21 @@ function mpFitAll(){
   const w=mpWrap(), ww=w.clientWidth, wh=w.clientHeight;
   let x0=Math.min(...pts.map(p=>p[0])), x1=Math.max(...pts.map(p=>p[0])), y0=Math.min(...pts.map(p=>p[1])), y1=Math.max(...pts.map(p=>p[1]));
   const pad=60, bw=Math.max(x1-x0,80), bh=Math.max(y1-y0,80);
-  vs = Math.max(0.3, Math.min(8, Math.min((ww-pad*2)/bw,(wh-pad*2)/bh)));
-  vx = ww/2-((x0+x1)/2)*vs; vy = wh/2-((y0+y1)/2)*vs; mpApply();
+  const vb = mpVisBox();
+  vs = Math.max(0.3, Math.min(8, Math.min((ww-pad*2)/bw,(vb.h-pad*2)/bh)));
+  vx = ww/2-((x0+x1)/2)*vs; vy = mpCy()-((y0+y1)/2)*vs; mpApply();
 }
 function mpCenterOn(code, zoom){
   const p = mpPos[code]; if(!p) return;
   const [x,y] = mpXY(p.lon,p.lat), w=mpWrap();
   if(zoom) vs = Math.max(vs, zoom);
-  vx = w.clientWidth/2 - x*vs; vy = w.clientHeight/2 - y*vs; mpApply();
+  vx = w.clientWidth/2 - x*vs; vy = mpCy() - y*vs; mpApply();
 }
 function mpZoomAt(f, mx, my){
   const nx=(mx-vx)/vs, ny=(my-vy)/vs;
   vs = Math.max(0.3, Math.min(14, vs*f)); vx=mx-nx*vs; vy=my-ny*vs; mpApply();
 }
-function mpZoomBy(f){ const w=mpWrap(); mpTouched=true; mpZoomAt(f, w.clientWidth/2, w.clientHeight/2); }
+function mpZoomBy(f){ const w=mpWrap(); mpTouched=true; mpZoomAt(f, w.clientWidth/2, mpCy()); }
 function mpResize(){ if(!g('s-map').classList.contains('active')) return; mpR = null; if(!mpTouched) mpFit(); else mpApply(); }
 window.addEventListener('resize', mpResize);
 
@@ -3807,7 +3920,8 @@ let mpPts=new Map(), mpDrag=null, mpPinch=null, mpMoved=false;
 function mpInitPointer(){
   const w = mpWrap();
   w.addEventListener('pointerdown', e=>{
-    if(e.target.closest('.mp-zoom,.mp-live,.mp-legend,.mp-banner,.mp-pop')) return;
+    if(e.target.closest('.mp-zoom,.mp-live,.mp-legend,.mp-banner,.mp-pop,.mp-search,.mp-ai-fab,.mp-ctx,.mp-rtinfo')) return;
+    mpCtxHide(); mpLongStart(e);
     mpPts.set(e.pointerId,{x:e.clientX,y:e.clientY});
     if(mpPts.size===1){ mpDrag={x:e.clientX,y:e.clientY,vx,vy}; mpMoved=false; }
     if(mpPts.size===2){
@@ -3841,8 +3955,9 @@ function mpInitPointer(){
     e.preventDefault(); const r=w.getBoundingClientRect(); mpTouched=true;
     mpZoomAt(e.deltaY>0?0.88:1.14, e.clientX-r.left, e.clientY-r.top);
   },{passive:false});
+  w.addEventListener('contextmenu', e=>{ e.preventDefault(); const r=w.getBoundingClientRect(); mpCtxShow(e.clientX-r.left, e.clientY-r.top); });
   g('mp-stage').addEventListener('click', e=>{
-    if(mpMoved) return;
+    if(mpMoved || mpCtxJust){ mpCtxJust=false; return; }
     if(mpPlacing){
       const r=w.getBoundingClientRect();
       const [lon,lat] = mpLL((e.clientX-r.left-vx)/vs, (e.clientY-r.top-vy)/vs);
@@ -3902,7 +4017,7 @@ function mpRenderFleet(){
     const tr = mpTrack(code).filter(q=>q[2]>=since);
     let km=0; for(let i=1;i<tr.length;i++) km+=mpKm(tr[i-1],tr[i]);
     return `<div class="mp-card${mpSel===code?' sel':''}" data-code="${code}" style="--bc:${AC[code]}" onclick="mpCardClick('${code}')">
-      <div class="top"><span class="code">${code}</span><span class="lab">${LABELS[code]||''}</span>
+      <div class="top"><span class="pic">${bargeSVG(code,78)}</span><span class="code">${code}</span><span class="lab">${LABELS[code]||''}</span>
         <span class="mp-badge ${p?p.status:'none'}">${p?st.t:'Chưa có vị trí'}</span></div>
       <div class="meta">
         ${p?`Cập nhật <b class="${stale?'stale':''}">${mpAgo(p.ts)}</b><span class="mp-src">${MP_SRC[p.src]||''}</span>${stale?' <span class="stale">· mất tín hiệu</span>':''}<br>
@@ -3940,8 +4055,8 @@ function mpRenderPoiList(){
 function mpPoiClick(id){
   const p = mpPois.find(x=>x.id===id); if(!p) return;
   const [x,y]=mpXY(p.lon,p.lat), w=mpWrap(); vs=Math.max(vs,2.5);
-  vx=w.clientWidth/2-x*vs; vy=w.clientHeight/2-y*vs; mpTouched=true; mpApply();
-  if(innerWidth<=900) { g('mp-side').classList.add('min'); setTimeout(mpResize,280); }
+  vx=w.clientWidth/2-x*vs; vy=mpCy()-y*vs; mpTouched=true; mpApply();
+  mpSheet('min');
 }
 
 // ═══ TRẠM THU TIỀN / CẢNG VỤ (phí "qua trạm") ═══
@@ -4011,8 +4126,8 @@ function mpTramClick(id){
   const t = mpTrams.find(x=>x.id===id); if(!t) return;
   if(!isFinite(t.lat) || !isFinite(t.lon)){ mpOpenTram(id); return; }
   const [x,y]=mpXY(t.lon,t.lat), w=mpWrap(); vs=Math.max(vs,3);
-  vx=w.clientWidth/2-x*vs; vy=w.clientHeight/2-y*vs; mpTouched=true; mpApply();
-  if(innerWidth<=900){ g('mp-side').classList.add('min'); setTimeout(mpResize,280); }
+  vx=w.clientWidth/2-x*vs; vy=mpCy()-y*vs; mpTouched=true; mpApply();
+  mpSheet('min');
 }
 function mpRenderTrams(){
   const gr = g('mp-g-tram'); if(!gr) return;
@@ -4337,7 +4452,7 @@ function mpAiPlace(){                      // nơi để hỏi "gần đây": s�
 }
 function mpAiCenter(){
   const w = mpWrap(); if(!w || !w.clientWidth || !mpBuilt) return null;
-  const [lon,lat] = mpLL((w.clientWidth/2-vx)/vs, (w.clientHeight/2-vy)/vs); return [lat,lon];
+  const [lon,lat] = mpLL((w.clientWidth/2-vx)/vs, (mpCy()-vy)/vs); return [lat,lon];
 }
 function mpAiChips(){
   const r = MP_RT.find(x=>x.id===mpRt), rt = r ? `tuyến ${r.from} → ${r.to}` : null, pl = mpAiPlace().txt;
@@ -4451,17 +4566,18 @@ function mpAiShow(marks){                  // ghim lên bản đồ và đưa c�
   if(!mpBuilt || !marks.length) return;
   const xy = marks.map(m=>mpXY(m.lon,m.lat)), w = mpWrap();
   const x0=Math.min(...xy.map(p=>p[0])), x1=Math.max(...xy.map(p=>p[0])), y0=Math.min(...xy.map(p=>p[1])), y1=Math.max(...xy.map(p=>p[1]));
-  const ww=w.clientWidth, wh=w.clientHeight;
+  const ww=w.clientWidth, vb=mpVisBox(), wh=vb.h;
   vs = Math.max(.6, Math.min(14, Math.min((ww-80)/Math.max(x1-x0,1), (wh-90)/Math.max(y1-y0,1))));
-  vx = ww/2-(x0+x1)/2*vs; vy = wh/2-(y0+y1)/2*vs; mpTouched=true; mpApply();
+  vx = ww/2-(x0+x1)/2*vs; vy = vb.y+wh/2-(y0+y1)/2*vs; mpTouched=true; mpApply();
 }
 function mpAiClearMarks(){ mpAiMarks = []; mpRenderAiMarks(); }
 function mpAiGo(mi, pi){
+  if(innerWidth<=900) mpAiSheet(false);
   const m = mpAiChat[mi]; if(!m || !m.marks) return;
   if(!mpAiMarks.includes(m.marks[pi])) { mpAiMarks = m.marks.slice(); mpRenderAiMarks(); }
   const p = m.marks[pi], [x,y] = mpXY(p.lon,p.lat), w = mpWrap(); vs = Math.max(vs, 6);
-  vx = w.clientWidth/2-x*vs; vy = w.clientHeight/2-y*vs; mpTouched=true; mpApply();
-  if(innerWidth<=900){ g('mp-side').classList.add('min'); setTimeout(mpResize,280); }
+  vx = w.clientWidth/2-x*vs; vy = mpCy()-y*vs; mpTouched=true; mpApply();
+  mpSheet('min');
 }
 function mpAiSavePin(mi, pi){ const m = mpAiChat[mi]; if(m && m.marks && m.marks[pi]) mpAiSaveMark(m.marks[pi]); }
 function mpAiSaveMark(p){                  // mở form Thêm địa điểm, điền sẵn để người dùng kiểm tra rồi lưu
@@ -4469,6 +4585,437 @@ function mpAiSaveMark(p){                  // mở form Thêm địa điểm, đ
   g('mp-pi-name').value = p.name; g('mp-pi-lat').value = p.lat; g('mp-pi-lon').value = p.lon;
   g('mp-pi-addr').value = p.address||''; g('mp-pi-phone').value = p.phone||''; g('mp-pi-note').value = [p.note,'(AI tìm, nguồn OpenStreetMap)'].filter(Boolean).join(' ');
 }
+
+// ═══ BẢNG KÉO LÊN / XUỐNG (điện thoại) – bản đồ luôn đầy màn hình, bảng nổi phía dưới ═══
+let mpSheetSt = 'min', mpSheetH = 96;
+function mpSheetHeights(){
+  const H = g('s-map').clientHeight || (innerHeight-52), side = g('mp-side');
+  const tabs = side.querySelector('.mp-tabs'), th = (tabs && tabs.offsetHeight) || 46;
+  return {min: 44+th+2, half: Math.round(H*0.52), full: H-62};
+}
+function mpSheet(st){
+  if(innerWidth>900) return;
+  const side = g('mp-side'), hs = mpSheetHeights(), sm = g('s-map');
+  mpSheetSt = st; mpSheetH = hs[st];
+  side.classList.toggle('min', st==='min');
+  side.style.height = mpSheetH+'px';
+  sm.style.setProperty('--sh', mpSheetH+'px'); sm.classList.toggle('sheet-full', st==='full');
+  const t = g('mp-side-tgl'); if(t) t.textContent = st==='min' ? 'Kéo lên ▴' : 'Thu gọn ▾';
+}
+function mpSheetInit(){
+  const head = g('mp-side-head'), side = g('mp-side'); let d = null;
+  head.addEventListener('pointerdown', e=>{
+    if(innerWidth>900) return;
+    d = {y:e.clientY, h:side.offsetHeight, moved:false};
+    try{ head.setPointerCapture(e.pointerId); }catch{}
+    side.classList.add('drag'); side.classList.remove('min');
+  });
+  head.addEventListener('pointermove', e=>{
+    if(!d) return;
+    const dy = e.clientY-d.y; if(Math.abs(dy)>5) d.moved = true;
+    const hs = mpSheetHeights(), h = Math.max(hs.min, Math.min(hs.full, d.h-dy));
+    side.style.height = h+'px'; g('s-map').style.setProperty('--sh', h+'px');
+  });
+  const end = ()=>{
+    if(!d) return;
+    side.classList.remove('drag');
+    const hs = mpSheetHeights(), h = side.offsetHeight;
+    if(!d.moved) mpSheet(mpSheetSt==='min' ? 'half' : 'min');
+    else {                                   // hướng kéo quyết định nấc dừng gần nhất theo chiều đó
+      const up = h > d.h, order = ['min','half','full'];
+      let best = mpSheetSt, bd = 1e9;
+      order.forEach(k=>{ const dd = Math.abs(hs[k]-h) + ((up ? hs[k] < h : hs[k] > h) ? 60 : 0); if(dd<bd){ bd=dd; best=k; } });
+      mpSheet(best);
+    }
+    d = null;
+  };
+  head.addEventListener('pointerup', end); head.addEventListener('pointercancel', end);
+  window.addEventListener('resize', ()=>{ if(innerWidth<=900) mpSheet(mpSheetSt); else { side.style.height=''; side.classList.remove('min'); } });
+  mpSheet('min');
+}
+
+// ═══ TRỢ LÝ AI: nút nổi trên bản đồ + nhập bằng giọng nói ═══
+let mpRec = null;
+function mpAiSheet(on){
+  const sm = g('s-map'); sm.classList.toggle('ai-open', !!on);
+  g('mp-ai-sheet').setAttribute('aria-hidden', on ? 'false' : 'true');
+  if(on){ mpAiOpen(); setTimeout(()=>{ if(innerWidth>900) g('mp-ai-q').focus(); mpAiScroll(); }, 320); }
+  else if(mpRec){ try{ mpRec.stop(); }catch{} }
+}
+function mpAiVoice(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition, btn = g('mp-ai-mic'), q = g('mp-ai-q');
+  if(!SR){ showToast('Trình duyệt này chưa cho nói trực tiếp – bấm micro 🎤 trên bàn phím điện thoại để đọc câu hỏi','warn'); q.focus(); return; }
+  if(mpRec){ try{ mpRec.stop(); }catch{} return; }
+  const r = new SR(), base = q.value.trim(); let fin = '';
+  r.lang = 'vi-VN'; r.interimResults = true; r.continuous = false; r.maxAlternatives = 1;
+  r.onresult = e=>{
+    let tmp = '';
+    for(let i=e.resultIndex;i<e.results.length;i++){ if(e.results[i].isFinal) fin += e.results[i][0].transcript; else tmp += e.results[i][0].transcript; }
+    q.value = [base, (fin+tmp).trim()].filter(Boolean).join(' ');
+  };
+  r.onerror = e=>{ showToast(e.error==='not-allowed'||e.error==='service-not-allowed' ? 'Chưa cho phép dùng micro – bật quyền micro cho trang này' : e.error==='no-speech' ? 'Chưa nghe thấy gì, bấm 🎤 và nói lại' : 'Không nhận được giọng nói, thử lại','warn'); };
+  r.onend = ()=>{ mpRec = null; btn.classList.remove('rec'); if(fin.trim()) mpAiSend(); };
+  mpRec = r; btn.classList.add('rec');
+  try{ r.start(); showToast('🎤 Đang nghe… nói câu hỏi của bạn','ok'); }catch(e){ mpRec = null; btn.classList.remove('rec'); }
+}
+
+// ═══ NHẤN GIỮ TRÊN BẢN ĐỒ: đi từ / đến đây, đặt tên sông, lưu địa điểm ═══
+let mpLongT = null, mpCtxJust = false, mpCtxLL = null;
+function mpLongStart(e){
+  clearTimeout(mpLongT);
+  if(e.pointerType==='mouse') return;            // máy tính dùng chuột phải
+  const r = mpWrap().getBoundingClientRect(), x = e.clientX-r.left, y = e.clientY-r.top;
+  mpLongT = setTimeout(()=>{ if(mpMoved || mpPts.size!==1) return; mpCtxShow(x,y); mpCtxJust = true; if(navigator.vibrate) navigator.vibrate(12); }, 550);
+}
+function mpCtxShow(x, y){
+  const [lon,lat] = mpLL((x-vx)/vs, (y-vy)/vs); mpCtxLL = [lat,lon];
+  const m = g('mp-ctx');
+  m.innerHTML = `<div class="hd">${lat.toFixed(5)}, ${lon.toFixed(5)}</div>
+    <button onclick="mpCtxAct('a')">🟢 Đi từ đây</button><button onclick="mpCtxAct('b')">🔴 Đến đây</button>
+    <button onclick="mpCtxAct('rv')">✏️ Đặt tên sông / kênh ở đây</button><button onclick="mpCtxAct('poi')">📍 Lưu địa điểm ở đây</button>
+    <button onclick="mpCtxAct('copy')">📋 Chép tọa độ</button>`;
+  m.classList.add('show');
+  const b = mpVisBox(), mw = m.offsetWidth, mh = m.offsetHeight, ww = mpWrap().clientWidth;
+  m.style.left = Math.max(8, Math.min(ww-mw-8, x-mw/2))+'px';
+  m.style.top = Math.max(b.y+4, Math.min(b.y+b.h-mh-4, y+14))+'px';
+}
+function mpCtxHide(){ const m = g('mp-ctx'); if(m) m.classList.remove('show'); }
+function mpCtxAct(k){
+  const [lat,lon] = mpCtxLL; mpCtxHide();
+  if(k==='a' || k==='b'){ mpFindSet(k, {name:`Điểm trên bản đồ (${lat.toFixed(4)}, ${lon.toFixed(4)})`, lat, lon}); mpFindOpen(); }
+  else if(k==='rv') mpNameRiver(lat, lon);
+  else if(k==='poi'){ mpOpenPoi(null,'other'); g('mp-pi-lat').value = lat.toFixed(6); g('mp-pi-lon').value = lon.toFixed(6); }
+  else if(k==='copy'){
+    const t = `${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(()=>showToast('Đã chép '+t,'ok')).catch(()=>prompt('Tọa độ:', t));
+  }
+}
+
+// ═══ TÌM ĐƯỜNG TỰ DO: điểm đi → điểm đến, tuyến đề xuất + tuyến thay thế (như Google Maps) ═══
+// Mạng sông rút gọn (route-graph.json) dựng từ OpenStreetMap bằng tools/ban-do/build_water.py, tải khi cần.
+let MP_GR = null, mpGrP = null;
+let mpFd = {a:null, b:null}, mpFdRes = [], mpFdSel = 0, mpFdFocus = 'a', mpFdSugItems = [];
+const MP_FD_PLACES = [            // bến, cảng hay dùng (tọa độ gần đúng, sửa được bằng cách lưu Địa điểm riêng)
+  ['Cảng thu mua Trung Hiếu (Sóc Trăng)', 9.603, 105.980, 'Cảng nhà, Sóc Trăng'],
+  ['KCN Trà Nóc (Cần Thơ)', 10.100, 105.726, 'Bình Thủy, Cần Thơ'],
+  ['Cảng Hoàng Diệu (Cần Thơ)', 10.071, 105.758, 'Bình Thủy, Cần Thơ · vị trí gần đúng'],
+  ['Cảng Cái Cui (Cần Thơ)', 9.997, 105.830, 'Cái Răng, Cần Thơ'],
+  ['Bến cát Vĩnh Xương', 10.905, 105.190, 'Tân Châu, An Giang'],
+  ['Trần Đề', 9.525, 106.190, 'Sóc Trăng'],
+  ['Vĩnh Thạnh (kênh Cái Sắn)', 10.218, 105.395, 'Cần Thơ'],
+];
+function mpGraph(){
+  if(MP_GR) return Promise.resolve(MP_GR);
+  if(mpGrP) return mpGrP;
+  mpGrP = fetch('route-graph.json').then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(d=>{
+    const q = d.q, nn = d.nodes.length/2, E = d.edges.map(([a,b,dk,f,ni,k,geo])=>{
+      const pts = mpDecode(geo, q); let L = 0, x0=1e9, y0=1e9, x1=-1e9, y1=-1e9;
+      for(let i=0;i<pts.length;i++){ const [x,y] = pts[i]; if(i) L += Math.hypot(x-pts[i-1][0], y-pts[i-1][1]);
+        if(x<x0) x0=x; if(x>x1) x1=x; if(y<y0) y0=y; if(y>y1) y1=y; }
+      return {a, b, km:dk/100, f:f/100, ni, k, pts, L:L||1e-6, bb:[x0,y0,x1,y1]};
+    });
+    const adj = Array.from({length:nn}, ()=>[]);
+    E.forEach((e,i)=>{ adj[e.a].push(i); if(e.b!==e.a) adj[e.b].push(i); });
+    MP_GR = {E, adj, nn, names:d.names, rv:{}}; mpRvApply(); return MP_GR;
+  }).catch(e=>{ mpGrP = null; throw e; });
+  return mpGrP;
+}
+function mpSnap(x, y){                    // điểm gần nhất trên mạng sông
+  let best = null, bd = Infinity;
+  MP_GR.E.forEach((e,ei)=>{
+    const bb = e.bb, dx = Math.max(bb[0]-x, 0, x-bb[2]), dy = Math.max(bb[1]-y, 0, y-bb[3]);
+    if(dx*dx+dy*dy >= bd) return;
+    const p = e.pts; let acc = 0;
+    for(let i=1;i<p.length;i++){
+      const ax=p[i-1][0], ay=p[i-1][1], ux=p[i][0]-ax, uy=p[i][1]-ay, l2=ux*ux+uy*uy, sl=Math.sqrt(l2);
+      const t = l2 ? Math.max(0, Math.min(1, ((x-ax)*ux+(y-ay)*uy)/l2)) : 0, px=ax+t*ux, py=ay+t*uy, d=(x-px)**2+(y-py)**2;
+      if(d<bd){ bd=d; best={ei, i, px, py, along:acc+t*sl}; }
+      acc += sl;
+    }
+  });
+  if(best) best.dkm = Math.sqrt(bd)*MP_KM_PER_U;
+  return best;
+}
+function mpSlice(e, s0, s1){              // đoạn hình học của cạnh từ vị trí s0 tới s1 (đơn vị bản đồ dọc cạnh)
+  const rev = s1<s0, a = Math.min(s0,s1), b = Math.max(s0,s1), p = e.pts, out = []; let acc = 0;
+  const at = (i,t)=>[p[i-1][0]+(p[i][0]-p[i-1][0])*t, p[i-1][1]+(p[i][1]-p[i-1][1])*t];
+  for(let i=1;i<p.length;i++){
+    const sl = Math.hypot(p[i][0]-p[i-1][0], p[i][1]-p[i-1][1]), st = acc, en = acc+sl;
+    if(en>=a && st<=b){
+      if(!out.length) out.push(sl ? at(i,(a-st)/sl) : p[i-1]);
+      if(en<=b) out.push(p[i]); else { out.push(at(i,(b-st)/sl)); break; }
+    }
+    acc = en;
+  }
+  if(!out.length) out.push(p[0]);
+  return rev ? out.reverse() : out;
+}
+function mpRoute(sa, sb, opt, pen){
+  const G = MP_GR, nn = G.nn, S = nn, T = nn+1, virt = [];
+  const piece = (sn, node)=>{ const e = G.E[sn.ei], r = e.km/e.L;
+    virt.push({n1:node, n2:e.a, ei:sn.ei, s0:sn.along, s1:0, km:sn.along*r});
+    virt.push({n1:node, n2:e.b, ei:sn.ei, s0:sn.along, s1:e.L, km:(e.L-sn.along)*r}); };
+  piece(sa, S); piece(sb, T);
+  if(sa.ei===sb.ei){ const e = G.E[sa.ei]; virt.push({n1:S, n2:T, ei:sa.ei, s0:sa.along, s1:sb.along, km:Math.abs(sb.along-sa.along)*e.km/e.L}); }
+  const vadj = new Map(); virt.forEach((v,i)=>[v.n1,v.n2].forEach(n=>{ if(!vadj.has(n)) vadj.set(n,[]); vadj.get(n).push(i); }));
+  const wOf = (ei, km)=>{ const e = G.E[ei]; if(opt.nosea && e.k===2) return Infinity; const f = opt.big ? e.f*e.f : e.f; return km*f*((pen && pen[ei]) || 1); };
+  const dist = new Float64Array(nn+2).fill(Infinity), prev = new Int32Array(nn+2).fill(-1), pe = new Int32Array(nn+2).fill(-1);
+  const H = [];                            // đống nhị phân [chi phí, nút]
+  const push = it=>{ H.push(it); let i = H.length-1; while(i){ const p = (i-1)>>1; if(H[p][0]<=H[i][0]) break; [H[p],H[i]] = [H[i],H[p]]; i = p; } };
+  const pop = ()=>{ const top = H[0], last = H.pop(); if(H.length){ H[0] = last; let i = 0; for(;;){ const l = 2*i+1, r = l+1; let m = i;
+      if(l<H.length && H[l][0]<H[m][0]) m = l; if(r<H.length && H[r][0]<H[m][0]) m = r; if(m===i) break; [H[m],H[i]] = [H[i],H[m]]; i = m; } } return top; };
+  dist[S] = 0; push([0,S]);
+  while(H.length){
+    const [d,u] = pop(); if(d>dist[u]) continue; if(u===T) break;
+    if(u<nn) for(const ei of G.adj[u]){ const e = G.E[ei], v = e.a===u ? e.b : e.a, nd = d+wOf(ei, e.km);
+      if(nd<dist[v]){ dist[v] = nd; prev[v] = u; pe[v] = ei; push([nd,v]); } }
+    const vl = vadj.get(u);
+    if(vl) for(const vi of vl){ const ve = virt[vi], v = ve.n1===u ? ve.n2 : ve.n1, nd = d+wOf(ve.ei, ve.km);
+      if(nd<dist[v]){ dist[v] = nd; prev[v] = u; pe[v] = -(vi+2); push([nd,v]); } }
+  }
+  if(!isFinite(dist[T])) return null;
+  const steps = []; for(let v=T; v!==S; v=prev[v]){ if(prev[v]<0) return null; steps.push({u:prev[v], pe:pe[v]}); }
+  steps.reverse();
+  const legs = [], runs = [], used = new Map(); let km = 0;
+  for(const st of steps){
+    let ei, seg, kmS;
+    if(st.pe>=0){ ei = st.pe; const e = G.E[ei]; seg = st.u===e.a ? e.pts : e.pts.slice().reverse(); kmS = e.km; }
+    else { const ve = virt[-st.pe-2]; ei = ve.ei; const e = G.E[ei]; seg = st.u===ve.n1 ? mpSlice(e, ve.s0, ve.s1) : mpSlice(e, ve.s1, ve.s0); kmS = ve.km; }
+    const e = G.E[ei], sea = e.k===2 ? 1 : 0, nm = e.ni>=0 ? G.names[e.ni] : (G.rv[ei]||'');
+    km += kmS; used.set(ei, (used.get(ei)||0)+kmS);
+    if(runs.length && runs[runs.length-1][0]===nm) runs[runs.length-1][1] += kmS; else runs.push([nm, kmS]);
+    if(!legs.length || legs[legs.length-1][0]!==sea){ const pl = legs.length ? legs[legs.length-1][1] : null; legs.push([sea, pl ? [pl[pl.length-1]] : []]); }
+    const L = legs[legs.length-1][1]; seg.forEach((p,j)=>{ if(j===0 && L.length) return; L.push(p); });
+  }
+  let names = [];
+  runs.forEach(([n,d])=>{ if(!n || d<1.5) return; if(names[names.length-1]!==n) names.push(n); });
+  if(names.length>9){ names = []; runs.forEach(([n,d])=>{ if(n && d>=6 && names[names.length-1]!==n) names.push(n); }); }
+  const pts = legs.flatMap(l=>l[1]); let x0=1e9, y0=1e9, x1=-1e9, y1=-1e9;
+  pts.forEach(([x,y])=>{ if(x<x0) x0=x; if(x>x1) x1=x; if(y<y0) y0=y; if(y>y1) y1=y; });
+  return {km, cost:dist[T], legs, pts, used, via:names.join(' → '), sea:legs.some(l=>l[0]), box:[x0,y0,x1,y1]};
+}
+function mpOverlap(r, o){ let sh = 0; r.used.forEach((k,ei)=>{ if(o.used.has(ei)) sh += Math.min(k, o.used.get(ei)); }); return sh/Math.max(r.km, 0.01); }
+function mpRouteAlts(sa, sb, opt){
+  const best = mpRoute(sa, sb, opt, null); if(!best) return [];
+  const res = [best], pen = {};
+  const hit = r=>r.used.forEach((k,ei)=>{ pen[ei] = (pen[ei]||1)*1.7; });
+  hit(best);
+  for(let k=0; k<6 && res.length<3; k++){
+    const r = mpRoute(sa, sb, opt, pen); if(!r) break;
+    if(r.km <= best.km*1.6 && res.every(o=>mpOverlap(r,o)<0.72 && mpOverlap(o,r)<0.72)) res.push(r);
+    hit(r);
+  }
+  return res;
+}
+const mpShort = n => String(n||'').replace(/\s*\((?:-?\d+\.\d+), ?(?:-?\d+\.\d+)\)\s*$/,'').replace(/^Điểm (?:trên bản đồ|đã chọn)$/,'Điểm đã chọn');
+function mpPlaces(){
+  const L = [], seen = new Set();
+  const add = (name, lat, lon, ic, sub)=>{ if(lat==null || lon==null || !isFinite(+lat) || !isFinite(+lon)) return;
+    const k = mpNormVi(name); if(seen.has(k)) return; seen.add(k); L.push({name, lat:+lat, lon:+lon, ic, sub:sub||''}); };
+  const addXY = (name, x, y, ic, sub)=>{ const [lon,lat] = mpLL(x,y); add(name, lat, lon, ic, sub); };
+  FLEET.forEach(c=>{ const p = mpPos[c]; if(p) add(`${c} · ${LABELS[c]||''}`, p.lat, p.lon, '⛴', 'Vị trí sà lan hiện tại'); });
+  mpPois.forEach(p=>{ const m = MP_POI[p.type]||MP_POI.other; add(p.name, p.lat, p.lon, m.ic, m.t+(p.addr?' · '+p.addr:'')); });
+  MP_FD_PLACES.forEach(([n,lat,lon,sub])=>add(n, lat, lon, '⚓', sub));
+  mpTrams.forEach(t=>{ if(typeof t.lat==='number') add(t.name, t.lat, t.lon, '🚧', 'Trạm · '+(t.prov||'')); });
+  (MP_WATER && MP_WATER.ends || []).forEach(([n,x,y])=>addXY(n, x, y, '⚓', 'Bến đầu tuyến'));
+  MP_RT.forEach(r=>{ if(r.pts && r.pts.length){ addXY(r.from, ...r.pts[0], '⚓', 'Bến đầu tuyến'); addXY(r.to, ...r.pts[r.pts.length-1], '⚓', 'Bến đầu tuyến'); } });
+  MAP.cities.forEach(c=>addXY(c.name, c.x, c.y, '🏙', 'Thành phố, thị trấn'));
+  mpRvNames.forEach(r=>add(r.name, r.lat, r.lon, '〰️', 'Tên sông bạn đặt'));
+  (MP_WATER && MP_WATER.labels || []).forEach(l=>addXY(l[0], l[1], l[2], '〰️', 'Sông, kênh'));
+  return L;
+}
+function mpFindInit(){
+  ['a','b'].forEach(k=>{
+    const el = g('mp-fd-'+k);
+    el.addEventListener('focus', ()=>{ mpFdFocus = k; mpFindSug(); });
+    el.addEventListener('input', ()=>{ mpFdFocus = k; mpFd[k] = null; mpFindSug(); });
+    el.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); const b = g('mp-fd-sug').querySelector('button'); if(b) b.click(); } else if(e.key==='Escape') mpFindSugHide(); });
+    el.addEventListener('blur', ()=>setTimeout(()=>{ const a = document.activeElement; if(!a || !/^mp-fd-[ab]$/.test(a.id)) mpFindSugHide(); }, 180));
+  });
+  window.addEventListener('pointerup', ()=>{ clearTimeout(mpLongT); if(mpCtxJust) setTimeout(()=>{ mpCtxJust = false; }, 450); });
+  window.addEventListener('pointercancel', ()=>clearTimeout(mpLongT));
+}
+function mpFindSugHide(){ g('mp-fd-sug').classList.remove('show'); }
+function mpFindSug(){
+  const k = mpFdFocus, el = g('mp-fd-'+k), raw = el.value.trim(), q = mpNormVi(raw), box = g('mp-fd-sug'), items = [];
+  const ll = mpExtractLL(raw);
+  if(ll) items.push({name:`Tọa độ ${ll[0].toFixed(5)}, ${ll[1].toFixed(5)}`, lat:ll[0], lon:ll[1], ic:'📌', sub:'Dùng tọa độ đã dán'});
+  else if(/https?:\/\//.test(raw)) items.push({link:raw, name:'Dò tọa độ từ link Google Maps', ic:'🔗', sub:raw.slice(0,60)});
+  if(!q){ items.push({gps:1, name:'Vị trí của tôi', ic:'🛰️', sub:'Dùng GPS điện thoại'}, {pick:1, name:'Chọn trên bản đồ', ic:'📍', sub:'Chạm vào bản đồ để chọn điểm'}); }
+  const P = mpPlaces(), words = q.split(/\s+/).filter(Boolean);
+  // xếp hạng: khớp tên đầy đủ > đầu tên > mọi từ trong tên > khớp cả mô tả
+  const score = p=>{ const n = mpNormVi(p.name), ns = mpNormVi(p.name+' '+p.sub);
+    if(!words.every(w=>ns.includes(w))) return -1;
+    return (n===q?8:0) + (n.startsWith(q)?4:0) + (n.includes(q)?2:0) + (words.every(w=>n.includes(w))?2:0) + (p.ic==='⛴'||p.ic==='⚓'?.5:0); };
+  let m = q ? P.map(p=>[score(p),p]).filter(x=>x[0]>=0).sort((a,b)=>b[0]-a[0] || a[1].name.length-b[1].name.length).map(x=>x[1]) : P.filter(p=>p.ic==='⛴' || p.ic==='⚓');
+  items.push(...m.slice(0, 10));
+  if(q && !m.length && !ll && !/https?:\/\//.test(raw)) items.push({none:1, name:'Không thấy tên này', ic:'ℹ️', sub:'Thử tên khác, dán tọa độ / link Google Maps, hoặc nhấn giữ trên bản đồ'});
+  mpFdSugItems = items;
+  box.innerHTML = items.map((it,i)=>`<button type="button" data-i="${i}"><span>${it.ic}</span><span>${mpEsc(it.name)}${it.sub?`<small>${mpEsc(it.sub)}</small>`:''}</span></button>`).join('');
+  box.classList.toggle('show', items.length>0);
+  box.querySelectorAll('button').forEach(b=>{ b.onpointerdown = e=>e.preventDefault(); b.onclick = ()=>mpFindChoose(mpFdSugItems[+b.dataset.i]); });
+}
+async function mpFindChoose(it){
+  const k = mpFdFocus; if(!it || it.none) return;
+  mpFindSugHide();
+  if(it.pick){ mpFindPick(k); return; }
+  if(it.gps){
+    if(!navigator.geolocation){ showToast('Máy không hỗ trợ GPS','err'); return; }
+    showToast('Đang lấy vị trí GPS…','ok');
+    navigator.geolocation.getCurrentPosition(p=>mpFindSet(k, {name:'Vị trí của tôi', lat:p.coords.latitude, lon:p.coords.longitude}),
+      err=>showToast(err.code===1 ? 'Chưa cho phép truy cập vị trí' : 'Không lấy được GPS','err'), {enableHighAccuracy:true, timeout:15000});
+    return;
+  }
+  if(it.link){
+    showToast('Đang dò tọa độ từ link…','ok');
+    try{ const r = await fetch('api/gmap?u='+encodeURIComponent(it.link)), j = await r.json();
+      if(j && isFinite(j.lat)){ mpFindSet(k, {name:mpPlaceName(j.url||it.link) || `Điểm Google Maps (${(+j.lat).toFixed(4)}, ${(+j.lon).toFixed(4)})`, lat:+j.lat, lon:+j.lon}); return; } }catch{}
+    showToast('Không dò được link – mở Google Maps, nhấn giữ vào điểm để chép tọa độ rồi dán vào đây','warn'); return;
+  }
+  mpFindSet(k, {name:it.name, lat:it.lat, lon:it.lon});
+}
+function mpFindSet(k, pt){
+  mpFd[k] = pt; g('mp-fd-'+k).value = pt.name; mpFindSugHide();
+  const o = k==='a' ? 'b' : 'a';
+  g('mp-search-t').textContent = mpFd.a && mpFd.b ? `${mpShort(mpFd.a.name)} → ${mpShort(mpFd.b.name)}` : 'Tìm đường đi trên sông…';
+  if(mpFd.a && mpFd.b) mpFindRun();
+  else if(!mpFd[o]){ mpFdFocus = o; setTimeout(()=>g('mp-fd-'+o).focus(), 60); }
+}
+function mpFindSwap(){ [mpFd.a, mpFd.b] = [mpFd.b, mpFd.a]; g('mp-fd-a').value = mpFd.a ? mpFd.a.name : ''; g('mp-fd-b').value = mpFd.b ? mpFd.b.name : ''; if(mpFd.a && mpFd.b) mpFindRun(); }
+function mpFindPick(k){ mpPickOnMap('fd-'+k); }
+function mpFindOpen(focusKey){
+  mpCtxHide(); mpTab('route');
+  if(focusKey){ mpSheet('full'); const k = !mpFd.a ? 'a' : focusKey; setTimeout(()=>g('mp-fd-'+k).focus(), 120); }
+  else mpSheet('half');
+  const b = document.querySelector('#mp-side .mp-body'); if(b) b.scrollTop = 0;
+}
+async function mpFindRun(){
+  const res = g('mp-fd-res'); if(!mpFd.a || !mpFd.b) return;
+  res.innerHTML = '<div class="mp-fd-msg">⏳ Đang tải mạng sông và tìm đường…</div>';
+  try{ await Promise.all([mpGraph(), mpLoadWater()]); }catch(e){ res.innerHTML = '<div class="mp-fd-msg">⚠️ Chưa tải được mạng sông – kiểm tra mạng rồi thử lại.</div>'; return; }
+  const [ax,ay] = mpXY(mpFd.a.lon, mpFd.a.lat), [bx,by] = mpXY(mpFd.b.lon, mpFd.b.lat);
+  const sa = mpSnap(ax,ay), sb = mpSnap(bx,by);
+  if(!sa || !sb){ res.innerHTML = '<div class="mp-fd-msg">Không tìm được sông gần điểm đã chọn.</div>'; return; }
+  const opt = {nosea:g('mp-fd-nosea').checked, big:g('mp-fd-big').checked};
+  mpFdRes = mpRouteAlts(sa, sb, opt); mpFdSel = 0;
+  mpFdRes.forEach(r=>{ r.off = [sa.dkm, sb.dkm]; });
+  mpRt = null; mpRenderRoutes(); mpRenderRouteList();
+  mpRenderFindList(); mpRenderFind(); mpRenderRoutes();
+  if(mpFdRes.length){ mpSheet('half'); mpFitBox(mpFdRes[0].box); }
+}
+function mpFindNearTrams(r){
+  const out = [];
+  mpTrams.forEach(t=>{ if(typeof t.lat!=='number') return; const [x,y] = mpXY(t.lon,t.lat);
+    let d = Infinity; for(let i=0;i<r.pts.length;i+=2){ const dd = Math.hypot(r.pts[i][0]-x, r.pts[i][1]-y); if(dd<d) d = dd; }
+    if(d*MP_KM_PER_U < 1.5) out.push(t); });
+  return out;
+}
+function mpRenderFindList(){
+  const el = g('mp-fd-res');
+  if(!mpFdRes.length){ el.innerHTML = '<div class="mp-fd-msg">Không có đường thủy nối hai điểm này trên dữ liệu bản đồ (có thể bị đứt ở kênh nhỏ). Thử chọn điểm sát sông lớn hơn, hoặc bỏ "Tránh đi biển".</div>'; return; }
+  const minKm = Math.min(...mpFdRes.map(r=>r.km)), spd = mpCfg.spd||8;
+  el.innerHTML = mpFdRes.map((r,i)=>{
+    const tags = [i===0 ? '<span class="tg">Đề xuất</span>' : '<span class="tg g">Tuyến khác</span>', r.km===minKm && i>0 ? '<span class="tg">Ngắn nhất</span>' : ''].join(' ');
+    const tr = mpFindNearTrams(r), off = r.off.map((d,j)=>d>0.8 ? `điểm ${j?'đến':'đi'} cách sông ${d.toFixed(1).replace('.',',')} km` : '').filter(Boolean);
+    return `<div class="mp-fd-alt${i===mpFdSel?' on':''}" onclick="mpFindPickAlt(${i})">
+      <div class="hd"><b>${mpHours(r.km/spd)}</b>${tags}<span class="km">${mpKmTxt(r.km)}</span></div>
+      <div class="via">${mpEsc(r.via || 'Qua sông, kênh nhỏ chưa có tên trên bản đồ')}</div>
+      ${r.sea?'<div class="nt">⚠ Có đoạn đi biển – cần sà lan đăng kiểm phù hợp</div>':''}
+      ${off.length?`<div class="nt">ℹ ${off.join(' · ')}</div>`:''}
+      ${tr.length?`<div class="via">🚧 Gần ${tr.length} trạm đã lưu vị trí · ≈ ${mpMoney(tr.reduce((a,t)=>a+(+t.fee||0),0))}</div>`:''}
+      ${i===mpFdSel?`<div class="act"><button class="btn" onclick="event.stopPropagation();mpSaveFound(${i})">💾 Lưu vào danh sách tuyến</button><button class="btn" onclick="event.stopPropagation();mpFitBox(mpFdRes[${i}].box);mpSheet('min')">🗺️ Xem trên bản đồ</button></div>`:''}
+    </div>`; }).join('') + `<div class="mp-f"><div class="hint">Thời gian = cự ly ÷ ${String(spd).replace('.',',')} km/h, chưa tính chờ con nước. Đường đi theo dữ liệu OpenStreetMap – kiểm tra luồng, cầu thấp, độ sâu trước khi chạy.</div></div>`;
+}
+function mpFindPickAlt(i){ mpFdSel = i; mpRenderFind(); mpRenderFindList(); }
+function mpRenderFind(){
+  const gr = g('mp-g-find'); if(!gr) return; gr.innerHTML = '';
+  if(!mpFdRes.length){ mpScaleMarkers(); mpRouteInfo(); return; }
+  const order = mpFdRes.map((r,i)=>i).filter(i=>i!==mpFdSel).concat([mpFdSel]);
+  order.forEach(i=>{
+    const r = mpFdRes[i], sel = i===mpFdSel;
+    r.legD = r.legD || r.legs.map(([sea,p])=>[sea, mpPathD(p)]);
+    r.legD.forEach(([sea,d])=>mpEl('path',{d, class:'mp-rtbg'+(sel?' sel':' alt')}, gr));
+    r.legD.forEach(([sea,d])=>{ const pth = mpEl('path',{d, class:'mp-rt '+(sel?'sel':'alt')+(sea?' sea':'')}, gr);
+      if(!sel) pth.addEventListener('click', e=>{ e.stopPropagation(); mpFindPickAlt(i); }); });
+  });
+  const r = mpFdRes[mpFdSel];
+  [[r.pts[0], 'a'], [r.pts[r.pts.length-1], 'b']].forEach(([p,k])=>{
+    const m = mpEl('g',{class:'mp-mk mp-rtpt','data-x':p[0],'data-y':p[1]}, gr);
+    m.innerHTML = `<circle r="7" fill="${k==='a'?'#fff':'#c45a3c'}" stroke="${k==='a'?'#1f78b4':'#fff'}" stroke-width="3"></circle><text class="lbl" x="0" y="-12" text-anchor="middle">${mpEsc(mpShort(mpFd[k] ? mpFd[k].name : ''))}</text>`;
+  });
+  mpScaleMarkers(); mpRouteInfo();
+}
+function mpFindInfo(el){
+  const r = mpFdRes[mpFdSel];
+  el.innerHTML = `<span><b>${mpEsc(mpShort(mpFd.a.name))} – ${mpEsc(mpShort(mpFd.b.name))}</b> · ${mpKmTxt(r.km)} · ≈ ${mpHours(r.km/(mpCfg.spd||8))}${r.sea?' · có đoạn biển':''}${mpFdRes.length>1?` · ${mpFdRes.length} lựa chọn`:''}</span><button onclick="mpFindClear()" aria-label="Xóa tuyến tìm">✕</button>`;
+  el.classList.add('show');
+}
+function mpFindClear(keepInputs){
+  mpFdRes = []; mpFdSel = 0; if(g('mp-fd-res')) g('mp-fd-res').innerHTML = '';
+  if(!keepInputs){ mpFd = {a:null, b:null}; g('mp-fd-a').value = ''; g('mp-fd-b').value = ''; g('mp-search-t').textContent = 'Tìm đường đi trên sông…'; }
+  const gr = g('mp-g-find'); if(gr) gr.innerHTML = '';
+  mpRenderRoutes();
+}
+// tuyến tự tìm được lưu lại thành tuyến riêng (nhóm "Tuyến đã lưu")
+function mpThin(pts){ const o = []; pts.forEach(p=>{ const l = o[o.length-1]; if(!l || Math.hypot(p[0]-l[0], p[1]-l[1])>0.25) o.push([+p[0].toFixed(2), +p[1].toFixed(2)]); });
+  const e = pts[pts.length-1]; o.push([+e[0].toFixed(2), +e[1].toFixed(2)]); return o; }
+function mpMyRtPrep(r){
+  r.user = true; r.pts = r.legs.flatMap(l=>l[1]);
+  let x0=1e9, y0=1e9, x1=-1e9, y1=-1e9; r.pts.forEach(([x,y])=>{ if(x<x0) x0=x; if(x>x1) x1=x; if(y<y0) y0=y; if(y>y1) y1=y; });
+  r.box = [x0,y0,x1,y1]; r.legD = r.legs.map(([sea,p])=>[sea, mpPathD(p)]); return r;
+}
+function mpMyRoutes(){ return mpLoad('map_myroutes', []).map(r=>mpMyRtPrep(JSON.parse(JSON.stringify(r)))); }
+function mpSaveFound(i){
+  const r = mpFdRes[i]; if(!r) return;
+  const from = prompt('Tên điểm đi:', mpShort(mpFd.a.name)); if(from===null) return;
+  const to = prompt('Tên điểm đến:', mpShort(mpFd.b.name)); if(to===null) return;
+  const o = {id:'u'+Date.now().toString(36), grp:'Tuyến đã lưu', from:from.trim()||'Điểm đi', to:to.trim()||'Điểm đến', via:r.via, km:+r.km.toFixed(1), sea:r.sea,
+    note:'', legs:r.legs.map(([sea,p])=>[sea, mpThin(p)])};
+  const L = mpLoad('map_myroutes', []); L.push(o); mpSave('map_myroutes', L);
+  MP_RT.push(mpMyRtPrep(JSON.parse(JSON.stringify(o))));
+  mpRenderRouteList(); showToast('✅ Đã lưu tuyến vào nhóm "Tuyến đã lưu"','ok');
+}
+function mpDelMyRoute(id){
+  const r = MP_RT.find(x=>x.id===id); if(!r || !confirm(`Xóa tuyến "${r.from} → ${r.to}"?`)) return;
+  mpSave('map_myroutes', mpLoad('map_myroutes', []).filter(x=>x.id!==id));
+  MP_RT = MP_RT.filter(x=>x.id!==id); if(mpRt===id) mpRt = null;
+  mpRenderRoutes(); mpRenderRouteList();
+}
+
+// ═══ TÊN SÔNG DO NGƯỜI DÙNG ĐẶT (bản đồ OSM chưa có tên nhiều sông, kênh địa phương) ═══
+let mpRvNames = mpLoad('map_rvnames', []);       // [{id,name,lat,lon,a}]
+async function mpNameRiver(lat, lon, id){
+  const old = id ? mpRvNames.find(r=>r.id===id) : null;
+  const n = prompt(old ? 'Sửa tên sông / kênh (để trống rồi OK để xóa):' : 'Tên sông / kênh ở chỗ này (theo Google Maps hoặc tên người địa phương gọi):', old ? old.name : '');
+  if(n===null) return;
+  const name = n.trim();
+  if(old){ if(!name) mpRvNames = mpRvNames.filter(r=>r!==old); else old.name = name; }
+  else {
+    if(!name) return;
+    let a = 0, la = lat, lo = lon;
+    try{
+      await mpGraph(); const [x,y] = mpXY(lon,lat), sn = mpSnap(x,y);
+      if(sn && sn.dkm<1.5){ const p = MP_GR.E[sn.ei].pts, A = p[sn.i-1], B = p[sn.i];
+        a = Math.atan2(B[1]-A[1], B[0]-A[0])*180/Math.PI; if(a>90) a -= 180; if(a<-90) a += 180; [lo,la] = mpLL(sn.px, sn.py); }
+    }catch{}
+    mpRvNames.push({id:'rv'+Date.now().toString(36), name, lat:+la.toFixed(6), lon:+lo.toFixed(6), a:Math.round(a)});
+  }
+  mpSave('map_rvnames', mpRvNames); mpRvApply(); mpRenderRvNames(); showToast(name ? '✅ Đã lưu tên sông' : 'Đã xóa tên sông','ok');
+}
+function mpRenderRvNames(){
+  const gr = g('mp-g-rvuser'); if(!gr) return; gr.innerHTML = '';
+  mpRvNames.forEach(r=>{
+    const [x,y] = mpXY(r.lon, r.lat), t = mpEl('text',{class:'mp-rvlbl mp-rvuser','data-x':x,'data-y':y,'data-a':r.a||0,'text-anchor':'middle',dy:'-3'}, gr);
+    t.textContent = r.name;
+    t.addEventListener('click', e=>{ e.stopPropagation(); if(mpMoved) return; mpNameRiver(r.lat, r.lon, r.id); });
+  });
+  mpScaleMarkers();
+}
+function mpRvApply(){                      // gán tên đặt tay cho đoạn sông không tên gần nhãn (≤ 0,5 km) để hiện trong "đi qua"
+  if(!MP_GR) return; MP_GR.rv = {};
+  mpRvNames.forEach(r=>{ const [x,y] = mpXY(r.lon, r.lat), sn = mpSnap(x,y); if(sn && sn.dkm<0.5 && MP_GR.E[sn.ei].ni<0) MP_GR.rv[sn.ei] = r.name; });
+}
+
 
 // ═══ TRANG CHỦ: TRẠNG THÁI TRỰC TIẾP ═══
 function mpRenderHomeLive(){
@@ -4488,20 +5035,21 @@ function openMap(code){
   if(!mpBuilt){ mpBuild(); mpInitPointer(); }
   mpLoadWater();
   requestAnimationFrame(()=>{
+    mpSheet(mpSheetSt);
     if(!mpTouched) mpFit();
     mpRenderAll(false);
     if(code){ mpTab('fleet'); if(mpPos[code]){ mpSelect(code); mpCenterOn(code,2.2); mpTouched=true; } else mpOpenPos(code); }
   });
 }
 function mpTab(t){
+  if(t==='ai'){ mpAiSheet(true); return; }
   document.querySelectorAll('.mp-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
-  ['fleet','route','tide','poi','tram','ai','api'].forEach(k=>g('mp-p-'+k).classList.toggle('on',k===t));
+  ['fleet','route','tide','poi','tram','api'].forEach(k=>g('mp-p-'+k).classList.toggle('on',k===t));
   if(t==='tram'){ mpLoadWater().then(()=>mpTramView()); mpTramView(); }
-  if(t==='ai') mpAiOpen();
   if(t==='api') mpFillCfg();
   if(t==='route') mpRenderRouteList();
   if(t==='tide') mpRenderTide();
-  if(innerWidth<=900 && g('mp-side').classList.contains('min')){ g('mp-side').classList.remove('min'); setTimeout(mpResize,280); }
+  if(mpSheetSt==='min') mpSheet('half');
 }
 function mpSetTrail(){
   mpCfg.trail = g('mp-trail-mode').value; mpCfg.trailH = +g('mp-trail-h').value;
@@ -4596,7 +5144,7 @@ function mpRenderRoutes(){
   if(!MP_WATER){ mpRouteInfo(); return; }
   const q = MP_WATER.q, dec = e => mpPathD(mpDecode(e,q));
   const r = MP_RT.find(x=>x.id===mpRt);
-  if(mpCfg.rtAll){
+  if(mpCfg.rtAll && !mpFdRes.length){
     MP_WATER.netD = MP_WATER.netD || (MP_WATER.net||[]).map(dec).join('');
     MP_WATER.netSeaD = MP_WATER.netSeaD || (MP_WATER.netSea||[]).map(dec).join('');
     mpEl('path',{d:MP_WATER.netD+MP_WATER.netSeaD,class:'mp-rtbg'},gr);
@@ -4608,8 +5156,8 @@ function mpRenderRoutes(){
     r.legD.forEach(([sea,d])=>mpEl('path',{d,class:'mp-rtbg sel'},gr));
     r.legD.forEach(([sea,d])=>mpEl('path',{d,class:'mp-rt sel'+(sea?' sea':'')},gr));
   }
-  if(mpCfg.rtAll || r){
-    const ends = mpCfg.rtAll ? (MP_WATER.ends||[]) : [[r.from, ...r.pts[0]], [r.to, ...r.pts[r.pts.length-1]]];
+  if((mpCfg.rtAll && !mpFdRes.length) || r){
+    const ends = mpCfg.rtAll && !mpFdRes.length ? (MP_WATER.ends||[]) : [[r.from, ...r.pts[0]], [r.to, ...r.pts[r.pts.length-1]]];
     ends.forEach(([name,x,y])=>{
       const home = /cảng nhà/.test(name), m = mpEl('g',{class:'mp-mk mp-rtend','data-x':x,'data-y':y},gr);
       m.innerHTML = home ? '<circle class="pulse" r="7"></circle><circle class="home" r="5.2"></circle>' : '<circle class="dot" r="4"></circle>';
@@ -4627,7 +5175,7 @@ function mpRenderRoutes(){
 function mpRouteInfo(){
   const el = g('mp-rtinfo'); if(!el) return;
   const r = MP_RT.find(x=>x.id===mpRt);
-  if(!r){ el.classList.remove('show'); return; }
+  if(!r){ if(mpFdRes.length){ mpFindInfo(el); return; } el.classList.remove('show'); return; }
   el.innerHTML = `<span><b>${mpEsc(r.from)} – ${mpEsc(r.to)}</b> · ${mpKmTxt(r.km)} · ≈ ${mpHours(r.km/(mpCfg.spd||8))}${r.sea?' · có đoạn biển':''}${mpTramTxt(r.id)?' · 🚧 '+mpTramTxt(r.id):''}</span><button onclick="mpRouteClick(mpRt)" aria-label="Bỏ chọn tuyến">✕</button>`;
   el.classList.add('show');
 }
@@ -4648,6 +5196,7 @@ function mpRenderRouteList(){
       ${sel?`<div class="more">${mpEsc(r.via)}<br>≈ ${mpHours(h)} chạy liên tục ở ${String(spd).replace('.',',')} km/h${r.sea?' · <b>có đoạn biển</b>':''}</div>`:''}
       ${r.note?`<div class="nt">⚠ ${mpEsc(r.note)}</div>`:''}
       ${mpTramTxt(r.id)?`<div class="nt tr">🚧 ${mpTramTxt(r.id)}</div>`:''}
+      ${r.user?`<button class="del" onclick="event.stopPropagation();mpDelMyRoute('${r.id}')">Xóa tuyến đã lưu</button>`:''}
     </div>`;
   });
   el.innerHTML = html;
@@ -4667,18 +5216,17 @@ function mpFitBox(b){
   const w=mpWrap(), ww=w.clientWidth, wh=w.clientHeight; if(!ww||!wh) return;
   // chừa chỗ cho bảng chú thích (trái), nút zoom (phải), ô thông tin tuyến (dưới)
   const lg=g('mp-legend'), pl=Math.max(56, lg&&!lg.classList.contains('min') ? lg.offsetWidth+70 : 0);
-  const pr=ww<600?70:160, pt=40, pb=80, aw=Math.max(ww-pl-pr,80), ah=Math.max(wh-pt-pb,80);
+  const vb=mpVisBox(), mob=innerWidth<=900;
+  const pr=ww<600?70:160, pt=vb.y+(mob?50:40), pb=wh-vb.y-vb.h+(mob?40:80), aw=Math.max(ww-(mob?20:pl)-(mob?20:pr),80), ah=Math.max(wh-pt-pb,80);
   const bw=Math.max(b[2]-b[0],40), bh=Math.max(b[3]-b[1],40);
   vs = Math.max(0.3, Math.min(8, Math.min(aw/bw, ah/bh)));
-  vx = pl+aw/2-((b[0]+b[2])/2)*vs; vy = pt+ah/2-((b[1]+b[3])/2)*vs; mpTouched=true; mpApply();
+  vx = (mob?20:pl)+aw/2-((b[0]+b[2])/2)*vs; vy = pt+ah/2-((b[1]+b[3])/2)*vs; mpTouched=true; mpApply();
 }
 function mpRouteClick(id){
   mpRt = mpRt===id ? null : id;
   mpRenderRoutes(); mpRenderRouteList();
   const r = MP_RT.find(x=>x.id===mpRt); if(!r) return;
-  if(innerWidth<=900 && !g('mp-side').classList.contains('min')){
-    g('mp-side').classList.add('min'); setTimeout(()=>{ mpResize(); mpFitBox(r.box); },280);
-  } else mpFitBox(r.box);
+  mpFindClear(true); mpSheet('min'); mpFitBox(r.box);
 }
 function mpSetRouteOpts(){
   mpCfg.rtAll = g('mp-rt-all').checked;
@@ -4692,14 +5240,15 @@ function mpPickOnMap(kind){
   mpPlacing = kind; mpCloseModal();
   if(!g('s-map').classList.contains('active')) openMap();
   g('mp-banner').classList.add('show'); mpWrap().classList.add('placing');
-  if(innerWidth<=900){ g('mp-side').classList.add('min'); setTimeout(mpResize,280); }
+  mpSheet('min');
 }
 function mpCancelPlace(){
   const k = mpPlacing; mpPlacing=null;
   g('mp-banner').classList.remove('show'); mpWrap().classList.remove('placing');
-  if(k) g(k==='pos'?'mp-m-pos':k==='tram'?'mp-m-tram':'mp-m-poi').classList.add('show');
+  if(k && !/^fd-/.test(k)) g(k==='pos'?'mp-m-pos':k==='tram'?'mp-m-tram':'mp-m-poi').classList.add('show');
 }
 function mpFinishPlace(lat,lon){
+  if(/^fd-/.test(mpPlacing||'')){ const k = mpPlacing.slice(3); mpCancelPlace(); mpFindSet(k, {name:`Điểm đã chọn (${lat.toFixed(4)}, ${lon.toFixed(4)})`, lat, lon}); mpFindOpen(); return; }
   const pre = mpPlacing==='pos' ? 'mp-pf' : mpPlacing==='tram' ? 'mp-tf' : 'mp-pi';
   g(pre+'-lat').value = lat.toFixed(5); g(pre+'-lon').value = lon.toFixed(5);
   const k = mpPlacing; mpCancelPlace();
@@ -5121,7 +5670,9 @@ function mpUpdateGpsLoggerTpl(){
   mpRenderHomeLive();
   mpStartPolling();
   setInterval(()=>{ mpRenderHomeLive(); if(g('s-map').classList.contains('active')){ mpRenderBarges(false); mpRenderFleet(); } }, 60000);
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ if(mpPlacing) mpCancelPlace(); else mpCloseModal(); } });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ if(mpPlacing) mpCancelPlace(); else if(g('s-map').classList.contains('ai-open')) mpAiSheet(false); else mpCloseModal(); } });
+  mpSheetInit(); mpFindInit();
+  openMap();
 })();
 
 // ═══ PWA: cài lên màn hình chính, chạy khi mất mạng ═══
