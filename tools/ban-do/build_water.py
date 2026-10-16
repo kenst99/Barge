@@ -234,14 +234,14 @@ N = {
  # tuyến theo nhật ký chở hàng (sổ tay của chủ tàu, 2025–2026)
  'GACHVL': ((106.100,10.160),'Sông Mang Thít'), 'VAMSAT': ((106.775,10.525),'Sông Vàm Sát'),
  'CANGIO': ((106.865,10.425),'Vịnh Đồng Tranh'), 'SADEC': ((105.700,10.310),'Sông Sa Đéc'),
- 'CAISAN': ((105.395,10.218),'Kênh Cái Sắn'), 'TRANDE': ((106.190,9.525),'Sông Hậu'), 'THIENGLIENG': ((106.9238216,10.5309742),'Sông Đồng Tranh'), 'DUCHOA': ((106.400,10.900),'Sông Vàm Cỏ Đông'),
+ 'CAISAN': ((105.395,10.218),'Kênh Cái Sắn'), 'TRANDE': ((106.190,9.525),'Sông Hậu'), 'TRANOC': ((105.726,10.100),'Sông Hậu'), 'HOANGDIEU': ((105.758,10.071),'Sông Hậu'), 'CAICUI': ((105.830,9.997),'Sông Hậu'), 'THIENGLIENG': ((106.9238216,10.5309742),'Sông Đồng Tranh'), 'DUCHOA': ((106.400,10.900),'Sông Vàm Cỏ Đông'),
  'BINHDUONG': ((106.860,11.030),'Sông Đồng Nai'),
 }
 LBL = {'VX':'Vĩnh Xương','BIENHOA':'Biên Hòa','CATLAI':'Nhơn Trạch – Phú Hữu','GODAU':'Gò Dầu – Long Thành','PHUMY':'Phú Mỹ – Cái Mép',
  'VUNGTAU':'Vũng Tàu (sông Dinh)','BARIA':'Bà Rịa','TANAN':'Tân An','BENLUC':'Bến Lức','LAPORT':'Cảng Long An','CANGIUOC':'Cần Giuộc',
  'SAIGON':'TP.HCM (Tân Thuận)','TDM':'Thủ Dầu Một','VINHLONG':'TP. Vĩnh Long','TRAVINH':'Trà Vinh','BENTRE':'Bến Tre','CANTHO':'Cần Thơ',
  'RACHGIA':'Rạch Giá','HATIEN':'Hà Tiên','BAIVONG':'Phú Quốc (Bãi Vòng)','CAMAU':'Cà Mau','MYTHO':'Mỹ Tho','SOCTRANG':'Sóc Trăng (cảng nhà)',
- 'GACHVL':'Lò gạch Mang Thít (Vĩnh Long)','CANGIO':'Cần Giờ (Vịnh Đồng Tranh)','CAISAN':'Vĩnh Thạnh (kênh Cái Sắn)','TRANDE':'Trần Đề (Sóc Trăng)','THIENGLIENG':'Cần Giờ (cửa Đồng Tranh – Thiềng Liềng)','DUCHOA':'Đức Hòa (Vàm Cỏ Đông)',
+ 'GACHVL':'Lò gạch Mang Thít (Vĩnh Long)','CANGIO':'Cần Giờ (Vịnh Đồng Tranh)','CAISAN':'Vĩnh Thạnh (kênh Cái Sắn)','TRANDE':'Trần Đề (Sóc Trăng)','TRANOC':'KCN Trà Nóc (Cần Thơ)','HOANGDIEU':'Cảng Hoàng Diệu (Cần Thơ)','CAICUI':'Cảng Cái Cui (Cần Thơ)','THIENGLIENG':'Cần Giờ (cửa Đồng Tranh – Thiềng Liềng)','DUCHOA':'Đức Hòa (Vàm Cỏ Đông)',
  'BINHDUONG':'Bình Dương (Tân Uyên)'}
 SNAP = {k: snap(p, h) for k, (p, h) in N.items()}
 VXH = ['VX','MYTHO','CHOGAO','VAMCO','SOAIRAP','NHABE']
@@ -269,6 +269,9 @@ ROUTES = [
  ('st-vungtau','Sóc Trăng', ['VUNGTAU','GRBAY','LONGTAU','NHABE','SOAIRAP','VAMCO','CHOGAO','MYTHO','VINHLONG','MANGTHIT','TRAON','HAUSOC','SOCTRANG'], GR),
  ('st-vungtau-bien','Sóc Trăng', ['VUNGTAU','SOAIMOUTH','VAMCO','CHOGAO','MYTHO','VINHLONG','MANGTHIT','TRAON','HAUSOC','SOCTRANG'], 'Đi biển ven bờ Vũng Tàu – cửa Soài Rạp – cần sà lan đăng kiểm VR-SB.'),
  ('st-cantho','Sóc Trăng', ['CANTHO','HAUSOC','SOCTRANG'], ''),
+ ('st-tranoc','Sóc Trăng', ['SOCTRANG','HAUSOC','TRANOC'], ''),
+ ('st-hoangdieu','Sóc Trăng', ['SOCTRANG','HAUSOC','HOANGDIEU'], 'Vị trí cảng gần đúng – kiểm tra lại.'),
+ ('st-caicui','Sóc Trăng', ['SOCTRANG','HAUSOC','CAICUI'], ''),
  ('hcm-cangio','TP.HCM', ['GACHVL','MYTHO','CHOGAO','VAMCO','SOAIRAP','CANGIO'], 'Tuyến chở gạch theo nhật ký (vào Cần Giờ qua sông Lòng Tàu, Dinh Bà).'),
  ('mt-caisan','Miền Tây', ['VUNGTAU','PHUMY','GODAU','NHABE','SOAIRAP','VAMCO','CHOGAO','MYTHO','CAISAN'], 'Tuyến chở đá theo nhật ký (qua Cái Mép, Gò Dầu).'),
  ('hcm-cangio-dn','TP.HCM', ['BIENHOA','CATLAI','GODAU','PHUMY','THIENGLIENG'], 'Tuyến chở đá theo nhật ký (qua Gò Dầu, Cái Mép, vịnh Gành Rái) – kiểm tra cấp sà lan trước khi chạy.'),
@@ -320,6 +323,78 @@ for rid, grp, via, note in ROUTES:
         'sea': sea, 'note': note, 'line': encode(P), 'legs': legs_out, 'box': [round(min(xs),1), round(min(ys),1), round(max(xs),1), round(max(ys),1)]})
     dbg['routes'].append({'id': rid, 'km': round(dist), 'via': ' → '.join(names), 'pts': [[c[1], c[0]] for c in path]})
     print('%-15s %4d km %s %s' % (rid, dist, 'BIỂN' if sea else '    ', ' → '.join(names)))
+
+# ═══ 2b. mạng tìm đường cho app (tìm tuyến tự do giữa 2 điểm, có tuyến thay thế) ═══
+# Rút gọn đồ thị: bỏ suối nhỏ, gộp các đoạn liền nhau cùng tên/loại thành một cạnh, giữ hình dạng (đã giản lược).
+GRAPH_OUT = OPT.get('graph') or os.path.join(os.path.dirname(os.path.abspath(OUT)), 'route-graph.json')
+KCODE = {'river': 0, 'canal': 1, 'tidal_channel': 1, 'sea': 2, 'link': 3}
+RG = collections.defaultdict(dict)
+for u in G:
+    for v, (w, d, n, kind) in G[u].items():
+        if kind in KCODE and d > 0: RG[u][v] = (w, d, n, kind)
+# giữ các thành phần liên thông đủ lớn (bỏ kênh mương lẻ không nối ra sông)
+comp, seen = [], set()
+for s0 in RG:
+    if s0 in seen: continue
+    st, cs, L = [s0], [], 0.0; seen.add(s0)
+    while st:
+        u = st.pop(); cs.append(u)
+        for v, e in RG[u].items():
+            L += e[1]
+            if v not in seen: seen.add(v); st.append(v)
+    comp.append((L/2, cs))
+keep = set()
+for L, cs in comp:
+    if L >= 25: keep.update(cs)
+RG = {u: {v: e for v, e in RG[u].items() if v in keep} for u in keep}
+# tỉa nhánh cụt ngắn không tên (mương < 0,6 km) – không ảnh hưởng tìm đường giữa sông, kênh
+for _ in range(3):
+    for u in [u for u in RG if len(RG[u]) == 1]:
+        if u not in RG or len(RG[u]) != 1: continue
+        chain, prev, cur, L = [u], None, u, 0.0
+        while len(RG[cur]) <= 2 and L < 0.6:
+            nx = [v for v in RG[cur] if v != prev]
+            if not nx: break
+            e = RG[cur][nx[0]]
+            if e[2]: L = 99; break
+            L += e[1]; prev, cur = cur, nx[0]; chain.append(cur)
+        if L < 0.6 and len(chain) > 1:
+            for a2, b2 in zip(chain, chain[1:]): RG[a2].pop(b2, None); RG[b2].pop(a2, None)
+    RG = {u: e for u, e in RG.items() if e}
+def is_junction(u):
+    if len(RG[u]) != 2: return True
+    (v1, e1), (v2, e2) = RG[u].items()
+    return e1[2] != e2[2] or e1[3] != e2[3] or abs(e1[0]/e1[1] - e2[0]/e2[1]) > 1e-6
+J = {u for u in RG if is_junction(u)}
+done, chains = set(), []
+def walk(a, b):
+    pts, (w, d, n, kind) = [a, b], RG[a][b]; W, D = w, d; prev, cur = a, b
+    while cur not in J:
+        nx = [v for v in RG[cur] if v != prev][0]
+        e = RG[cur][nx]; W += e[0]; D += e[1]; prev, cur = cur, nx; pts.append(cur)
+    return pts, W, D, n, kind
+for a in J:
+    for b in RG[a]:
+        if (a, b) in done: continue
+        pts, W, D, n, kind = walk(a, b)
+        for x, y in zip(pts, pts[1:]): done.add((x, y)); done.add((y, x))
+        chains.append((pts, W, D, n, kind))
+# vòng kín không có nút giao (hiếm) – bỏ
+nid, nodes = {}, []
+def node(u):
+    if u not in nid:
+        nid[u] = len(nodes)//2; x, y = xy(*u); nodes.extend([int(round(x/Q)), int(round(y/Q))])
+    return nid[u]
+names, nmi = [], {}
+edges = []
+for pts, W, D, n, kind in chains:
+    if n and n not in nmi: nmi[n] = len(names); names.append(n)
+    P = rdp([xy(*c) for c in pts], 0.05)
+    edges.append([node(pts[0]), node(pts[-1]), int(round(D*100)), int(round(W/D*100)), nmi.get(n, -1), KCODE[kind], encode(P)])
+graph = {'v': 1, 'q': Q, 'nodes': nodes, 'names': names, 'edges': edges}
+gs = json.dumps(graph, ensure_ascii=False, separators=(',', ':'))
+open(GRAPH_OUT, 'w', encoding='utf-8').write(gs)
+print('GRAPH', GRAPH_OUT, len(nodes)//2, 'nút', len(edges), 'cạnh', len(gs)//1024, 'KB')
 
 # ═══ 3. lớp hiển thị ═══
 groups = collections.defaultdict(list)     # (lod, kiểu, tên) -> [chuỗi mã hóa]
