@@ -2,13 +2,13 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>Quản Lý & Điều Phối Sà Lan – Trung Hiếu</title>
 <meta name="description" content="Quản lý và điều phối sà lan Trung Hiếu: tài công, giấy tờ, lịch chạy, bản đồ vị trí và tuyến vận chuyển đường thủy.">
-<meta name="theme-color" content="#0e1117">
+<meta name="theme-color" content="#f4efe6">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Sà Lan TH">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
@@ -930,6 +930,173 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
   .mp-ai-sheet{width:100%;top:0;border-radius:0;transform:translateY(105%);}
   #s-map.sheet-full .mp-ai-fab,#s-map.sheet-full .mp-rtinfo,#s-map.sheet-full .mp-scale{visibility:hidden;}
 }
+
+/* ═══════════════ GIAO DIỆN SÁNG THỐNG NHẤT (2026) – cùng tông giấy với bản đồ ═══════════════ */
+:root{--bg:#f4efe6;--panel:#fffdf9;--border:#e5dacb;--text:#3d3027;--muted:#86766a;--white:#2b211a;
+  --rad:14px;--sh:0 1px 2px rgba(60,40,20,.06),0 6px 18px rgba(60,40,20,.07);--sans:'Be Vietnam Pro','Roboto',sans-serif;}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:#d9ccb9;border-radius:4px;}
+#topbar{background:rgba(255,253,249,.94);-webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--border);box-shadow:0 1px 8px rgba(60,40,20,.05);}
+.tb-brand{color:#2b211a;font-family:var(--sans);font-weight:800;letter-spacing:1.5px;font-size:17px;}
+.tb-logo{color:#1b140e;}
+.tb-barge{border-radius:8px;font-size:14px;letter-spacing:1px;font-family:var(--sans);}
+.nb,#nb-export,#nb-import{background:#fff;border:1px solid var(--border);border-radius:11px;color:#5a4a3d;font-family:var(--sans);font-size:14px;font-weight:600;letter-spacing:.2px;}
+.nb:hover{border-color:#1f78b4;color:#1f78b4;}
+#nb-map{border-color:#e6c48a;color:#9a6a12;}
+.screen{background:var(--bg);}
+/* tiêu đề, thẻ */
+.dh,.mhdr{background:var(--panel);border:1px solid var(--border);border-left:4px solid var(--ac);border-radius:var(--rad);box-shadow:var(--sh);}
+.dh h2{font-family:var(--sans);font-size:26px;letter-spacing:2px;font-weight:800;}
+.dh p,.mhdr .ms{font-family:var(--sans);font-size:14px;letter-spacing:.3px;color:var(--muted);}
+.mhdr h3{font-family:var(--sans);font-size:20px;letter-spacing:.4px;font-weight:800;}
+.dpill{border-radius:99px;font-size:13px;letter-spacing:.4px;font-family:var(--sans);font-weight:700;background:#fff;}
+.dh-hero{background:var(--panel);border:1px solid var(--border);border-radius:var(--rad);box-shadow:var(--sh);}
+.dh-hero .pic{background:linear-gradient(#eef6fa,#fffdf9);border-radius:12px;padding:6px;}
+.bspec{background:#fbf7f0;border:1px solid var(--border);border-radius:12px;}
+.bsf label{color:var(--muted);font-family:var(--sans);font-weight:600;}
+.bsf .bsv{color:#2b211a;font-family:var(--sans);}
+.mi{background:var(--panel);border:1px solid var(--border);border-top:3px solid var(--ac);border-radius:var(--rad);box-shadow:var(--sh);}
+.mi .mn{font-size:12px;letter-spacing:1.5px;font-family:'JetBrains Mono',monospace;}
+.mi .mt{font-family:var(--sans);font-size:17px;letter-spacing:.2px;font-weight:800;}
+.mi .md{font-size:14.5px;line-height:1.5;}
+.mi .ma{font-size:14px;font-weight:700;opacity:1;}
+.btn{background:#fff;border:1px solid var(--border);border-radius:11px;color:#5a4a3d;font-family:var(--sans);font-size:15px;font-weight:600;letter-spacing:.2px;}
+.btn.pri{background:#2b211a;border-color:#2b211a;color:#fffdf9;}
+.btn.pri:hover{background:#4a3528;opacity:1;}
+.hint{font-size:14px;letter-spacing:.3px;font-family:var(--sans);}
+.nodata{background:var(--panel);border-radius:var(--rad);}
+.pc{background:var(--panel);border-radius:var(--rad);box-shadow:var(--sh);}
+.pca{background:#fbf7f0;}
+.pcn{font-family:var(--sans);letter-spacing:1px;}
+.pf{background:#fbf7f0;border-radius:10px;}
+.pf label{font-size:12.5px;letter-spacing:.5px;font-weight:600;}
+.pf .v{font-size:17px;}
+.ctag{border-radius:99px;background:#fff;}
+.mod-tab{font-family:var(--sans);font-size:15px;letter-spacing:.2px;}
+.mod-tab:hover{color:#2b211a;}
+.ts-tbl th,.bd-tbl th,.htbl th{background:#f7f1e7;font-family:var(--sans);font-size:14px;letter-spacing:.3px;}
+.ts-tbl td,.bd-tbl td,.htbl td{border-bottom:1px solid #efe6d8;font-size:15px;}
+.ts-tbl tr:hover td,.bd-tbl tr:hover td,.htbl tr:hover td{background:#fbf6ee;}
+.cpaper{box-shadow:0 8px 30px rgba(60,40,20,.14);border-radius:6px;}
+/* giấy tờ: 4 thẻ màu nhạt */
+.gt-item{border:1px solid var(--border);border-radius:var(--rad);box-shadow:var(--sh);}
+.gt-dangkiem{background:linear-gradient(90deg,#e7efff,#fffdf9 70%);border-left:5px solid #3b82f6;}
+.gt-dangky{background:linear-gradient(90deg,#e3f6ee,#fffdf9 70%);border-left:5px solid #10b981;}
+.gt-baohiem{background:linear-gradient(90deg,#fdf0d9,#fffdf9 70%);border-left:5px solid #f59e0b;}
+.gt-thechap{background:linear-gradient(90deg,#fbe4e1,#fffdf9 70%);border-left:5px solid #ef4444;}
+.gt-name{color:#2b211a;font-family:var(--sans);letter-spacing:.2px;font-size:18px;}
+.gt-status{color:var(--muted);font-size:14px;}
+.btn-gt{border-radius:11px;width:42px;height:42px;font-size:20px;}
+/* hợp đồng mẫu */
+.hd-chothue{background:linear-gradient(135deg,#eaf7ec,#fffdf9);color:#166534;}
+.hd-chothuetau{background:linear-gradient(135deg,#eceefe,#fffdf9);color:#3730a3;}
+.hd-banvatlieu{background:linear-gradient(135deg,#fdeedf,#fffdf9);color:#9a3412;}
+.hd-baogía{background:linear-gradient(135deg,#fde8f1,#fffdf9);color:#9d174d;}
+/* hộp thoại, ô nhập (ngoài bản đồ) */
+.fbox,.hd-fbox,.bk-fbox,.bk-db-picker-box,.mp-mbox{background:#fffdf9;border:1px solid var(--border);border-radius:18px;box-shadow:0 24px 60px rgba(40,25,10,.28);}
+.mp-modal{background:rgba(40,28,18,.42);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}
+.mp-mbox h3{color:#2b211a;font-family:var(--sans);letter-spacing:.3px;}
+.mp-mbox h3 button,.mp-modal .mp-trow button{color:var(--muted);}
+.mp-modal .mp-f label,.mp-modal .mp-check,.mp-modal .mp-tj-tot{color:#5a4a3d;}
+.mp-modal .mp-f .hint{color:var(--muted);}
+input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]):not([type=color]),select,textarea{background-color:#fff;color:#2b211a;border-color:var(--border);}
+.mp-modal .mp-f input,.mp-modal .mp-f select,.mp-modal .mp-f textarea,.mp-modal .mp-trow select,.mp-modal .mp-trow input{border-radius:10px;background-color:#fff;color:#2b211a;border-color:var(--border);}
+.mp-trow select,.mp-trow input,.mp-f input,.mp-f select,.mp-f textarea,.mp-toolbar select{background-color:#fff;color:#2b211a;}
+.mp-modal .mp-seg button,.mp-modal .mp-locbtns button{background:#fff;border-color:var(--border);color:#5a4a3d;border-radius:10px;}
+.mp-modal .mp-seg button.sel{border-color:#1f78b4;color:#1f78b4;background:#eaf3fa;}
+.mp-modal .mp-tf-rts{background:#fff;border-color:var(--border);border-radius:10px;}
+.mp-modal .mp-tf-rts label{color:#2b211a!important;}
+.mp-modal .mp-tj-tot b{color:#9a3b22;}
+.mp-modal .mp-result,.mp-modal .mp-trk td{color:#5a4a3d;}
+.mp-modal .mp-result{background:#f7f1e7;}
+option{background:#fff;color:#2b211a;}
+.fmt-sel option,.hd-fgrp select option,.db-filter-sel option,.fgrp select option,.bk-fgrp select option,.db-cat-sel option{background:#fff;color:#2b211a;}
+.gtask-tip{background:#2b211a;color:#fffdf9;border-color:#2b211a;}
+.cat-MỎ.ĐÁ{color:#475569;}.cat-KHÁC{background:#f3efe8;color:#6b5a4a;border-color:#e5dacb;}
+@media(max-width:640px){
+  .dh h2{font-size:21px;letter-spacing:1.5px;}
+  .mhdr h3{font-size:18px;}
+  .btn{font-size:14.5px;}
+  .ts-tbl td,.bd-tbl td,.htbl td,.ts-tbl th,.bd-tbl th,.htbl th{font-size:14px;padding:8px;}
+  .pcn{font-size:19px;}
+  .pcr,.pcs,.ctag,.ctag span,.crew-sec h4,.nodata p,.dc{font-size:15px;letter-spacing:.2px;}
+  .mi .md{font-size:14px;}
+  .gt-name{font-size:16.5px;}
+}
+
+/* ── chống phóng to bất thường trên iPhone: ô nhập ≥ 16px (Safari tự phóng khi chữ nhỏ hơn) ── */
+@media(max-width:900px){
+  input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea,[contenteditable="true"]{font-size:16px!important;}
+  html,body{overscroll-behavior:none;}
+}
+
+/* ── điện thoại: bản đồ chiếm trọn màn hình, thanh điều hướng dưới, nút menu ── */
+.mp-menu-btn{display:none;}
+.mp-tabs button i{font-style:normal;margin-right:4px;}
+@media(min-width:901px){#s-map .mp-tabs button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 0 8px;font-size:12.5px;min-width:0;}#s-map .mp-tabs button i{margin:0;font-size:19px;line-height:1.15;}}
+@media(max-width:900px){
+  body.on-map #topbar{display:none;}
+  body.on-map #s-map{top:0;}
+  .mp-search{top:calc(10px + env(safe-area-inset-top));left:62px;width:calc(100% - 124px);}
+  #s-map .mp-zoom{top:calc(10px + env(safe-area-inset-top));}
+  #s-map .mp-legend,#s-map .mp-live{top:calc(62px + env(safe-area-inset-top));}
+  .mp-menu-btn{display:flex;position:absolute;z-index:9;left:10px;top:calc(10px + env(safe-area-inset-top));width:44px;height:44px;border-radius:22px;border:1px solid rgba(0,0,0,.08);background:rgba(255,255,255,.97);box-shadow:0 2px 10px rgba(30,20,10,.18);align-items:center;justify-content:center;font-size:20px;color:#4a3528;cursor:pointer;}
+  #s-map .mp-tabs{border-bottom:none;border-top:1px solid var(--pp-line);padding:0 2px;}
+  #s-map .mp-tabs button{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 0 7px;font-size:11px;font-weight:600;letter-spacing:0;border-bottom:none;border-top:2.5px solid transparent;white-space:nowrap;}
+  #s-map .mp-tabs button i{margin:0;font-size:20px;line-height:1.15;}
+  #s-map .mp-tabs button.on{border-top-color:var(--pp-blue);color:var(--pp-blue);background:linear-gradient(#eef5fb,#fff);}
+  #s-map .mp-side.min .mp-tabs{padding-bottom:env(safe-area-inset-bottom);}
+}
+.mp-menu{position:absolute;z-index:45;left:10px;top:calc(60px + env(safe-area-inset-top));width:min(330px,calc(100% - 20px));max-height:calc(100% - 90px);overflow-y:auto;background:#fffdf9;border:1px solid var(--pp-line);border-radius:18px;box-shadow:0 18px 50px rgba(30,20,10,.28);padding:8px;display:none;font-family:var(--pp-sans);}
+.mp-menu.show{display:block;animation:mpMenuIn .16s ease-out;}
+@keyframes mpMenuIn{from{opacity:0;transform:translateY(-6px) scale(.98)}to{opacity:1;transform:none}}
+.mp-menu .hd{display:flex;align-items:center;gap:10px;padding:8px 10px 10px;}
+.mp-menu .hd .lg{width:30px;height:30px;background:#e8a020;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-size:15px;}
+.mp-menu .hd b{font-size:15.5px;letter-spacing:1px;color:var(--pp-ink);}
+.mp-menu button{display:flex;align-items:center;gap:12px;width:100%;background:none;border:none;border-radius:12px;padding:10px;font:500 15px var(--pp-sans);color:var(--pp-ink);text-align:left;cursor:pointer;}
+.mp-menu button:hover{background:#f6efe2;}
+.mp-menu button small{display:block;font-size:12px;color:var(--pp-mute);}
+.mp-menu button .pic{flex:0 0 56px;}
+.mp-menu hr{border:none;border-top:1px solid var(--pp-line);margin:6px 4px;}
+
+/* ── tóm tắt hôm nay (tab Đội tàu) ── */
+.mp-today{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.mp-today .tc{background:var(--pp-paper);border:1px solid var(--pp-line);border-radius:12px;padding:9px 10px;cursor:pointer;min-width:0;}
+.mp-today .tc b{display:block;font-size:15px;color:var(--pp-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mp-today .tc span{display:block;font-size:11.5px;color:var(--pp-mute);line-height:1.35;margin-top:2px;}
+.mp-today .tc i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:1px;}
+#s-map .mp-card .addr{font-size:13px;color:var(--pp-ink2);margin-top:4px;line-height:1.4;}
+
+/* ── đọc ảnh báo cáo chuyến ── */
+.mp-ocr-it{display:flex;gap:10px;background:#fff;border:1px solid var(--pp-line);border-radius:14px;padding:10px;margin-bottom:10px;}
+.mp-ocr-it .th{flex:0 0 72px;height:96px;border-radius:9px;overflow:hidden;background:#f3ece1;cursor:zoom-in;}
+.mp-ocr-it .th img{width:100%;height:100%;object-fit:cover;display:block;}
+.mp-ocr-it .bd{flex:1;min-width:0;}
+.mp-ocr-it .st{font-size:13px;color:var(--pp-mute);}
+.mp-ocr-it .st.err{color:#b4321f;}
+.mp-ocr-tr{border-top:1px dashed var(--pp-line);padding-top:7px;margin-top:7px;}
+.mp-ocr-tr:first-child{border-top:none;margin-top:0;padding-top:0;}
+.mp-ocr-tr .rt{font-weight:700;font-size:14.5px;color:var(--pp-ink);line-height:1.35;}
+.mp-ocr-tr .sb{font-size:12.5px;color:var(--pp-mute);margin-top:2px;line-height:1.45;}
+.mp-ocr-tr .sb b{color:#9a3b22;}
+.mp-ocr-tr .wn{font-size:12.5px;color:#b45309;margin-top:3px;}
+.mp-ocr-tr .ok{font-size:12.5px;color:#15803d;margin-top:3px;font-weight:600;}
+.mp-ocr-tr .act{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap;}
+#s-map .mp-ocr-tr .act .btn{font-size:13px;padding:5px 12px;}
+.mp-ocr-spin{display:inline-block;width:12px;height:12px;border:2px solid #cfe2f1;border-top-color:#1f78b4;border-radius:50%;animation:mpSpin .8s linear infinite;vertical-align:-2px;margin-right:6px;}
+@keyframes mpSpin{to{transform:rotate(360deg)}}
+.mp-ocr-zoom{position:fixed;inset:0;z-index:900;background:rgba(20,14,8,.88);display:flex;align-items:center;justify-content:center;padding:12px;}
+.mp-ocr-zoom img{max-width:100%;max-height:100%;border-radius:8px;}
+.gantt-head{background:#f7f1e7;}
+.gantt-day-cell{border-right-color:var(--border);}
+.gantt-day-cell.weekend{background:#efe7da;}
+@media(max-width:900px){#s-danhba .db-tbl{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;}}
+.mp-trow.uns{outline:2px solid #f59e0b;outline-offset:2px;border-radius:8px;}
+.mp-ocr-cta{display:flex;align-items:center;gap:12px;width:100%;background:linear-gradient(135deg,#fff7e8,#fff);border:1px dashed #e6c48a;border-radius:14px;padding:12px 14px;margin-bottom:12px;cursor:pointer;text-align:left;font-family:var(--pp-sans);}
+.mp-ocr-cta .ic{font-size:26px;}
+.mp-ocr-cta b{display:block;font-size:15px;color:var(--pp-ink);}
+.mp-ocr-cta small{display:block;font-size:12.5px;color:var(--pp-mute);margin-top:1px;}
 </style>
 </head>
 <body>
@@ -1405,6 +1572,8 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
     <div class="mp-banner" id="mp-banner">Chạm vào bản đồ để chọn vị trí<button onclick="mpCancelPlace()">Hủy</button></div>
     <div class="mp-pop" id="mp-pop"></div>
 
+    <button class="mp-menu-btn" id="mp-menu-btn" onclick="mpMenu()" aria-label="Menu">☰</button>
+    <div class="mp-menu" id="mp-menu"></div>
     <button class="mp-search" id="mp-search" onclick="mpFindOpen('b')"><span class="ic">🔍</span><span class="t" id="mp-search-t">Tìm đường đi trên sông…</span></button>
     <button class="mp-ai-fab" id="mp-ai-fab" onclick="mpAiSheet(true)" aria-label="Trợ lý AI"><span>🤖</span><b>Trợ lý AI</b></button>
     <div class="mp-ctx" id="mp-ctx"></div>
@@ -1421,12 +1590,12 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
       <i class="grip"></i><span id="mp-side-sum">Đội tàu</span><span class="tgl" id="mp-side-tgl">Thu gọn / mở</span>
     </div>
     <div class="mp-tabs">
-      <button class="on" data-t="fleet" onclick="mpTab('fleet')">⛴ Đội tàu</button>
-      <button data-t="route" onclick="mpTab('route')">🛳 Tuyến</button>
-      <button data-t="tide" onclick="mpTab('tide')">🌊 Nước</button>
-      <button data-t="poi" onclick="mpTab('poi')">📍 Địa điểm</button>
-      <button data-t="tram" onclick="mpTab('tram')">🚧 Trạm</button>
-      <button data-t="api" onclick="mpTab('api')">📡 Kết nối</button>
+      <button class="on" data-t="fleet" onclick="mpTab('fleet')"><i>⛴</i><span>Đội tàu</span></button>
+      <button data-t="route" onclick="mpTab('route')"><i>🛳</i><span>Tuyến</span></button>
+      <button data-t="tide" onclick="mpTab('tide')"><i>🌊</i><span>Nước</span></button>
+      <button data-t="poi" onclick="mpTab('poi')"><i>📍</i><span>Địa điểm</span></button>
+      <button data-t="tram" onclick="mpTab('tram')"><i>🚧</i><span>Chuyến</span></button>
+      <button data-t="api" onclick="mpTab('api')"><i>📡</i><span>Định vị</span></button>
     </div>
     <div class="mp-body">
       <!-- FLEET -->
@@ -1443,6 +1612,7 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
             <option value="72">3 ngày</option><option value="168">7 ngày</option>
           </select>
         </div>
+        <div id="mp-today"></div>
         <div id="mp-fleet"></div>
       </div>
 
@@ -1512,6 +1682,9 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
             <button class="btn pri" onclick="mpOpenTrip(null)">➕ Thêm chuyến</button>
             <select id="mp-tl-rt" onchange="mpRenderTrips()" title="Lọc theo tuyến"></select>
           </div>
+          <button type="button" class="mp-ocr-cta" onclick="mpOcrPick()"><span class="ic">📷</span><span><b>Đọc ảnh báo cáo chuyến</b><small>Chụp / chọn ảnh sổ tài công – AI tự đọc ra ngày, tuyến, từng trạm, chi phí</small></span></button>
+          <input type="file" id="mp-ocr-file" accept="image/*" multiple hidden onchange="mpOcrFiles(this.files)">
+          <div id="mp-ocr-list"></div>
           <div id="mp-tl-sum"></div>
           <div id="mp-tl-list"></div>
         </div>
@@ -1585,6 +1758,8 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto', sans-serif;fon
             <li>Xoá hết code cũ, dán đoạn code bên dưới, bấm Lưu.</li>
             <li><b>Triển khai → Tùy chọn triển khai mới → Ứng dụng web</b>. Thực thi dưới tên: <b>Tôi</b>. Người có quyền truy cập: <b>Bất kỳ ai</b>.</li>
             <li>Chép URL kết thúc bằng <code>/exec</code> dán vào ô Địa chỉ API ở trên.</li>
+            <li>Đã có máy chủ bản cũ: dán code mới, Lưu, rồi <b>Triển khai → Quản lý triển khai → ✏️ → Phiên bản mới</b> (URL giữ nguyên). Trang tính tự thêm cột <b>dia_chi</b>.</li>
+            <li>Mỗi vị trí gửi lên được ghi kèm <b>địa chỉ</b> (Google Maps tự tra, không cần khóa), <b>vĩ độ, kinh độ</b> và link bản đồ. Xem nhanh một tàu: <code>/exec?action=now&amp;barge=ST-06128</code></li>
           </ol>
           <div class="mp-code"><button class="btn" onclick="mpCopyCode()">Sao chép</button><pre id="mp-gs"></pre></div>
           <div class="d" style="margin-top:10px">Dùng app <b>GPSLogger</b> (Android) để gửi vị trí nền, không cần mở màn hình: vào Logging details → Log to custom URL, dán:</div>
@@ -1873,6 +2048,7 @@ function show(id){
   g(id).classList.add('active');
   window.scrollTo(0,0);
   const h=(id==='s-map');
+  document.body.classList.toggle('on-map', h);
   g('nb-map').classList.toggle('show',!h);
   g('nb-back').classList.toggle('show',!h);
   g('tb-barge').classList.toggle('show',!!barge&&!h);
@@ -3602,6 +3778,8 @@ function mpRecord(code, o, src){
     heading: (o.heading!=null && o.heading!=='') ? +o.heading : null,
     cargo: o.cargo!=null ? o.cargo : (prev.cargo||''),
     note:  o.note!=null ? o.note  : (prev.note||''),
+    // địa chỉ chỉ giữ lại khi tàu chưa dời quá 300 m
+    addr:  o.addr!=null ? o.addr : (prev.addr && prev.lat!=null && mpKm([prev.lat,prev.lon],[lat,lon])<0.3 ? prev.addr : ''),
   };
   // hành trình: chỉ thêm điểm khi dời > 25 m hoặc cách > 10 phút
   const tr = mpTrack(code), last = tr[tr.length-1];
@@ -3920,8 +4098,8 @@ let mpPts=new Map(), mpDrag=null, mpPinch=null, mpMoved=false;
 function mpInitPointer(){
   const w = mpWrap();
   w.addEventListener('pointerdown', e=>{
-    if(e.target.closest('.mp-zoom,.mp-live,.mp-legend,.mp-banner,.mp-pop,.mp-search,.mp-ai-fab,.mp-ctx,.mp-rtinfo')) return;
-    mpCtxHide(); mpLongStart(e);
+    if(e.target.closest('.mp-zoom,.mp-live,.mp-legend,.mp-banner,.mp-pop,.mp-search,.mp-ai-fab,.mp-ctx,.mp-rtinfo,.mp-menu,.mp-menu-btn')) return;
+    mpCtxHide(); mpMenu(false); mpLongStart(e);
     mpPts.set(e.pointerId,{x:e.clientX,y:e.clientY});
     if(mpPts.size===1){ mpDrag={x:e.clientX,y:e.clientY,vx,vy}; mpMoved=false; }
     if(mpPts.size===2){
@@ -3978,6 +4156,8 @@ function mpSelect(code, fromMap){
   pop.style.borderTopColor = AC[code];
   pop.innerHTML = `<h4><span style="color:${AC[code]}">${code}</span><button onclick="mpSelect(null)">✕</button></h4>
     <div class="ln"><b style="color:${st.hex}">${st.t}</b> · ${mpAgo(p?.ts)} <span class="mp-src">${MP_SRC[p?.src]||'—'}</span></div>
+    ${p?.addr?`<div class="ln">📍 ${mpEsc(p.addr)}</div>`:''}
+    ${p?`<div class="ln"><span>Vĩ độ, kinh độ:</span> ${(+p.lat).toFixed(5)}, ${(+p.lon).toFixed(5)}</div>`:''}
     ${p?.speed!=null?`<div class="ln"><span>Tốc độ:</span> ${(+p.speed).toFixed(1)} km/h</div>`:''}
     ${tc?`<div class="ln"><span>Tài công:</span> ${mpEsc(tc)}</div>`:''}
     ${task?`<div class="ln"><span>Đang làm:</span> ${mpEsc(task.type)} · ${mpEsc(task.customer)}</div>`:''}
@@ -3986,6 +4166,7 @@ function mpSelect(code, fromMap){
     <div class="acts">
       <button class="btn pri" style="font-size:14px;padding:7px 8px" onclick="mpOpenPos('${code}')">📍 Cập nhật</button>
       <button class="btn" style="font-size:14px;padding:7px 8px" onclick="openDetail('${code}')">⚓ Quản lý tàu</button>
+      ${p?`<button class="btn" style="font-size:14px;padding:7px 8px" onclick="mpShareLoc('${code}')">📤 Gửi vị trí</button>`:''}
       ${p?`<a class="btn" style="font-size:14px;padding:7px 8px;text-decoration:none;text-align:center" href="${MP_TIDE_URL(mpTideStation(p.lat,p.lon).id)}" target="_blank" rel="noopener">🌊 Con nước</a>`:''}
     </div>`;
   pop.classList.add('show');
@@ -4021,7 +4202,7 @@ function mpRenderFleet(){
         <span class="mp-badge ${p?p.status:'none'}">${p?st.t:'Chưa có vị trí'}</span></div>
       <div class="meta">
         ${p?`Cập nhật <b class="${stale?'stale':''}">${mpAgo(p.ts)}</b><span class="mp-src">${MP_SRC[p.src]||''}</span>${stale?' <span class="stale">· mất tín hiệu</span>':''}<br>
-        ${p.lat.toFixed(4)}, ${p.lon.toFixed(4)}${p.speed!=null?` · <b>${(+p.speed).toFixed(1)} km/h</b>`:''}${km>0.05?` · đi ${km.toFixed(1)} km/${mpCfg.trailH>=72?(mpCfg.trailH/24)+' ngày':mpCfg.trailH+'h'}`:''}<br>`:'Bấm "Cập nhật vị trí" để đặt sà lan lên bản đồ.<br>'}
+        ${p.addr?`<span class="addr">📍 ${mpEsc(p.addr)}</span><br>`:''}${p.lat.toFixed(4)}, ${p.lon.toFixed(4)}${p.speed!=null?` · <b>${(+p.speed).toFixed(1)} km/h</b>`:''}${km>0.05?` · đi ${km.toFixed(1)} km/${mpCfg.trailH>=72?(mpCfg.trailH/24)+' ngày':mpCfg.trailH+'h'}`:''}<br>`:'Bấm "Cập nhật vị trí" để đặt sà lan lên bản đồ.<br>'}
         ${tc?`Tài công: <b>${mpEsc(tc)}</b><br>`:''}
         ${task?`Booking: <b>${mpEsc(task.type)}</b> · ${mpEsc(task.customer)}<br>`:''}
         ${p&&p.cargo?`Hàng: <b>${mpEsc(p.cargo)}</b>`:''}
@@ -4030,11 +4211,13 @@ function mpRenderFleet(){
         <button class="btn" onclick="event.stopPropagation();mpOpenPos('${code}')">📍 Cập nhật</button>
         <button class="btn" onclick="event.stopPropagation();mpOpenTrack('${code}')">🧭 Hành trình</button>
         <button class="btn" onclick="event.stopPropagation();openDetail('${code}')">⚓ Hồ sơ</button>
+        ${p?`<button class="btn" onclick="event.stopPropagation();mpShareLoc('${code}')">📤 Gửi vị trí</button>`:''}
       </div>
     </div>`;
   }).join('');
   const n = FLEET.filter(c=>mpPos[c]&&!mpIsStale(mpPos[c])).length;
   if(g('mp-side-sum')) g('mp-side-sum').textContent = `Đội tàu · ${n}/${FLEET.length} có tín hiệu`;
+  mpRenderToday();
 }
 function mpCardClick(code){
   if(!mpPos[code]){ mpOpenPos(code); return; }
@@ -4251,7 +4434,7 @@ function mpTramView(v){
   v = v || mpTramView.cur || 'list'; mpTramView.cur = v;
   mpSeg('mp-tr-view', v);
   ['list','price','log'].forEach(k=>{ g('mp-tr-v-'+k).hidden = k!==v; });
-  if(v==='list') mpRenderTramList(); else if(v==='price') mpRenderPrice(); else mpRenderTrips();
+  if(v==='list') mpRenderTramList(); else if(v==='price') mpRenderPrice(); else { mpRenderTrips(); mpRenderOcr(); }
 }
 function mpRtSelect(id, allTxt){
   const sel = g(id), cur = sel.value, R = mpTripRoutes();
@@ -4326,7 +4509,7 @@ function mpTramOpts(sel){
 }
 function mpTripRow(it, focus){
   const box = g('mp-tj-rows'), row = document.createElement('div');
-  row.className = 'mp-trow'; row.dataset.k = it.t || !it.k ? 'tram' : 'khac'; row.dataset.n = it.n||'';
+  row.className = 'mp-trow'+(it.unsure?' uns':''); row.dataset.k = it.t || !it.k ? 'tram' : 'khac'; row.dataset.n = it.n||'';
   row.innerHTML = (row.dataset.k==='tram'
       ? `<select class="t">${mpTramOpts(it.t)}</select>`
       : `<input class="n" placeholder="Chi phí khác: bồi dưỡng cập, tài công…" value="${mpEsc(it.n||'')}">`)
@@ -4357,16 +4540,17 @@ function mpTripTotal(){
   g('mp-tj-tot').innerHTML = `Tiền qua trạm: <b>${mpMoney(s.tram)}</b>${s.khac?`<br>Chi khác: ${mpMoney(s.khac)} · Tổng: <b>${mpMoney(s.all)}</b>`:''}`
     + (w && w!==s.all ? `<br><span class="w">⚠ Sổ ghi ${mpMoney(w)} – lệch ${mpMoney(Math.abs(w-s.all))}</span>` : '');
 }
-function mpOpenTrip(id, copyFrom){
+function mpOpenTrip(id, copyFrom, draft){
   mpTripEdit = id || null;
-  const tr = id ? mpTrips.find(x=>x.id===id) : copyFrom ? mpTrips.find(x=>x.id===copyFrom) : null;
-  g('mp-tj-title').textContent = id ? 'Sửa chuyến' : 'Thêm chuyến';
+  if(!draft) mpOcrCur = null;
+  const tr = draft || (id ? mpTrips.find(x=>x.id===id) : copyFrom ? mpTrips.find(x=>x.id===copyFrom) : null);
+  g('mp-tj-title').textContent = id ? 'Sửa chuyến' : draft ? 'Kiểm tra chuyến đọc từ ảnh' : 'Thêm chuyến';
   g('mp-tj-b').innerHTML = `<option value="">Không ghi / tàu khác</option>` + FLEET.map(c=>`<option value="${c}">${c} · ${LABELS[c]||''}</option>`).join('');
   g('mp-tj-rs').innerHTML = [...new Set([...mpTripRoutes().map(x=>x.r), ...MP_RT.map(r=>`${r.from} → ${r.to}`)])].map(r=>`<option value="${mpEsc(r)}">`).join('');
-  g('mp-tj-d').value = id && tr ? (tr.d||'') : new Date(Date.now()+7*3600000).toISOString().slice(0,10);
+  g('mp-tj-d').value = (id||draft) && tr ? (tr.d||'') : new Date(Date.now()+7*3600000).toISOString().slice(0,10);
   g('mp-tj-b').value = tr && FLEET.includes(tr.b) ? tr.b : (id ? '' : (mpSel||''));
   g('mp-tj-r').value = tr ? (tr.r||'') : ''; g('mp-tj-c').value = tr ? (tr.c||'') : '';
-  g('mp-tj-w').value = id && tr && tr.w ? mpNum(tr.w) : ''; g('mp-tj-n').value = id && tr ? (tr.n||'') : '';
+  g('mp-tj-w').value = (id||draft) && tr && tr.w ? mpNum(tr.w) : ''; g('mp-tj-n').value = (id||draft) && tr ? (tr.n||'') : '';
   g('mp-tj-rows').innerHTML = '';
   (tr ? tr.items||[] : []).forEach(i=>mpTripRow(i.t ? i : Object.assign({k:1}, i)));
   if(!tr) mpTripRow({t:''});
@@ -4392,7 +4576,7 @@ function mpSaveTrip(){
     w: +g('mp-tj-w').value.replace(/\D/g,'') || null, n: g('mp-tj-n').value.trim(), items};
   const rr = MP_RT.find(r=>`${r.from} → ${r.to}`===o.r); if(rr) o.rid = rr.id;
   if(mpTripEdit) Object.assign(mpTrips.find(x=>x.id===mpTripEdit), o);
-  else { o.id = 'nk'+Date.now().toString(36); mpTrips.push(o); mpTripOpen = o.id; }
+  else { o.id = 'nk'+Date.now().toString(36); if(mpOcrCur) o.src = 'ảnh báo cáo'; mpTrips.push(o); mpTripOpen = o.id; mpOcrSaved(o.id); }
   mpSave('map_trip', mpTrips); mpCloseModal(); mpTramChanged(); showToast('✅ Đã lưu chuyến','ok');
 }
 function mpDelTrip(){
@@ -5017,6 +5201,185 @@ function mpRvApply(){                      // gán tên đặt tay cho đoạn s
 }
 
 
+// ═══ MENU ĐIỆN THOẠI (nút ☰ trên bản đồ) ═══
+function mpMenu(force){
+  const m = g('mp-menu'), on = force!==undefined ? force : !m.classList.contains('show');
+  if(!on){ m.classList.remove('show'); return; }
+  m.innerHTML = `<div class="hd"><span class="lg">⚓</span><b>SÀ LAN TRUNG HIẾU</b></div>
+    ${FLEET.map(c=>`<button onclick="mpMenu(false);openDetail('${c}')"><span class="pic">${bargeSVG(c,56)}</span><span>${c}<small>${LABELS[c]||''} · hồ sơ, giấy tờ, tài công</small></span></button>`).join('')}
+    <hr>
+    <button onclick="mpMenu(false);mpOcrPick()">📷 <span>Đọc ảnh báo cáo chuyến<small>AI đọc sổ tài công → nhật ký, chi phí, trạm</small></span></button>
+    <button onclick="mpMenu(false);mpTab('tram');mpTramView('log')">🧾 <span>Nhật ký chuyến & tiền trạm</span></button>
+    <button onclick="mpMenu(false);mpTab('api')">📡 <span>Định vị tự động · Apps Script</span></button>
+    <button onclick="mpMenu(false);mpAiSheet(true)">🤖 <span>Trợ lý AI</span></button>
+    <hr>
+    <button onclick="mpMenu(false);exportData()">📤 <span>Xuất dữ liệu (sao lưu)</span></button>
+    <button onclick="mpMenu(false);g('import-file-input').click()">📥 <span>Nhập dữ liệu</span></button>`;
+  m.classList.add('show');
+}
+
+// ═══ TÓM TẮT HÔM NAY (đầu tab Đội tàu) ═══
+const mpMoneyShort = n => n>=1e6 ? (Math.round(n/1e5)/10).toLocaleString('vi-VN')+' tr' : mpMoney(n);
+function mpRenderToday(){
+  const el = g('mp-today'); if(!el) return;
+  const ti = mpTideInfo(), live = FLEET.filter(c=>mpPos[c] && !mpIsStale(mpPos[c]));
+  const run = live.filter(c=>mpPos[c].status==='run').length, none = FLEET.filter(c=>!mpPos[c]).length;
+  const trips = typeof mpTrips!=='undefined' ? mpTrips : [];
+  const mon = new Date(Date.now()+7*3600000).toISOString().slice(0,7), mt = trips.filter(t=>(t.d||'').startsWith(mon));
+  const last = trips.slice().sort((a,b)=>(b.d||'').localeCompare(a.d||''))[0];
+  const tot = mt.length ? mt.reduce((a,t)=>a+mpTripSum(t).tram,0) : (last ? mpTripSum(last).tram : 0);
+  el.innerHTML = `<div class="mp-today">
+    <div class="tc" onclick="mpTab('tide')"><b><i style="background:${ti.c}"></i>${mpEsc(ti.t.split(' (')[0])}</b><span>≈ ${ti.lunar<=10?'mùng '+ti.lunar:'ngày '+ti.lunar} âm lịch</span></div>
+    <div class="tc" onclick="mpFitAll()"><b>${run}/${FLEET.length} đang chạy</b><span>${none ? none+' tàu chưa có vị trí' : live.length+' tàu có tín hiệu'}</span></div>
+    <div class="tc" onclick="mpTab('tram');mpTramView('log')"><b>${mpMoneyShort(tot)}</b><span>${mt.length ? `tiền trạm tháng ${mon.slice(5)} · ${mt.length} chuyến` : last ? 'tiền trạm chuyến gần nhất' : 'chưa có nhật ký'}</span></div>
+  </div>`;
+}
+
+// ═══ ĐỌC ẢNH BÁO CÁO CHUYẾN CỦA TÀI CÔNG (OCR bằng AI) → nhật ký, chi phí, trạm ═══
+// Ảnh được thu nhỏ trên máy rồi gửi qua api/ocr (Gemini / Claude / GPT, cùng khóa với Trợ lý AI).
+// Kết quả là bản nháp: người dùng mở "Xem & lưu" để kiểm tra từng khoản rồi mới lưu vào nhật ký.
+let mpOcr = mpLoad('map_ocr', []);           // [{id, ts, name, thumb, st:'run'|'ok'|'err', err, prov, trips:[...]}]
+const mpOcrImg = new Map();                  // ảnh lớn (chỉ trong phiên) để đọc lại khi lỗi
+let mpOcrCur = null;                         // {oid, ti} bản nháp đang mở trong form chuyến
+function mpOcrSave(){ mpSave('map_ocr', mpOcr.slice(0, 30)); }
+function mpOcrPick(){ const f = g('mp-ocr-file'); f.value = ''; f.click(); }
+function mpImgJpeg(file, max, q){
+  return new Promise((res, rej)=>{
+    const url = URL.createObjectURL(file), im = new Image();
+    im.onload = ()=>{ const s = Math.min(1, max/Math.max(im.naturalWidth, im.naturalHeight)), c = document.createElement('canvas');
+      c.width = Math.round(im.naturalWidth*s); c.height = Math.round(im.naturalHeight*s);
+      const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0,0,c.width,c.height); x.drawImage(im, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url); res(c.toDataURL('image/jpeg', q)); };
+    im.onerror = ()=>{ URL.revokeObjectURL(url); rej(new Error('Không mở được ảnh này – chọn ảnh JPG/PNG')); };
+    im.src = url;
+  });
+}
+const mpOcrKey = s => mpNormVi(s).replace(/\([^)]*\)/g,' ').replace(/[^a-z0-9 ]/g,' ').replace(/\b(tram|cua)\b/g,' ').replace(/\s+/g,' ').trim();
+function mpOcrMatch(i){
+  if(i.known_station){ const t = mpTrams.find(x=>x.name===i.known_station) || mpTrams.find(x=>mpOcrKey(x.name)===mpOcrKey(i.known_station)); if(t) return t.id; }
+  const q = mpOcrKey(i.name); if(!q) return '';
+  const ex = mpTrams.filter(x=>mpOcrKey(x.name)===q); if(ex.length===1) return ex[0].id;
+  // tên viết tắt từng gặp trong nhật ký (VD "Phòng" → Trạm Phòng Sài Gòn)
+  const al = {}; mpTrips.forEach(tr=>(tr.items||[]).forEach(it=>{ if(it.t && it.n){ const k = mpOcrKey(it.n); (al[k] = al[k]||{})[it.t] = ((al[k]||{})[it.t]||0)+1; } }));
+  if(al[q]){ const best = Object.entries(al[q]).sort((a,b)=>b[1]-a[1])[0][0]; if(mpTrams.some(x=>x.id===best)) return best; }
+  if(q.length>=4){ const part = mpTrams.filter(x=>{ const k = mpOcrKey(x.name); return k.length>=4 && (k.includes(q) || q.includes(k)); }); if(part.length===1) return part[0].id; }
+  return '';
+}
+function mpOcrPrep(t){
+  const b = mpMatchCode(t.barge) || '';
+  const items = t.items.map(i=>({name:i.name, a:i.amount, kind:i.kind, unsure:i.unsure, known_station:i.known_station, t:i.kind==='station' ? mpOcrMatch(i) : ''}));
+  return {d:t.date, b, r:t.route, c:t.cargo, w:t.total_written||null, n:[t.notes, t.warnings ? '⚠ AI: '+t.warnings : ''].filter(Boolean).join('\n'), items, saved:''};
+}
+async function mpOcrCall(dataUrl){
+  const p = mpAiCfg.provider, model = mpAiModel(p), hdr = {'Content-Type':'application/json'};
+  if(mpAiKeys[p]) hdr['x-ai-key'] = mpAiKeys[p];
+  if(mpAiCfg.pass) hdr['x-app-pass'] = mpAiCfg.pass;
+  const ctl = new AbortController(), to = setTimeout(()=>ctl.abort(), 150000);
+  try{
+    const r = await fetch('api/ocr', {method:'POST', headers:hdr, signal:ctl.signal, body:JSON.stringify({provider:p, model,
+      image:{type:'image/jpeg', data:dataUrl.split(',')[1]},
+      known:{stations:mpTrams.map(t=>t.name), routes:mpTripRoutes().map(x=>x.r), barges:FLEET}})});
+    let j = null; try{ j = await r.json(); }catch{}
+    if(!r.ok || !j) throw new Error((j && j.error) || (r.status===404 ? 'Chưa có máy chủ đọc ảnh (api/ocr) – cần mở app từ trang Vercel.' : 'Máy chủ lỗi '+r.status));
+    return j;
+  } catch(e){ if(e.name==='AbortError') throw new Error('AI đọc ảnh quá lâu, thử lại'); if(!navigator.onLine) throw new Error('Mất mạng, chưa đọc được ảnh'); throw e; }
+  finally{ clearTimeout(to); }
+}
+async function mpOcrRun(it){
+  const big = mpOcrImg.get(it.id); if(!big){ it.st = 'err'; it.err = 'Ảnh không còn trong bộ nhớ – chọn lại ảnh'; return; }
+  it.st = 'run'; it.err = ''; mpRenderOcr();
+  try{
+    const j = await mpOcrCall(big);
+    it.trips = (j.trips||[]).map(mpOcrPrep); it.prov = `${MP_AI_PROV[j.provider] ? MP_AI_PROV[j.provider].t : j.provider} · ${j.model}`;
+    it.st = it.trips.length ? 'ok' : 'err'; if(!it.trips.length) it.err = 'Không thấy chuyến / khoản chi nào trong ảnh';
+  }catch(e){ it.st = 'err'; it.err = e.message; }
+  mpOcrSave(); mpRenderOcr();
+}
+async function mpOcrFiles(files){
+  files = [...(files||[])].filter(f=>/^image\//.test(f.type) || /\.(jpe?g|png|webp|heic|heif)$/i.test(f.name));
+  if(!files.length) return;
+  mpTab('tram'); mpTramView('log'); mpSheet('full');
+  const its = [];
+  for(const f of files){
+    const it = {id:'o'+Date.now().toString(36)+Math.random().toString(36).slice(2,6), ts:Date.now(), name:f.name, st:'run', trips:[]};
+    try{ it.thumb = await mpImgJpeg(f, 240, .6); mpOcrImg.set(it.id, await mpImgJpeg(f, 1800, .85)); }
+    catch(e){ it.st = 'err'; it.err = e.message; }
+    mpOcr.unshift(it); its.push(it);
+  }
+  mpOcrSave(); mpRenderOcr();
+  for(const it of its){ if(it.st==='run') await mpOcrRun(it); }   // lần lượt từng ảnh để không vượt hạn mức
+  const n = its.reduce((a,it)=>a+(it.trips||[]).length, 0);
+  if(n) showToast(`✅ AI đọc xong ${its.length} ảnh · ${n} chuyến – bấm "Xem & lưu" để kiểm tra`,'ok');
+}
+function mpRenderOcr(){
+  const el = g('mp-ocr-list'); if(!el) return;
+  if(!mpOcr.length){ el.innerHTML = ''; return; }
+  const byId = {}; mpTrams.forEach(t=>byId[t.id]=t);
+  el.innerHTML = mpOcr.map(it=>{
+    const head = it.st==='run' ? '<div class="st"><span class="mp-ocr-spin"></span>AI đang đọc ảnh… (10–40 giây)</div>'
+      : it.st==='err' ? `<div class="st err">⚠️ ${mpEsc(it.err||'Lỗi')}</div><div class="act" style="margin-top:6px;display:flex;gap:6px"><button class="btn" onclick="mpOcrRetry('${it.id}')">↻ Đọc lại</button><button class="btn" onclick="mpOcrDel('${it.id}')">Bỏ</button></div>` : '';
+    const trips = (it.trips||[]).map((t,ti)=>{
+      const sum = t.items.reduce((a,i)=>a+(+i.a||0),0), st = t.items.filter(i=>i.kind==='station'), hit = st.filter(i=>i.t).length;
+      const uns = t.items.filter(i=>i.unsure).length, off = t.w && t.w!==sum;
+      return `<div class="mp-ocr-tr">
+        <div class="rt">${mpEsc(t.r || 'Chưa rõ tuyến')}</div>
+        <div class="sb">${[t.d ? mpDateVN(t.d) : 'không rõ ngày', t.b, t.c].filter(Boolean).map(mpEsc).join(' · ')}</div>
+        <div class="sb">${t.items.length} khoản · cộng <b>${mpMoney(sum)}</b>${t.w ? ` · sổ ghi ${mpMoney(t.w)}` : ''}<br>🚧 ${st.length} trạm: nhận ra ${hit}${st.length-hit ? `, <b>${st.length-hit} trạm mới</b>` : ''}</div>
+        ${off ? `<div class="wn">⚠ Cộng lại lệch ${mpMoney(Math.abs(t.w-sum))} so với sổ – kiểm tra kỹ</div>` : ''}
+        ${uns ? `<div class="wn">⚠ ${uns} dòng AI đọc chưa chắc (viền vàng trong form)</div>` : ''}
+        ${t.saved ? `<div class="ok">✅ Đã lưu vào nhật ký</div>` : ''}
+        <div class="act">${t.saved ? `<button class="btn" onclick="mpTripOpen='${t.saved}';mpRenderTrips();document.querySelector('#mp-tl-list .mp-trip')?.scrollIntoView({block:'nearest'})">Xem trong nhật ký</button>` : `<button class="btn pri" onclick="mpOcrOpen('${it.id}',${ti})">Xem & lưu</button>`}<button class="btn" onclick="mpOcrDelTrip('${it.id}',${ti})">Bỏ</button></div>
+      </div>`; }).join('');
+    return `<div class="mp-ocr-it"><div class="th" onclick="mpOcrZoom('${it.id}')">${it.thumb ? `<img src="${it.thumb}" alt="">` : ''}</div>
+      <div class="bd">${head}${trips}${it.prov ? `<div class="st" style="margin-top:6px">Đọc bằng ${mpEsc(it.prov)}</div>` : ''}</div></div>`;
+  }).join('');
+}
+function mpOcrZoom(id){
+  const it = mpOcr.find(x=>x.id===id), src = mpOcrImg.get(id) || (it && it.thumb); if(!src) return;
+  const d = document.createElement('div'); d.className = 'mp-ocr-zoom'; d.innerHTML = `<img src="${src}" alt="">`; d.onclick = ()=>d.remove(); document.body.appendChild(d);
+}
+function mpOcrRetry(id){ const it = mpOcr.find(x=>x.id===id); if(it) mpOcrRun(it); }
+function mpOcrDel(id){ mpOcr = mpOcr.filter(x=>x.id!==id); mpOcrImg.delete(id); mpOcrSave(); mpRenderOcr(); }
+function mpOcrDelTrip(id, ti){
+  const it = mpOcr.find(x=>x.id===id); if(!it) return;
+  it.trips.splice(ti, 1); if(!it.trips.length) return mpOcrDel(id);
+  mpOcrSave(); mpRenderOcr();
+}
+function mpOcrOpen(id, ti){
+  const it = mpOcr.find(x=>x.id===id), t = it && it.trips[ti]; if(!t) return;
+  const unk = t.items.filter(i=>i.kind==='station' && !i.t);
+  if(unk.length){
+    const ok = confirm(`Có ${unk.length} trạm chưa có trong danh sách:\n• ${unk.map(i=>i.name).join('\n• ')}\n\nOK = tạo trạm mới (bổ sung tỉnh, sông sau)\nHủy = ghi thành "chi phí khác"`);
+    unk.forEach(i=>{
+      if(!ok){ i.kind = 'other'; return; }
+      const nm = i.name.trim().replace(/^./, c=>c.toUpperCase()), id2 = 't'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+      mpTrams.push({id:id2, prov:'', river:'', name:/^(trạm|cảng|biên|thanh|đội|cục)/i.test(nm) ? nm : 'Trạm '+nm, fee:+i.a||0, routes:[], note:'Tạo từ ảnh báo cáo chuyến – bổ sung tỉnh, sông', lat:null, lon:null});
+      i.t = id2;
+    });
+    if(ok) mpSave('map_tram', mpTrams);
+    mpOcrSave();
+  }
+  mpOcrCur = {oid:id, ti};
+  mpOpenTrip(null, null, {d:t.d, b:t.b, r:t.r, c:t.c, w:t.w, n:t.n,
+    items:t.items.map(i=>i.kind==='station' && i.t ? {t:i.t, n:i.name, a:i.a, unsure:i.unsure} : {k:1, n:i.name, a:i.a, unsure:i.unsure})});
+  if(t.items.some(i=>i.unsure)) showToast('Dòng viền vàng là chỗ AI đọc chưa chắc – đối chiếu với ảnh','warn');
+}
+function mpOcrSaved(tripId){
+  if(!mpOcrCur) return;
+  const it = mpOcr.find(x=>x.id===mpOcrCur.oid), t = it && it.trips[mpOcrCur.ti];
+  if(t) t.saved = tripId;
+  mpOcrCur = null; mpOcrSave(); mpRenderOcr();
+}
+
+// ═══ VỊ TRÍ HIỆN TẠI: địa chỉ + vĩ độ, kinh độ → gửi Zalo / tin nhắn ═══
+function mpShareLoc(code){
+  const p = mpPos[code]; if(!p) return;
+  const link = `https://www.google.com/maps?q=${(+p.lat).toFixed(6)},${(+p.lon).toFixed(6)}`;
+  const txt = `⛴ ${code} · ${LABELS[code]||''}\n📍 ${p.addr || 'Địa chỉ: (chưa có – xem link bản đồ)'}\nVĩ độ ${(+p.lat).toFixed(6)}, kinh độ ${(+p.lon).toFixed(6)}\n${link}\n🕒 ${mpTime(p.ts)} · ${(MP_ST[p.status]||MP_ST.stop).t}`;
+  if(navigator.share) navigator.share({title:`Vị trí ${code}`, text:txt}).catch(()=>{});
+  else mpCopyText(txt);
+}
+
 // ═══ TRANG CHỦ: TRẠNG THÁI TRỰC TIẾP ═══
 function mpRenderHomeLive(){
   document.querySelectorAll('[data-live]').forEach(el=>{
@@ -5493,6 +5856,7 @@ function mpExtract(json){
       ts: r.ts??r.time??r.timestamp??r.updated??r.updatedAt??r.gpsTime??r.fixTime,
       status: ['run','stop','fix'].includes(r.status)?r.status:null,
       note: r.note,
+      addr: r.address??r.addr??r.dia_chi??r.diachi,
     };
   });
 }
@@ -5506,6 +5870,7 @@ async function mpPoll(){
       const o = {lat:r.lat, lon:r.lon, ts:r.ts, heading:r.heading, status:r.status};
       if(r.speed!=null && r.speed!=='') o.speed = +r.speed;
       if(r.note) o.note = r.note;
+      if(r.addr) o.addr = String(r.addr);
       if(mpRecord(code, o, 'api')) n++;
     });
     if(json && json.track && typeof json.track==='object'){ 
@@ -5556,7 +5921,12 @@ function mpFillTpl(tpl, code, o){
 }
 async function mpPushOne(code, o){
   const tpl = mpPushTpl(); if(!tpl) return false;
-  try{ await fetch(mpFillTpl(tpl, code, o), {mode:'no-cors', cache:'no-store'}); return true; }
+  const url = mpFillTpl(tpl, code, o);
+  // Apps Script trả JSON (cho phép đọc chéo miền) → lấy địa chỉ máy chủ tra được; API khác gửi kiểu no-cors
+  if(mpCfg.type==='apps'){
+    try{ const r = await fetch(url, {cache:'no-store'}); const j = await r.json(); if(j && j.ok!==false) return {ok:true, addr:j.address||''}; }catch{}
+  }
+  try{ await fetch(url, {mode:'no-cors', cache:'no-store'}); return {ok:true, addr:''}; }
   catch(e){ showToast('⚠️ Chưa gửi được lên máy chủ: '+e.message,'warn'); return false; }
 }
 
@@ -5581,9 +5951,9 @@ async function mpTogglePush(){
       speed: c.speed!=null ? c.speed*3.6 : null, heading: (c.heading!=null && !isNaN(c.heading)) ? c.heading : null};
     o.status = o.speed!=null ? (o.speed>1.5?'run':'stop') : '';
     const ok = await mpPushOne(code, o);
-    mpRecord(code, Object.assign({}, o, {status:o.status||undefined}), 'push'); mpSave('map_pos', mpPos); mpRenderAll(true);
+    mpRecord(code, Object.assign({}, o, {status:o.status||undefined}, ok && ok.addr ? {addr:ok.addr} : {}), 'push'); mpSave('map_pos', mpPos); mpRenderAll(true);
     if(ok) mpPushCount++;
-    res.textContent = `🛰️ Đang gửi vị trí ${code} mỗi ${every<60?every+' giây':every/60+' phút'}\nĐã gửi ${mpPushCount} lần · lần cuối ${mpTime(Date.now()).split(' ')[0]}\n${o.lat}, ${o.lon} (±${Math.round(c.accuracy)} m)${o.speed!=null?' · '+o.speed.toFixed(1)+' km/h':''}`;
+    res.textContent = `🛰️ Đang gửi vị trí ${code} mỗi ${every<60?every+' giây':every/60+' phút'}\nĐã gửi ${mpPushCount} lần · lần cuối ${mpTime(Date.now()).split(' ')[0]}\n${ok && ok.addr ? '📍 '+ok.addr+'\n' : ''}Vĩ độ ${o.lat}, kinh độ ${o.lon} (±${Math.round(c.accuracy)} m)${o.speed!=null?' · '+o.speed.toFixed(1)+' km/h':''}`;
   };
   setTimeout(send, 4000);
   mpPushTimer = setInterval(send, every*1000);
@@ -5597,48 +5967,86 @@ function mpStopPush(){
 }
 
 // ── mẫu Apps Script ──
-const MP_GS = `// Máy chủ vị trí sà lan – Trung Hiếu
-// Ghi mỗi vị trí vào trang tính "ViTri". Đọc: ?action=get&hours=24
+const MP_GS = `// Máy chủ vị trí sà lan – Trung Hiếu (bản 2: có ĐỊA CHỈ)
+// Mỗi vị trí ghi vào trang tính "ViTri": sà lan, vĩ độ, kinh độ, địa chỉ (Google Maps tự tra), tốc độ, giờ, link bản đồ.
 // Gửi:  ?action=push&barge=ST-06128&lat=9.60&lon=105.98&spd=8&ts=...
+//       → trả về {ok, barge, address, lat, lon, maps}
+// Đọc:  ?action=get&hours=24          → vị trí mới nhất từng sà lan (kèm địa chỉ) + hành trình
+//       ?action=now&barge=ST-06128    → vị trí hiện tại một sà lan: địa chỉ, vĩ độ, kinh độ, giờ, link bản đồ
+// Cũng nhận POST (JSON) từ app GPS: {"barge":"ST-06128","lat":9.6,"lon":105.98}
 const SHEET = 'ViTri';
+const HEAD = ['barge', 'lat', 'lon', 'dia_chi', 'speed', 'heading', 'status', 'ts', 'note', 'thoi_gian', 'ban_do'];
 
-function doGet(e) {
-  const p = (e && e.parameter) || {};
+function doGet(e) { return handle_((e && e.parameter) || {}); }
+function doPost(e) {
+  let p = (e && e.parameter) || {};
+  try { if (e && e.postData && e.postData.contents) p = Object.assign({ action: 'push' }, p, JSON.parse(e.postData.contents)); } catch (err) {}
+  return handle_(p);
+}
+
+function sheet_() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sh = ss.getSheetByName(SHEET);
-  if (!sh) {
-    sh = ss.insertSheet(SHEET);
-    sh.appendRow(['barge', 'lat', 'lon', 'speed', 'heading', 'status', 'ts', 'note', 'thoi_gian']);
-  }
+  if (!sh) { sh = ss.insertSheet(SHEET); sh.appendRow(HEAD); sh.setFrozenRows(1); return sh; }
+  // nâng cấp trang tính bản cũ: chèn cột địa chỉ sau kinh độ
+  if (sh.getRange(1, 4).getValue() !== 'dia_chi') { sh.insertColumnAfter(3); sh.getRange(1, 4).setValue('dia_chi'); }
+  if (sh.getRange(1, 11).getValue() !== 'ban_do') sh.getRange(1, 11).setValue('ban_do');
+  return sh;
+}
 
+// Đổi vĩ độ, kinh độ → địa chỉ bằng dịch vụ bản đồ có sẵn trong Apps Script (lưu đệm 6 giờ, đỡ tốn hạn mức)
+function address_(lat, lon) {
+  const k = 'a' + lat.toFixed(4) + ',' + lon.toFixed(4), cache = CacheService.getScriptCache();
+  const hit = cache.get(k);
+  if (hit) return hit;
+  try {
+    const r = Maps.newGeocoder().setLanguage('vi').setRegion('vn').reverseGeocode(lat, lon);
+    const a = r && r.results && r.results.length ? r.results[0].formatted_address : '';
+    if (a) cache.put(k, a, 21600);
+    return a;
+  } catch (err) { return ''; }
+}
+function maps_(lat, lon) { return 'https://www.google.com/maps?q=' + lat + ',' + lon; }
+
+function handle_(p) {
+  const sh = sheet_();
   if (p.action === 'push') {
     const lat = Number(p.lat), lon = Number(p.lon);
     if (!p.barge || !isFinite(lat) || !isFinite(lon)) return out({ ok: false, error: 'thiếu barge/lat/lon' });
-    let spd = p.spd !== undefined && p.spd !== '' ? Number(p.spd)
-            : (p.spdms ? Number(p.spdms) * 3.6 : '');
+    const spd = p.spd !== undefined && p.spd !== '' ? Number(p.spd) : (p.spdms ? Number(p.spdms) * 3.6 : '');
     let ts = Number(p.ts) || Date.now();
     if (ts < 1e12) ts *= 1000;               // giây -> mili giây
+    const addr = p.addr || address_(lat, lon);
     const lock = LockService.getScriptLock();
     lock.waitLock(10000);
     try {
-      sh.appendRow([p.barge, lat, lon, spd, p.hdg || '', p.status || '', ts, p.note || '', new Date(ts)]);
+      sh.appendRow([p.barge, lat, lon, addr, spd, p.hdg || '', p.status || '', ts, p.note || '', new Date(ts), maps_(lat, lon)]);
     } finally { lock.releaseLock(); }
-    return out({ ok: true });
+    return out({ ok: true, barge: p.barge, address: addr, lat: lat, lon: lon, ts: ts, maps: maps_(lat, lon) });
   }
 
-  // action=get: vị trí mới nhất + hành trình gần đây
+  // action=get / now: vị trí mới nhất + hành trình gần đây
   const hours = Number(p.hours) || 24;
   const since = Date.now() - hours * 3600 * 1000;
   const rows = sh.getDataRange().getValues().slice(1);
   const latest = {}, track = {};
   rows.forEach(function (r) {
-    const b = r[0], ts = Number(r[6]);
+    const b = r[0], ts = Number(r[7]);
     if (!b || !ts) return;
-    const o = { barge: b, lat: r[1], lon: r[2], speed: r[3] === '' ? null : r[3],
-                heading: r[4] === '' ? null : r[4], status: r[5], ts: ts, note: r[7] };
+    const o = { barge: b, lat: r[1], lon: r[2], address: r[3], speed: r[4] === '' ? null : r[4],
+                heading: r[5] === '' ? null : r[5], status: r[6], ts: ts, note: r[8], maps: maps_(r[1], r[2]) };
     if (!latest[b] || ts >= latest[b].ts) latest[b] = o;
     if (ts >= since) (track[b] = track[b] || []).push([r[1], r[2], ts]);
   });
+  Object.keys(latest).forEach(function (k) {         // dòng cũ chưa có địa chỉ thì tra bổ sung
+    const o = latest[k];
+    if (!o.address) o.address = address_(Number(o.lat), Number(o.lon));
+    o.thoi_gian = Utilities.formatDate(new Date(o.ts), 'Asia/Ho_Chi_Minh', 'HH:mm dd/MM/yyyy');
+  });
+  if (p.action === 'now') {
+    const o = latest[p.barge];
+    return out(o ? Object.assign({ ok: true }, o) : { ok: false, error: 'chưa có vị trí của ' + p.barge });
+  }
   return out({ ok: true, updated: Date.now(), data: Object.keys(latest).map(function (k) { return latest[k]; }), track: track });
 }
 
@@ -5672,6 +6080,7 @@ function mpUpdateGpsLoggerTpl(){
   setInterval(()=>{ mpRenderHomeLive(); if(g('s-map').classList.contains('active')){ mpRenderBarges(false); mpRenderFleet(); } }, 60000);
   document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ if(mpPlacing) mpCancelPlace(); else if(g('s-map').classList.contains('ai-open')) mpAiSheet(false); else mpCloseModal(); } });
   mpSheetInit(); mpFindInit();
+  ['gesturestart','gesturechange'].forEach(ev=>document.addEventListener(ev, e=>e.preventDefault(), {passive:false}));
   openMap();
 })();
 
