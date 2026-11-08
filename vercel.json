@@ -1,5 +1,6 @@
 {
   "functions": {
-    "api/ai.js": { "maxDuration": 120 }
+    "api/ai.js": { "maxDuration": 120 },
+    "api/ocr.js": { "maxDuration": 120 }
   }
 }
