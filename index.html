@@ -1754,12 +1754,12 @@ option{background:#fff;color:#2b211a;}
         <div class="mp-sec">
           <h5>Mẫu máy chủ Google Apps Script</h5>
           <ol class="mp-steps">
-            <li>Tạo một Google Sheet mới, vào <b>Tiện ích mở rộng → Apps Script</b>.</li>
+            <li>Mở Apps Script (từ trang tính: <b>Tiện ích mở rộng → Apps Script</b>, hoặc dự án riêng). Code ghi vào sheet <b>CHUNG</b> của trang tính có ID ở dòng <code>SHEET_ID</code> – đổi ID nếu dùng trang tính khác.</li>
             <li>Xoá hết code cũ, dán đoạn code bên dưới, bấm Lưu.</li>
-            <li><b>Triển khai → Tùy chọn triển khai mới → Ứng dụng web</b>. Thực thi dưới tên: <b>Tôi</b>. Người có quyền truy cập: <b>Bất kỳ ai</b>.</li>
-            <li>Chép URL kết thúc bằng <code>/exec</code> dán vào ô Địa chỉ API ở trên.</li>
-            <li>Đã có máy chủ bản cũ: dán code mới, Lưu, rồi <b>Triển khai → Quản lý triển khai → ✏️ → Phiên bản mới</b> (URL giữ nguyên). Trang tính tự thêm cột <b>dia_chi</b>.</li>
-            <li>Mỗi vị trí gửi lên được ghi kèm <b>địa chỉ</b> (Google Maps tự tra, không cần khóa), <b>vĩ độ, kinh độ</b> và link bản đồ. Xem nhanh một tàu: <code>/exec?action=now&amp;barge=ST-06128</code></li>
+            <li>Chọn hàm <b>thu</b> → bấm <b>▶ Chạy</b> một lần → <b>Cho phép</b> (cấp quyền trang tính + bản đồ). Hàng 1 sẽ có đủ cột: Timestamp, TÊN SÀ LAN, ĐỊA CHỈ, KINH ĐỘ, VĨ ĐỘ, GOOGLE MAP.</li>
+            <li><b>Triển khai → Tùy chọn triển khai mới → Ứng dụng web</b>. Thực thi dưới tên: <b>Tôi</b>. Người có quyền truy cập: <b>Bất kỳ ai</b>. Chép URL kết thúc bằng <code>/exec</code> dán vào ô Địa chỉ API ở trên.</li>
+            <li>Đã triển khai trước đó: dán code mới, Lưu, chạy <b>thu</b>, rồi <b>Triển khai → Quản lý triển khai → ✏️ → Phiên bản mới</b> (URL giữ nguyên).</li>
+            <li>Mỗi vị trí gửi lên được ghi kèm <b>địa chỉ</b> (Google Maps tự tra, không cần khóa), <b>kinh độ, vĩ độ</b> và <b>link Google Map</b>. Xem nhanh một tàu: <code>/exec?action=now&amp;barge=ST-06128</code></li>
           </ol>
           <div class="mp-code"><button class="btn" onclick="mpCopyCode()">Sao chép</button><pre id="mp-gs"></pre></div>
           <div class="d" style="margin-top:10px">Dùng app <b>GPSLogger</b> (Android) để gửi vị trí nền, không cần mở màn hình: vào Logging details → Log to custom URL, dán:</div>
@@ -4717,7 +4717,7 @@ async function mpAiSend(){
     const r = await fetch('api/ai', {method:'POST', headers:hdr, signal:ctl.signal, body:JSON.stringify({provider:p, model, messages:msgs, context:mpAiCtx()})});
     clearTimeout(to);
     let j = null; try{ j = await r.json(); }catch{}
-    if(!r.ok || !j) throw new Error((j&&j.error) || (r.status===404 ? 'Chưa có máy chủ AI (api/ai) – cần mở app từ trang Vercel.' : 'Máy chủ lỗi '+r.status));
+    if(!r.ok || !j) throw new Error((j&&j.error) || ((r.status===404||r.status===405) ? 'Trang này chưa có máy chủ AI (lỗi '+r.status+'): app đang mở từ trang tĩnh (GitHub Pages…). Hãy mở app từ địa chỉ Vercel (…vercel.app).' : 'Máy chủ lỗi '+r.status));
     const marks = (j.marks||[]).filter(m=>isFinite(m.lat)&&isFinite(m.lon));
     mpAiChat.push({role:'assistant', text:j.text, marks, sources:j.sources||[], by:`${MP_AI_PROV[p].t} · ${j.model||model}`});
     if(marks.length) mpAiShow(marks);
@@ -5280,7 +5280,7 @@ async function mpOcrCall(dataUrl){
       image:{type:'image/jpeg', data:dataUrl.split(',')[1]},
       known:{stations:mpTrams.map(t=>t.name), routes:mpTripRoutes().map(x=>x.r), barges:FLEET}})});
     let j = null; try{ j = await r.json(); }catch{}
-    if(!r.ok || !j) throw new Error((j && j.error) || (r.status===404 ? 'Chưa có máy chủ đọc ảnh (api/ocr) – cần mở app từ trang Vercel.' : 'Máy chủ lỗi '+r.status));
+    if(!r.ok || !j) throw new Error((j && j.error) || ((r.status===404||r.status===405) ? 'Trang này chưa có máy chủ đọc ảnh (lỗi '+r.status+'): app đang mở từ trang tĩnh (GitHub Pages…). Hãy mở app từ địa chỉ Vercel (…vercel.app).' : 'Máy chủ lỗi '+r.status));
     return j;
   } catch(e){ if(e.name==='AbortError') throw new Error('AI đọc ảnh quá lâu, thử lại'); if(!navigator.onLine) throw new Error('Mất mạng, chưa đọc được ảnh'); throw e; }
   finally{ clearTimeout(to); }
@@ -5967,15 +5967,14 @@ function mpStopPush(){
 }
 
 // ── mẫu Apps Script ──
-const MP_GS = `// Máy chủ vị trí sà lan – Trung Hiếu (bản 2: có ĐỊA CHỈ)
-// Mỗi vị trí ghi vào trang tính "ViTri": sà lan, vĩ độ, kinh độ, địa chỉ (Google Maps tự tra), tốc độ, giờ, link bản đồ.
-// Gửi:  ?action=push&barge=ST-06128&lat=9.60&lon=105.98&spd=8&ts=...
-//       → trả về {ok, barge, address, lat, lon, maps}
-// Đọc:  ?action=get&hours=24          → vị trí mới nhất từng sà lan (kèm địa chỉ) + hành trình
-//       ?action=now&barge=ST-06128    → vị trí hiện tại một sà lan: địa chỉ, vĩ độ, kinh độ, giờ, link bản đồ
-// Cũng nhận POST (JSON) từ app GPS: {"barge":"ST-06128","lat":9.6,"lon":105.98}
-const SHEET = 'ViTri';
-const HEAD = ['barge', 'lat', 'lon', 'dia_chi', 'speed', 'heading', 'status', 'ts', 'note', 'thoi_gian', 'ban_do'];
+const MP_GS = `// Máy chủ vị trí sà lan – Trung Hiếu (bản 3: ghi vào sheet CHUNG)
+// Cột: Timestamp | TÊN SÀ LAN | ĐỊA CHỈ | KINH ĐỘ | VĨ ĐỘ | GOOGLE MAP  (tìm theo tên tiêu đề, thiếu cột nào tự thêm)
+// Gửi:  ?action=push&barge=ST-06128&lat=9.60&lon=105.98   → {ok, barge, address, lat, lon, maps}
+// Đọc:  ?action=get&hours=24                             → vị trí mới nhất từng sà lan + hành trình
+//       ?action=now&barge=ST-06128                       → vị trí hiện tại một sà lan
+const SHEET_ID = '15y7XwCmwWN7v-wtdDEPOWPYvQYCX4i6f5C0i0VxJyhI';   // để '' nếu dán script ngay trong trang tính
+const SHEET = 'CHUNG';
+const COLS = { ts: 'Timestamp', barge: 'TÊN SÀ LAN', addr: 'ĐỊA CHỈ', lon: 'KINH ĐỘ', lat: 'VĨ ĐỘ', map: 'GOOGLE MAP' };
 
 function doGet(e) { return handle_((e && e.parameter) || {}); }
 function doPost(e) {
@@ -5984,17 +5983,33 @@ function doPost(e) {
   return handle_(p);
 }
 
+// Chạy hàm này 1 lần trong trình soạn thảo để cấp quyền + tạo tiêu đề cột
+function thu() { const s = sheet_(); Logger.log('OK: ' + s.sh.getName() + ' ' + JSON.stringify(s.idx)); }
+
+function norm_(s) { return String(s || '').trim().toUpperCase(); }
+function num_(v) { return typeof v === 'number' ? v : Number(String(v).replace(',', '.')); }
+
 function sheet_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sh = ss.getSheetByName(SHEET);
-  if (!sh) { sh = ss.insertSheet(SHEET); sh.appendRow(HEAD); sh.setFrozenRows(1); return sh; }
-  // nâng cấp trang tính bản cũ: chèn cột địa chỉ sau kinh độ
-  if (sh.getRange(1, 4).getValue() !== 'dia_chi') { sh.insertColumnAfter(3); sh.getRange(1, 4).setValue('dia_chi'); }
-  if (sh.getRange(1, 11).getValue() !== 'ban_do') sh.getRange(1, 11).setValue('ban_do');
-  return sh;
+  const ss = SHEET_ID ? SpreadsheetApp.openById(SHEET_ID) : SpreadsheetApp.getActiveSpreadsheet();
+  const sh = ss.getSheetByName(SHEET) || ss.insertSheet(SHEET);
+  const w = Math.max(sh.getLastColumn(), 1);
+  const head = sh.getRange(1, 1, 1, w).getValues()[0].map(norm_);
+  const idx = {};
+  Object.keys(COLS).forEach(function (k) {
+    let i = head.indexOf(norm_(COLS[k]));
+    if (i < 0) {                                   // chưa có cột → thêm tiêu đề vào ô trống đầu tiên
+      i = head.indexOf('');
+      if (i < 0) i = head.length;
+      head[i] = norm_(COLS[k]);
+      sh.getRange(1, i + 1).setValue(COLS[k]);
+    }
+    idx[k] = i;
+  });
+  if (sh.getFrozenRows() < 1) sh.setFrozenRows(1);
+  return { sh: sh, idx: idx, width: head.length };
 }
 
-// Đổi vĩ độ, kinh độ → địa chỉ bằng dịch vụ bản đồ có sẵn trong Apps Script (lưu đệm 6 giờ, đỡ tốn hạn mức)
+// Vĩ độ, kinh độ → địa chỉ tiếng Việt (Google Maps có sẵn, không cần key; lưu đệm 6 giờ)
 function address_(lat, lon) {
   const k = 'a' + lat.toFixed(4) + ',' + lon.toFixed(4), cache = CacheService.getScriptCache();
   const hit = cache.get(k);
@@ -6009,38 +6024,39 @@ function address_(lat, lon) {
 function maps_(lat, lon) { return 'https://www.google.com/maps?q=' + lat + ',' + lon; }
 
 function handle_(p) {
-  const sh = sheet_();
+  const s = sheet_(), sh = s.sh, idx = s.idx;
+
   if (p.action === 'push') {
-    const lat = Number(p.lat), lon = Number(p.lon);
+    const lat = num_(p.lat), lon = num_(p.lon);
     if (!p.barge || !isFinite(lat) || !isFinite(lon)) return out({ ok: false, error: 'thiếu barge/lat/lon' });
-    const spd = p.spd !== undefined && p.spd !== '' ? Number(p.spd) : (p.spdms ? Number(p.spdms) * 3.6 : '');
     let ts = Number(p.ts) || Date.now();
-    if (ts < 1e12) ts *= 1000;               // giây -> mili giây
+    if (ts < 1e12) ts *= 1000;                     // giây → mili giây
     const addr = p.addr || address_(lat, lon);
+    const row = new Array(s.width).fill('');
+    row[idx.ts] = new Date(ts); row[idx.barge] = p.barge; row[idx.addr] = addr;
+    row[idx.lon] = lon; row[idx.lat] = lat; row[idx.map] = maps_(lat, lon);
     const lock = LockService.getScriptLock();
     lock.waitLock(10000);
-    try {
-      sh.appendRow([p.barge, lat, lon, addr, spd, p.hdg || '', p.status || '', ts, p.note || '', new Date(ts), maps_(lat, lon)]);
-    } finally { lock.releaseLock(); }
+    try { sh.appendRow(row); } finally { lock.releaseLock(); }
     return out({ ok: true, barge: p.barge, address: addr, lat: lat, lon: lon, ts: ts, maps: maps_(lat, lon) });
   }
 
-  // action=get / now: vị trí mới nhất + hành trình gần đây
-  const hours = Number(p.hours) || 24;
-  const since = Date.now() - hours * 3600 * 1000;
+  // action=get / now
+  const hours = Number(p.hours) || 24, since = Date.now() - hours * 3600 * 1000;
   const rows = sh.getDataRange().getValues().slice(1);
   const latest = {}, track = {};
   rows.forEach(function (r) {
-    const b = r[0], ts = Number(r[7]);
-    if (!b || !ts) return;
-    const o = { barge: b, lat: r[1], lon: r[2], address: r[3], speed: r[4] === '' ? null : r[4],
-                heading: r[5] === '' ? null : r[5], status: r[6], ts: ts, note: r[8], maps: maps_(r[1], r[2]) };
+    const b = String(r[idx.barge] || '').trim(), t = r[idx.ts];
+    const ts = t instanceof Date ? t.getTime() : (Number(t) || Date.parse(t));
+    const lat = num_(r[idx.lat]), lon = num_(r[idx.lon]);
+    if (!b || !ts || !isFinite(lat) || !isFinite(lon)) return;
+    const o = { barge: b, lat: lat, lon: lon, address: r[idx.addr] || '', ts: ts, maps: maps_(lat, lon) };
     if (!latest[b] || ts >= latest[b].ts) latest[b] = o;
-    if (ts >= since) (track[b] = track[b] || []).push([r[1], r[2], ts]);
+    if (ts >= since) (track[b] = track[b] || []).push([lat, lon, ts]);
   });
-  Object.keys(latest).forEach(function (k) {         // dòng cũ chưa có địa chỉ thì tra bổ sung
+  Object.keys(latest).forEach(function (k) {
     const o = latest[k];
-    if (!o.address) o.address = address_(Number(o.lat), Number(o.lon));
+    if (!o.address) o.address = address_(o.lat, o.lon);
     o.thoi_gian = Utilities.formatDate(new Date(o.ts), 'Asia/Ho_Chi_Minh', 'HH:mm dd/MM/yyyy');
   });
   if (p.action === 'now') {
@@ -6052,7 +6068,8 @@ function handle_(p) {
 
 function out(o) {
   return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
-}`;
+}
+`;
 function mpCopyText(t){
   (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(()=>showToast('✅ Đã sao chép','ok')).catch(()=>{
     const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); showToast('✅ Đã sao chép','ok');
