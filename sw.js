@@ -1,6 +1,6 @@
 // sw.js — Service Worker cho app Quản Lý & Điều Phối Sà Lan – Trung Hiếu
 // Mỗi lần sửa index.html / icon / manifest: tăng VERSION để máy đã cài tải bản mới.
-const VERSION = 'th-salan-v16';
+const VERSION = 'th-salan-v17';
 const PREFIX  = 'th-salan-';
 const CORE    = VERSION + '-core';     // trang + icon + manifest
 const RUNTIME = VERSION + '-rt';       // font, thư viện từ CDN
@@ -11,6 +11,7 @@ const CORE_FILES = [
   './index.html',
   './manifest.json',
   './map-data.json',          // mạng sông, kênh thật (OpenStreetMap) + tuyến
+  './map-tiles/index.json',   // đường lớn, thị trấn + danh sách ô chi tiết (ô tải dần khi xem)
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-maskable-192.png',

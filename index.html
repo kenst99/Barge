@@ -1146,6 +1146,18 @@ option{background:#fff;color:#2b211a;}
 #s-map .mp-cnvmk.end .lbl{fill:#3b2a1e;font-size:10.5px;}
 #mp-stage[data-lbl="0"] .mp-cnvmk.end .lbl,#mp-stage[data-lbl="0"] .mp-cnvmk.an .lbl{display:inline;}
 @media(max-width:900px){.cnv-opt{grid-template-columns:1fr 1fr;}#cnv-chart{height:200px;}}
+/* lớp chi tiết: đường bộ, địa danh, ô phóng lớn */
+#s-map .mp-road{fill:none;stroke-linecap:round;stroke-linejoin:round;}
+#s-map .mp-road.h{stroke:#ecd3a2;}#s-map .mp-road.p{stroke:#efe2c4;}
+#s-map #mp-g-detroad .mp-road.h{stroke:#edbd62;}#s-map #mp-g-detroad .mp-road.p{stroke:#f1d48f;}#s-map #mp-g-detroad .mp-road.s{stroke:#ded2be;}#s-map #mp-g-detroad .mp-road.f{stroke:#5d9bb8;}
+#s-map .mp-plc{font-family:var(--pp-sans);font-size:9.5px;font-weight:600;fill:#75665a;stroke:#fff;stroke-width:2.4px;paint-order:stroke;stroke-linejoin:round;pointer-events:none;}
+#s-map .mp-plc.r0{font-size:12px;font-weight:800;fill:#3b2a1e;}#s-map .mp-plc.r1{font-size:10.5px;font-weight:700;fill:#5a4a3d;}#s-map .mp-plc.r3{font-weight:500;fill:#93857a;}
+#s-map #mp-g-det .mp-wl{stroke:var(--pp-water);}
+#s-map #mp-stage[data-dz="1"] .mp-rtbg:not(.sel):not(.alt){stroke:rgba(255,255,255,.3);}
+#mp-stage:not([data-lod="2"]) #mp-g-road,#mp-stage:not([data-lbl="2"]) #mp-g-plc{display:none;}
+#s-map #mp-g-plc .mp-plc.r0{font-size:10.5px;font-weight:700;fill:#5a4a3d;}#s-map #mp-g-plc .mp-plc.r1{font-size:9.5px;font-weight:600;fill:#85766a;}
+#mp-stage:not([data-dz="1"]) #mp-g-det,#mp-stage:not([data-dz="1"]) #mp-g-detroad,#mp-stage:not([data-dz="1"]) #mp-g-detlbl{display:none;}
+#mp-stage[data-det="1"] #mp-g-water .mp-water,#mp-stage[data-det="1"] #mp-g-water .mp-wl,#mp-stage[data-det="1"] #mp-g-road,#mp-stage[data-det="1"] #mp-g-rvlbl .mp-rvlbl,#mp-stage[data-det="1"] #mp-g-plc{display:none;}
 </style>
 </head>
 <body>
@@ -1617,7 +1629,7 @@ option{background:#fff;color:#2b211a;}
     <div class="mp-live" id="mp-live" onclick="mpTab('api')"><i></i><span id="mp-live-t">Chưa kết nối API</span></div>
     <div class="mp-rtinfo" id="mp-rtinfo"></div>
     <div class="mp-loadchip" id="mp-loadchip">⏳ Đang tải bản đồ đường thủy…</div>
-    <div class="mp-attr">Sông, kênh: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a></div>
+    <div class="mp-attr">Bản đồ: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> · Overture Maps</div>
     <div class="mp-banner" id="mp-banner">Chạm vào bản đồ để chọn vị trí<button onclick="mpCancelPlace()">Hủy</button></div>
     <div class="mp-pop" id="mp-pop"></div>
 
@@ -3930,9 +3942,12 @@ function mpBuild(){
   MAP.provinces.forEach(p=>mpEl('path',{d:p.path,class:'mp-prov'},gp));
   mpEl('g',{id:'mp-g-border'},svg);
   mpEl('g',{id:'mp-g-water'},svg);
+  mpEl('g',{id:'mp-g-det'},svg);                    // lớp chi tiết theo ô (map-tiles/): bờ sông thật, kênh nhỏ
+  mpEl('g',{id:'mp-g-road'},svg); mpEl('g',{id:'mp-g-detroad'},svg);
   const gl = mpEl('g',{},svg);
   MAP.provinces.forEach(p=>{ mpEl('text',{x:0,y:0,class:'mp-provlbl mp-lbl','data-x':p.cx,'data-y':p.cy,'data-k':'p'},gl).textContent=p.name; });
   mpEl('g',{id:'mp-g-rvlbl'},svg);
+  mpEl('g',{id:'mp-g-detlbl'},svg); mpEl('g',{id:'mp-g-plc'},svg);
   // lớp phủ riêng: nét tuyến chạy liên tục chỉ vẽ lại lớp này, không vẽ lại nền sông nặng
   let svg2 = g('mp-svg2');
   if(!svg2){ svg2 = document.createElementNS(MP_NS,'svg'); svg2.id='mp-svg2'; g('mp-stage').appendChild(svg2); }
@@ -4090,7 +4105,9 @@ function mpRenderBarges(animate){
 function mpPlace(el,[x,y]){ el.dataset.x=x; el.dataset.y=y; el.setAttribute('transform',`translate(${x},${y}) scale(${1/vs})`); }
 let mpVs0 = 1;                                     // độ phóng của khung nhìn đầu (mốc để chữ/nét lớn dần khi phóng)
 const mpZr = () => Math.max(.4, vs/mpVs0);
+let mpMkVs = 0;                                    // phép co chữ/biểu tượng chỉ phụ thuộc độ phóng: kéo bản đồ không cần tính lại
 function mpScaleMarkers(){
+  mpMkVs = vs;
   const gz = Math.min(1.35, Math.max(.85, Math.pow(mpZr(), .28)));       // chữ lớn dần chậm khi phóng (giống trang mẫu)
   document.querySelectorAll('#mp-stage .mp-mk').forEach(el=>el.setAttribute('transform',`translate(${el.dataset.x},${el.dataset.y}) scale(${1/vs})`));
   document.querySelectorAll('#mp-stage .mp-rvlbl').forEach(el=>el.setAttribute('transform',`translate(${el.dataset.x},${el.dataset.y}) rotate(${el.dataset.a}) scale(${gz/vs})`));
@@ -4101,6 +4118,56 @@ function mpScaleMarkers(){
 function mpRenderAll(animate){
   if(mpBuilt){ mpRenderRoutes(); mpRenderFind(); mpRenderRvNames(); mpRenderTrails(); mpRenderTrams(); mpRenderPois(); mpRenderAiMarks(); if(window.CNV) CNV.drawMap(); mpRenderBarges(animate); mpPopPos(); }
   mpRenderFleet(); mpRenderPoiList(); mpRenderHomeLive();
+}
+
+// ═══ LỚP CHI TIẾT THEO Ô (map-tiles/) ═══
+// Phóng vừa: thêm đường lớn + tên thị trấn (map-tiles/index.json). Phóng lớn (≥ MP_DET_Z): tải các ô đang nhìn thấy –
+// bờ sông thật, cồn, kênh rạch nhỏ, đường, bến phà, tên sông kênh và địa danh; khi đủ ô thì ẩn lớp nền thô.
+const MP_ZMAX = 72, MP_DET_Z = 11;
+let MP_TI = null, mpTiP = null;
+const mpTiles = new Map();                          // 'cx_cy' -> {st:0 đang tải | 1 có dữ liệu, d, els}
+function mpTileIndex(){
+  if(MP_TI) return Promise.resolve(MP_TI);
+  if(mpTiP) return mpTiP;
+  mpTiP = fetch('map-tiles/index.json').then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(d=>{
+    MP_TI = d; d.set = new Set(d.tiles);
+    const gr = g('mp-g-road'), gp = g('mp-g-plc');
+    d.roads.forEach(([k,segs])=>mpEl('path',{d:segs.map(sg=>mpPathD(mpDecode(sg,d.qb))).join(''), class:'mp-road '+k},gr));
+    d.places.forEach(([n,x,y,rk])=>{
+      mpEl('text',{class:'mp-plc mp-lbl r'+rk,'text-anchor':'middle','data-x':x,'data-y':y,'data-k':'c'},gp).textContent = n; });
+    mpScaleMarkers(); mpDetail(); return d;
+  }).catch(()=>{ mpTiP = null; });
+  return mpTiP;
+}
+function mpTileDraw(k, t){
+  const d = t.d, q = MP_TI.q, els = [], dec = e => mpPathD(mpDecode(e,q));
+  const ga = mpEl('g',{},g('mp-g-det')), gr = mpEl('g',{},g('mp-g-detroad')), gl = mpEl('g',{},g('mp-g-detlbl'));
+  if(d.a.length) mpEl('path',{d:d.a.map(rings=>rings.map(r=>mpPathD(mpDecode(r,q),true)).join('')).join(''), class:'mp-water d'},ga);
+  d.l.forEach(([cls,segs])=>mpEl('path',{d:segs.map(dec).join(''), class:'mp-wl '+cls},ga));
+  ['s','p','h','f'].forEach(c=>{ const it = d.r.find(x=>x[0]===c); if(it) mpEl('path',{d:it[1].map(dec).join(''), class:'mp-road '+c},gr); });
+  d.n.forEach(([n,x,y,a])=>{ mpEl('text',{class:'mp-rvlbl','text-anchor':'middle','dy':'.35em','data-x':x,'data-y':y,'data-a':a},gl).textContent = n; });
+  d.p.forEach(([n,x,y,rk])=>{ mpEl('text',{class:'mp-plc mp-lbl r'+rk,'text-anchor':'middle','data-x':x,'data-y':y,'data-k':'c'},gl).textContent = n; });
+  t.els = [ga, gr, gl];
+}
+function mpDetail(){
+  const st = g('mp-stage'), w = mpWrap(); if(!st || !w || !mpBuilt) return;
+  if(vs>=2.2 && !MP_TI){ mpTileIndex(); }
+  if(!(vs>=MP_DET_Z && MP_TI)){ if(st.dataset.dz!=='0'){ st.dataset.dz = '0'; st.dataset.det = '0'; } return; }
+  const c = MP_TI.cell, m = .3, ww = w.clientWidth, wh = w.clientHeight;
+  const cx0 = Math.floor((-vx-ww*m)/vs/c), cx1 = Math.floor((ww*(1+m)-vx)/vs/c), cy0 = Math.floor((-vy-wh*m)/vs/c), cy1 = Math.floor((wh*(1+m)-vy)/vs/c);
+  const need = new Set(); let ready = true, drew = false;
+  for(let cx=cx0; cx<=cx1; cx++) for(let cy=cy0; cy<=cy1; cy++){ const k = cx+'_'+cy; if(MP_TI.set.has(k)) need.add(k); }
+  need.forEach(k=>{
+    let t = mpTiles.get(k);
+    if(!t){ mpTiles.set(k, t = {st:0}); ready = false;
+      fetch(`map-tiles/${k}.json`).then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+        .then(d=>{ t.d = d; t.st = 1; mpDetail(); }).catch(()=>mpTiles.delete(k));
+    } else if(t.st===0) ready = false;
+    else if(!t.els){ mpTileDraw(k, t); drew = true; }
+  });
+  mpTiles.forEach((t,k)=>{ if(t.els && !need.has(k)){ t.els.forEach(e=>e.remove()); t.els = null; } });   // ô ngoài khung: gỡ khỏi trang, giữ dữ liệu
+  st.dataset.dz = '1'; st.dataset.det = ready ? '1' : '0';
+  if(drew) mpScaleMarkers();
 }
 
 // ═══ PAN / ZOOM ═══
@@ -4120,6 +4187,7 @@ function mpSettle(){
     e.style.left = ox+'px'; e.style.top = oy+'px'; });
   mpR = {vx, vy, vs};
   st.style.transform = 'none'; st.classList.remove('moving');
+  mpDetail();
 }
 function mpApply(){
   const st = g('mp-stage'), svg = st;
@@ -4134,7 +4202,7 @@ function mpApply(){
   const lbl = vs>=3 ? '2' : vs>=1.5 ? '1' : '0';             // tên sông nhánh chỉ hiện khi đủ chỗ
   if(svg && svg.dataset.lod!==lod) svg.dataset.lod = lod;
   if(svg && svg.dataset.lbl!==lbl) svg.dataset.lbl = lbl;
-  mpStrokes(); mpScaleMarkers(); mpPopPos(); mpScaleBar();
+  mpStrokes(); if(vs!==mpMkVs) mpScaleMarkers(); mpPopPos(); mpScaleBar();
 }
 // Bản đồ phóng bằng CSS transform nên non-scaling-stroke không có tác dụng:
 // tự chia bề dày nét / nhịp nét đứt cho độ phóng để nét luôn mảnh như nhau trên màn hình.
@@ -4143,7 +4211,8 @@ const MP_STROKES = [
   ['.mp-prov',.5,0,1],['.mp-coast',.8,0,1],['.mp-foreign',.7],['.mp-border',1,[5,3]],
   ['.mp-wl.r.l0',1.5,0,1],['.mp-wl.c.l0',.95,0,1],['.mp-wl.r.l1',.95,0,1],['.mp-wl.c.l1',.65,0,1],['.mp-wl.l2',.42,0,1],
   ['.mp-river.sea',.9,[2,4]],['.mp-rtbg',4.6],['.mp-rtbg.sel',6],['.mp-rt',2.2,[7,4]],['.mp-rt.sea',2.2,[1.5,4.5]],['.mp-rt.sel',3.2,[7,4]],
-  ['.mp-rt.sea.sel',3.2,[1.5,4.5]],['.mp-rt.alt',2.4,[6,4]],['.mp-rt.alt.sea',2.4,[1.5,4.5]],['.mp-trail',2.6],['.mp-cnvbg',7.5],['.mp-cnvrt',4.2],['.mp-cross',1.5,[4,3]]];
+  ['.mp-rt.sea.sel',3.2,[1.5,4.5]],['.mp-rt.alt',2.4,[6,4]],['.mp-rt.alt.sea',2.4,[1.5,4.5]],['.mp-trail',2.6],['.mp-road.h',.9,0,1],['.mp-road.p',.6,0,1],['#mp-g-detroad .mp-road.h',1.5,0,1],['#mp-g-detroad .mp-road.p',1.1,0,1],['#mp-g-detroad .mp-road.s',.75,0,1],['#mp-g-detroad .mp-road.f',1,[4,3]],
+  ['#mp-g-det .mp-wl.r.l0',3.4,0,1],['#mp-g-det .mp-wl.c.l0',3,0,1],['#mp-g-det .mp-wl.r.l1',2.6,0,1],['#mp-g-det .mp-wl.c.l1',2.2,0,1],['#mp-g-det .mp-wl.l2',.8,0,1],['.mp-cnvbg',7.5],['.mp-cnvrt',4.2],['.mp-cross',1.5,[4,3]]];
 let mpStrokeVs = 0;
 function mpStrokes(){
   if(Math.abs(vs-mpStrokeVs) < mpStrokeVs*0.004) return;
@@ -4196,7 +4265,7 @@ function mpCenterOn(code, zoom){
 }
 function mpZoomAt(f, mx, my){
   const nx=(mx-vx)/vs, ny=(my-vy)/vs;
-  vs = Math.max(0.3, Math.min(14, vs*f)); vx=mx-nx*vs; vy=my-ny*vs; mpApply();
+  vs = Math.max(0.3, Math.min(MP_ZMAX, vs*f)); vx=mx-nx*vs; vy=my-ny*vs; mpApply();
 }
 function mpZoomBy(f){ const w=mpWrap(); mpTouched=true; mpZoomAt(f, w.clientWidth/2, mpCy()); }
 function mpResize(){ if(!g('s-map').classList.contains('active')) return; mpR = null; if(!mpTouched) mpFit(); else mpApply(); }
@@ -4226,7 +4295,7 @@ function mpInitPointer(){
     } else if(mpPts.size===2 && mpPinch){
       const [a,b]=[...mpPts.values()], r=w.getBoundingClientRect();
       const mx=(a.x+b.x)/2-r.left, my=(a.y+b.y)/2-r.top;
-      vs=Math.max(0.3,Math.min(14,mpPinch.vs*Math.hypot(a.x-b.x,a.y-b.y)/mpPinch.d));
+      vs=Math.max(0.3,Math.min(MP_ZMAX,mpPinch.vs*Math.hypot(a.x-b.x,a.y-b.y)/mpPinch.d));
       vx=mx-mpPinch.wx*vs; vy=my-mpPinch.wy*vs; mpTouched=true; mpApply();
     }
   });

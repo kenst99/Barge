@@ -12,6 +12,7 @@ OPT = dict(a[2:].split('=', 1) for a in sys.argv[4:] if a.startswith('--') and '
 DEBUG = OPT.get('debug')
 KHM = OPT.get('khm')          # thư mục bản xuất đường thủy Campuchia (HOT) – tùy chọn
 NE = OPT.get('ne')            # ne_10m_admin_0_countries.geojson (Natural Earth) – tùy chọn
+OV = OPT.get('ov')            # mặt nước Overture Maps (base/water, gốc OSM, đủ cả sông lớn dạng quan hệ đa vùng) – tùy chọn
 html = open(HTML, encoding='utf-8').read()
 MAP = json.loads(re.search(r'^const MAP = (.*);\s*$', html, re.M).group(1))
 B, LS, SC = MAP['bounds'], MAP['lonscale'], MAP['scale']
@@ -415,29 +416,60 @@ print('line points by lod', dict(npts))
 
 WATER_OK = {'river','canal','oxbow','lagoon','lake','reservoir','riverbank','lock','moat',None}
 areas = collections.defaultdict(list); apts = collections.Counter()
-for f in POLYS:
-    p = f['properties']
-    if p.get('natural') == 'wetland' or p.get('water') not in WATER_OK: continue
-    if p.get('waterway') in ('dam', 'weir', 'boatyard', 'dock'): continue
-    if p.get('natural') != 'water' and p.get('waterway') not in ('riverbank', 'river', 'canal'): continue
-    g = f['geometry']
-    polys = g['coordinates'] if g['type'] == 'MultiPolygon' else [g['coordinates']]
-    is_river = p.get('water') in ('river', 'canal', 'oxbow', 'riverbank') or p.get('waterway') in ('riverbank', 'river', 'canal')
-    for poly in polys:
-        rings = [[xy(*c) for c in r] for r in poly]
-        try: sp = Polygon(rings[0], rings[1:]).buffer(0)
-        except Exception: continue
-        a_km2 = sp.area / (SC*SC) * 111 * 111 * math.cos(math.radians(10))
+if OV:
+    # Bản HOT thiếu mặt nước các sông lớn (Hậu, Tiền, Cổ Chiên… là quan hệ đa vùng rất lớn) -> lấy từ Overture (cùng gốc OSM)
+    import pyarrow.parquet as _pq, shapely as _sh
+    from shapely.geometry import box as _bx
+    _BOX = _bx(B['minlon'], B['minlat'], B['maxlon'], B['maxlat'])
+    _K = 111*111*math.cos(math.radians(10))
+    def rings_of(g, tol_deg, min_u2, min_hole_u2, enc):
+        g = g.simplify(tol_deg, preserve_topology=True)
+        res = []
+        for gg in (g.geoms if hasattr(g, 'geoms') else [g]):
+            if gg.geom_type != 'Polygon' or gg.is_empty: continue
+            gg = orient(gg, 1.0)
+            ext = [xy(*c) for c in gg.exterior.coords]
+            if Polygon(ext).area < min_u2: continue
+            rs = [ext] + [h for h in ([xy(*c) for c in r.coords] for r in gg.interiors) if Polygon(h).area > min_hole_u2]
+            res.append(([enc(r) for r in rs], sum(len(r) for r in rs)))
+        return res
+    for r in _pq.read_table(OV).to_pylist():
+        if r['subtype'] in ('pond', 'human_made', 'ocean', 'physical', 'spring') or r['class'] in ('basin', 'wastewater', 'swimming_pool', 'salt_pond', 'fishpond', 'moat'): continue
+        g = _sh.from_wkb(r['geometry'])
+        if g.geom_type not in ('Polygon', 'MultiPolygon'): continue
+        if not g.is_valid: g = g.buffer(0)
+        g = g.intersection(_BOX)
+        if g.is_empty: continue
+        is_river = r['subtype'] in ('river', 'canal', 'stream')
+        a_km2 = g.area * _K
         if a_km2 < (0.05 if is_river else 0.6): continue
         lod = 0 if a_km2 >= 2.5 else 1
-        sp = sp.simplify(TOL_AREA[lod], preserve_topology=True)
-        if sp.is_empty: continue
-        geoms = sp.geoms if sp.geom_type == 'MultiPolygon' else [sp]
-        for gg in geoms:
-            if gg.geom_type != 'Polygon' or gg.area < 0.03: continue
-            gg = orient(gg, 1.0)   # vòng ngoài/vòng trong ngược chiều -> tô 'nonzero' đúng lỗ (cồn, cù lao)
-            rs = [list(gg.exterior.coords)] + [list(r.coords) for r in gg.interiors if Polygon(r).area > 0.01]
-            areas[lod].append([encode(r) for r in rs]); apts[lod] += sum(len(r) for r in rs)
+        for rs, n in rings_of(g, (18 if lod == 0 else 28)/111000, 0.03, 0.01, encode):
+            areas[lod].append(rs); apts[lod] += n
+else:
+    for f in POLYS:
+        p = f['properties']
+        if p.get('natural') == 'wetland' or p.get('water') not in WATER_OK: continue
+        if p.get('waterway') in ('dam', 'weir', 'boatyard', 'dock'): continue
+        if p.get('natural') != 'water' and p.get('waterway') not in ('riverbank', 'river', 'canal'): continue
+        g = f['geometry']
+        polys = g['coordinates'] if g['type'] == 'MultiPolygon' else [g['coordinates']]
+        is_river = p.get('water') in ('river', 'canal', 'oxbow', 'riverbank') or p.get('waterway') in ('riverbank', 'river', 'canal')
+        for poly in polys:
+            rings = [[xy(*c) for c in r] for r in poly]
+            try: sp = Polygon(rings[0], rings[1:]).buffer(0)
+            except Exception: continue
+            a_km2 = sp.area / (SC*SC) * 111 * 111 * math.cos(math.radians(10))
+            if a_km2 < (0.05 if is_river else 0.6): continue
+            lod = 0 if a_km2 >= 2.5 else 1
+            sp = sp.simplify(TOL_AREA[lod], preserve_topology=True)
+            if sp.is_empty: continue
+            geoms = sp.geoms if sp.geom_type == 'MultiPolygon' else [sp]
+            for gg in geoms:
+                if gg.geom_type != 'Polygon' or gg.area < 0.03: continue
+                gg = orient(gg, 1.0)   # vòng ngoài/vòng trong ngược chiều -> tô 'nonzero' đúng lỗ (cồn, cù lao)
+                rs = [list(gg.exterior.coords)] + [list(r.coords) for r in gg.interiors if Polygon(r).area > 0.01]
+                areas[lod].append([encode(r) for r in rs]); apts[lod] += sum(len(r) for r in rs)
 print('area points by lod', dict(apts))
 
 # nhãn tên sông lớn: giữa đoạn dài nhất, xoay theo hướng dòng
@@ -532,7 +564,7 @@ if KHM:
                 if gg.geom_type != 'LineString' or gg.is_empty: continue
                 P = rdp([xy(*c) for c in gg.coords], 0.05)
                 if len(P) > 1: groups[(0, 'r', '')].append(encode(P))
-    for f in json.load(open(os.path.join(KHM, 'hotosm_khm_waterways_polygons_geojson.geojson')))['features']:
+    for f in ([] if OV else json.load(open(os.path.join(KHM, 'hotosm_khm_waterways_polygons_geojson.geojson')))['features']):
         p = f['properties']
         if p.get('water') not in ('river', 'lake', 'reservoir') or not f.get('geometry'): continue
         try: g2 = shape(f['geometry']).buffer(0).intersection(BOXLL)
@@ -562,7 +594,7 @@ SEA_LBL = [('BIỂN ĐÔNG', 9.12, 106.80, 'sea'), ('VỊNH THÁI LAN', 9.55, 10
 sea_lbl = [[t, round(xy(lo, la)[0], 1), round(xy(lo, la)[1], 1), k] for t, la, lo, k in SEA_LBL]
 
 lines_out = [[lod, t, n, segs] for (lod, t, n), segs in sorted(groups.items(), key=lambda kv: (kv[0][0], kv[0][1], kv[0][2]))]
-out = {'v': 2, 'q': Q, 'src': 'OpenStreetMap (HOT export 05–06/05/2026), Natural Earth', 'areas': [areas[0], areas[1]],
+out = {'v': 2, 'q': Q, 'src': 'OpenStreetMap (HOT export 05/2026; Overture Maps 10/2026), Natural Earth', 'areas': [areas[0], areas[1]],
        'lines': lines_out, 'sea': sea_out, 'labels': labels, 'routes': routes_out, 'net': net_out, 'netSea': net_sea, 'ends': ends_out, 'coast': coast,
        'foreign': foreign, 'border': border, 'seaLabels': sea_lbl}
 s = json.dumps(out, ensure_ascii=False, separators=(',', ':'))
