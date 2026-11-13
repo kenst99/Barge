@@ -28,6 +28,26 @@ cd -   # về thư mục repo
 python3 -I tools/ban-do/build_water.py /tmp/osm index.html map-data.json --khm=/tmp/khm --ne=/tmp/ne_countries.geojson --graph=route-graph.json
 ```
 
+## Mặt nước sông lớn + lớp chi tiết khi phóng to (`map-tiles/`)
+
+Bản xuất HOT **thiếu mặt nước các sông lớn** (sông Hậu, sông Tiền, Cổ Chiên… là quan hệ đa vùng rất lớn trong OSM), nên
+mặt nước lấy từ **Overture Maps** (theme `base/water`, cùng gốc OpenStreetMap, giấy phép ODbL). Overture cũng cho đường bộ
+(`transportation/segment`) và tên địa danh (`divisions/division`).
+
+```bash
+pip install shapely scipy pyarrow fsspec aiohttp requests
+R=release/2026-10-21.0/      # bản mới nhất: xem https://docs.overturemaps.org/release/latest/
+python3 tools/ban-do/tai_overture.py $R base water /tmp/ov_water.parquet id,geometry,subtype,class,names,is_intermittent,sources
+python3 tools/ban-do/tai_overture.py $R transportation segment /tmp/ov_seg.parquet id,geometry,subtype,class,names,road_flags,subclass
+python3 tools/ban-do/tai_overture.py $R divisions division /tmp/ov_div.parquet id,geometry,subtype,class,names,population,country
+# 1) bản đồ nền: thêm --ov=... vào lệnh build_water.py ở trên
+python3 -I tools/ban-do/build_water.py /tmp/osm index.html map-data.json --khm=/tmp/khm --ne=/tmp/ne_countries.geojson --graph=route-graph.json --ov=/tmp/ov_water.parquet
+# 2) các ô chi tiết (app chỉ tải ô đang xem khi phóng lớn): bờ sông thật, cồn, kênh nhỏ, đường lớn, phà, tên sông kênh, địa danh
+python3 -I tools/ban-do/build_tiles.py /tmp/osm index.html map-data.json map-tiles --water=/tmp/ov_water.parquet --seg=/tmp/ov_seg.parquet --div=/tmp/ov_div.parquet
+```
+
+Không dùng (và không được vẽ lại từ) Google Maps: dữ liệu của Google có bản quyền, điều khoản cấm sao chép / đồ lại.
+
 Sau đó tăng `VERSION` trong `sw.js` để máy đã cài app tải bản đồ mới.
 
 Sửa tuyến: danh sách `ROUTES` và các điểm `N` (tọa độ + tên sông để bắt điểm) trong `build_water.py`.
