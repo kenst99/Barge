@@ -1097,6 +1097,55 @@ option{background:#fff;color:#2b211a;}
 .mp-ocr-cta .ic{font-size:26px;}
 .mp-ocr-cta b{display:block;font-size:15px;color:var(--pp-ink);}
 .mp-ocr-cta small{display:block;font-size:12.5px;color:var(--pp-mute);margin-top:1px;}
+/* ═══ THỜI ĐIỂM VÀNG (tab Nước) ═══ */
+#s-map .cnv-box{border-color:#e9c46a;background:linear-gradient(180deg,#fff8e6,var(--pp-paper));}
+.cnv-ends{display:grid;grid-template-columns:1fr 44px;grid-template-areas:'o sw' 'd sw';gap:6px 8px;align-items:end;margin:0;}
+.cnv-ends>div:first-child{grid-area:o;}.cnv-ends>div:last-child{grid-area:d;}.cnv-ends .cnv-swap{grid-area:sw;align-self:center;margin-top:20px;}
+.cnv-ends select{width:100%;}
+.cnv-swap{height:40px;min-width:40px;padding:0 8px;font-size:18px;}
+.cnv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:8px 0 0;}
+.cnv-grid input,.cnv-grid select{width:100%;}
+#s-map .cnv-det summary{cursor:pointer;font-weight:700;color:var(--pp-ink);list-style:none;font-size:15px;}
+#s-map .cnv-det summary::-webkit-details-marker{display:none;}
+#s-map .cnv-det summary::after{content:'▾';float:right;color:var(--pp-mute);transition:transform .2s;}
+#s-map .cnv-det:not([open]) summary::after{transform:rotate(-90deg);}
+#s-map .cnv-det[open] summary{margin-bottom:8px;}
+#s-map .cnv-det textarea{font-family:var(--pp-mono);font-size:14px;min-height:120px;}
+#cnv-chart{width:100%;height:220px;display:block;background:#fff;border:1px solid var(--pp-line);border-radius:10px;}
+.cnv-legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--pp-ink2);margin-bottom:6px;}
+.cnv-legend i{display:inline-block;width:14px;height:3px;vertical-align:middle;margin-right:4px;border-radius:2px;}
+.cnv-pills{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0;}
+.cnv-pill{display:inline-block;background:#fff;border:1px solid var(--pp-line);border-radius:20px;padding:3px 10px;font-size:12.5px;color:var(--pp-ink2);}
+.cnv-pill b{color:#b45309;}
+.cnv-pill.ok{border-color:#86efac;background:#f0fdf4;color:#15803d;}
+.cnv-opt{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0;}
+.cnv-opt button{text-align:left;background:#fff;border:1px solid var(--pp-line);border-radius:10px;padding:8px 10px;cursor:pointer;color:var(--pp-ink);font:inherit;font-size:13px;}
+.cnv-opt button small{display:block;color:var(--pp-mute);font-size:11.5px;margin-top:2px;line-height:1.35;}
+.cnv-opt button.on{border-color:#d97706;box-shadow:0 0 0 2px #fbbf2466;background:#fffbeb;}
+.cnv-tl{list-style:none;margin:8px 0 0;padding:0;}
+.cnv-tl li{border-left:3px solid var(--pp-line);padding:3px 0 9px 13px;position:relative;font-size:13.5px;color:var(--pp-ink2);line-height:1.45;}
+.cnv-tl li::before{content:"";position:absolute;left:-7px;top:6px;width:11px;height:11px;border-radius:50%;background:#1f78b4;border:2px solid #fff;}
+.cnv-tl li.w::before{background:#ea580c;}.cnv-tl li.a::before{background:#16a34a;}.cnv-tl li.s::before{background:#d97706;}
+.cnv-tl .t{font-weight:800;color:#b45309;margin-right:6px;font-family:var(--pp-mono);font-size:12.5px;}
+.cnv-tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px 0;}
+.cnv-tbl{width:100%;border-collapse:collapse;font-size:12.5px;white-space:nowrap;}
+.cnv-tbl th,.cnv-tbl td{border-bottom:1px solid var(--pp-line);padding:5px 6px;text-align:left;color:var(--pp-ink2);}
+.cnv-tbl th{color:var(--pp-mute);font-weight:600;}
+#s-map .cnv-gold{border-color:#fcd34d;background:#fffbeb;}
+.cnv-warn{background:#fff7ed;border:1px solid #fdba74;color:#9a3412;border-radius:10px;padding:8px 10px;font-size:13px;margin:6px 0;}
+.cnv-box .ok,#cnv-obs-msg .ok{color:#15803d;} #cnv-obs-msg .bad{color:#b91c1c;}
+#s-map .cnv-stbox{border-color:#93c5fd;background:#f0f7ff;}
+.cnv-stbox h5{display:flex;align-items:center;gap:6px;}
+.cnv-x{margin-left:auto;background:none;border:none;font-size:16px;color:var(--pp-mute);cursor:pointer;}
+#s-map .mp-cnvrt,#s-map .mp-cnvbg{fill:none;stroke-linecap:round;stroke-linejoin:round;}
+#s-map .mp-cnvbg{stroke:rgba(255,255,255,.9);}
+#s-map .mp-cnvrt{stroke:#f59e0b;}
+#s-map .mp-cnvmk .lbl{fill:#1e3a5f;font-size:10px;font-weight:700;}
+#s-map .mp-cnvmk.pt .lbl{fill:#7c2d12;}
+#s-map .mp-cnvmk.an .lbl{fill:#c2410c;}
+#s-map .mp-cnvmk.end .lbl{fill:#3b2a1e;font-size:10.5px;}
+#mp-stage[data-lbl="0"] .mp-cnvmk.end .lbl,#mp-stage[data-lbl="0"] .mp-cnvmk.an .lbl{display:inline;}
+@media(max-width:900px){.cnv-opt{grid-template-columns:1fr 1fr;}#cnv-chart{height:200px;}}
 </style>
 </head>
 <body>
@@ -1642,7 +1691,65 @@ option{background:#fff;color:#2b211a;}
 
       <!-- CON NƯỚC -->
       <div class="mp-pane" id="mp-p-tide">
+                <div class="mp-sec cnv-box">
+          <h5>⚡ Thời điểm vàng · chạy theo con nước</h5>
+          <div class="d" style="margin-bottom:8px">Tính giờ nhổ neo, điểm neo chờ nước và khung giờ vàng cho sà lan theo thủy triều các trạm Định An, Trần Đề, Cần Thơ, Mỹ Thuận, Vàm Kênh, Gành Hào…</div>
+          <div class="mp-f cnv-ends">
+            <div><label>🟢 Điểm đi</label><select id="cnv-sel-o" onchange="CNV.onSel('o')"></select></div>
+            <button class="btn cnv-swap" onclick="CNV.swap()" title="Đổi chiều" aria-label="Đổi chiều">⇅</button>
+            <div><label>🏁 Điểm đến</label><select id="cnv-sel-d" onchange="CNV.onSel('d')"></select></div>
+          </div>
+          <div class="cnv-grid mp-f">
+            <div><label>Xuất phát sớm nhất</label><input type="datetime-local" id="cnv-t0"></div>
+            <div><label>Tìm trong (giờ)</label><input type="number" id="cnv-win" value="36" min="6" max="72" inputmode="numeric"></div>
+          </div>
+          <div class="mp-toolbar" style="margin-top:8px">
+            <button class="btn pri" id="cnv-run" onclick="CNV.run()">⚡ Tính thời điểm vàng</button>
+            <button class="btn" onclick="CNV.now()">🕒 Bây giờ</button>
+            <button class="btn" onclick="CNV.useGps('o')">📍 GPS điện thoại</button>
+          </div>
+          <div class="d" id="cnv-gps"></div>
+          <label class="mp-check" style="margin-top:6px"><input type="checkbox" id="cnv-layer" checked onchange="CNV.layer()"> Hiện trạm thủy văn & cảng trên bản đồ</label>
+        </div>
+        <div id="cnv-st"></div>
+        <div id="cnv-res"></div>
         <div class="mp-sec" id="mp-tide-moon"></div>
+        <details class="mp-sec cnv-det" open>
+          <summary>📈 Mực nước 48 giờ</summary>
+          <div class="cnv-legend"><span><i style="background:#1f78b4"></i>Cửa Định An</span><span><i style="background:#0d9488"></i>Điểm đi</span><span><i style="background:#7c3aed"></i>Điểm đến</span><span><i style="background:#16a34a"></i>Chạy máy</span><span><i style="background:#ea580c"></i>Neo chờ</span></div>
+          <canvas id="cnv-chart"></canvas>
+          <div class="d" id="cnv-chart-st" style="margin-top:6px"></div>
+        </details>
+        <details class="mp-sec cnv-det">
+          <summary>🗂️ Số liệu thủy triều thực tế (thegioimoicau.com)</summary>
+          <div class="cnv-grid mp-f">
+            <div><label>Số liệu của trạm</label><select id="cnv-obs-st"></select></div>
+            <div><label>Ngày bắt đầu</label><input type="date" id="cnv-obs-date"></div>
+          </div>
+          <div class="d">Mỗi dòng một đỉnh/chân triều: <b>giờ</b> và <b>độ cao (m hoặc cm)</b>. Có thể ghi ngày đầu dòng (vd <code>13/11 04:25 3.4</code>) hoặc một dòng ngày riêng. Giờ nhỏ hơn dòng trước tự hiểu là sang ngày hôm sau; dòng bắt đầu bằng # bị bỏ qua. Mở <a href="https://thegioimoicau.com/" target="_blank" rel="noopener">thegioimoicau.com</a> → chọn trạm → chép bảng giờ nước lớn/ròng vào đây.</div>
+          <div class="mp-f"><textarea id="cnv-obs-txt" rows="6" placeholder="12/11&#10;03:40 3.35&#10;10:15 0.42&#10;16:05 2.90&#10;21:50 1.10"></textarea></div>
+          <div class="mp-toolbar" style="margin-top:8px">
+            <button class="btn pri" onclick="CNV.applyObs(false)">✔ Áp dụng số liệu</button>
+            <button class="btn" onclick="CNV.sample()">📋 Dữ liệu mẫu 12–13/11/2026</button>
+            <button class="btn" onclick="CNV.clearObs()">✖ Dùng mô hình</button>
+          </div>
+          <div class="d" id="cnv-obs-msg" style="margin-top:6px"></div>
+        </details>
+        <details class="mp-sec cnv-det">
+          <summary>⚙️ Thông số sà lan & sông</summary>
+          <div class="cnv-grid mp-f">
+            <div><label>Tốc độ máy nước đứng (km/h)</label><input type="number" id="cnv-spd" value="9" step="0.5" inputmode="decimal"></div>
+            <div><label>Neo khi tốc độ thực dưới (% tốc độ máy)</label><input type="number" id="cnv-minpct" value="50" step="5" inputmode="numeric"></div>
+            <div><label>Mực nước tối thiểu qua kênh (m)</label><input type="number" id="cnv-minlv" value="1.4" step="0.1" inputmode="decimal"></div>
+            <div><label>Dòng chảy sông (mùa)</label><select id="cnv-season">
+              <option value="0.5">Mùa khô (dòng xả yếu)</option><option value="1.2">Giao mùa</option>
+              <option value="1.8" selected>Cuối mùa lũ (T10–T12)</option><option value="2.6">Đỉnh lũ (T9–T10)</option></select></div>
+            <div><label>Trễ triều cửa biển → Cần Thơ (giờ)</label><input type="number" id="cnv-lag" value="3" step="0.25" inputmode="decimal"></div>
+            <div><label>Dầu tiêu hao (lít/giờ máy)</label><input type="number" id="cnv-fuel" value="25" step="1" inputmode="numeric"></div>
+          </div>
+          <div class="d">Mực nước cùng hệ cao độ với số liệu nhập (mô hình mặc định gần “0 hải đồ”: cửa biển dao động ~0–4 m). Độ trễ và biên độ các trạm khác suy từ trạm cửa biển theo tỉ lệ khoảng cách truyền triều.</div>
+        </details>
+        <div class="mp-f"><div class="hint">⚠️ Công cụ hỗ trợ lập kế hoạch: thủy triều mô phỏng là gần đúng. Luôn đối chiếu bảng triều chính thức, thông báo luồng và quan sát thực tế trước khi chạy.</div></div>
         <div id="mp-tidelist"></div>
         <div class="mp-f"><div class="hint">Giờ nước lớn / nước ròng xem trên <a href="https://thegioimoicau.com/" target="_blank" rel="noopener" style="color:#38bdf8">thegioimoicau.com</a> theo trạm tham chiếu gần nhất. Càng vào sâu trong sông, con nước tới trễ hơn và yếu hơn trạm ven biển; đầu nguồn (Vĩnh Xương, Tân Châu) mùa lũ gần như không còn con nước. Nhận định rong/kém tính theo tuổi trăng, có thể lệch ±1 ngày.</div></div>
       </div>
@@ -3837,6 +3944,7 @@ function mpBuild(){
     mpEl('circle',{cx:0,cy:0,r:2,class:'mp-city'},k); mpEl('text',{x:4.5,y:3.2,class:'mp-citylbl'+(big?' b':'')},k).textContent=c.name; });
   mpEl('g',{id:'mp-g-trail'},svg2);
   mpEl('g',{id:'mp-g-find'},svg2);
+  mpEl('g',{id:'mp-g-cnv'},svg2);                   // thời điểm vàng: trạm thủy văn, tuyến, điểm neo
   mpEl('g',{id:'mp-g-rvuser'},svg2);
   mpEl('g',{id:'mp-g-tram'},svg2);
   mpEl('g',{id:'mp-g-poi'},svg2);
@@ -3991,7 +4099,7 @@ function mpScaleMarkers(){
 }
 
 function mpRenderAll(animate){
-  if(mpBuilt){ mpRenderRoutes(); mpRenderFind(); mpRenderRvNames(); mpRenderTrails(); mpRenderTrams(); mpRenderPois(); mpRenderAiMarks(); mpRenderBarges(animate); mpPopPos(); }
+  if(mpBuilt){ mpRenderRoutes(); mpRenderFind(); mpRenderRvNames(); mpRenderTrails(); mpRenderTrams(); mpRenderPois(); mpRenderAiMarks(); if(window.CNV) CNV.drawMap(); mpRenderBarges(animate); mpPopPos(); }
   mpRenderFleet(); mpRenderPoiList(); mpRenderHomeLive();
 }
 
@@ -4035,7 +4143,7 @@ const MP_STROKES = [
   ['.mp-prov',.5,0,1],['.mp-coast',.8,0,1],['.mp-foreign',.7],['.mp-border',1,[5,3]],
   ['.mp-wl.r.l0',1.5,0,1],['.mp-wl.c.l0',.95,0,1],['.mp-wl.r.l1',.95,0,1],['.mp-wl.c.l1',.65,0,1],['.mp-wl.l2',.42,0,1],
   ['.mp-river.sea',.9,[2,4]],['.mp-rtbg',4.6],['.mp-rtbg.sel',6],['.mp-rt',2.2,[7,4]],['.mp-rt.sea',2.2,[1.5,4.5]],['.mp-rt.sel',3.2,[7,4]],
-  ['.mp-rt.sea.sel',3.2,[1.5,4.5]],['.mp-rt.alt',2.4,[6,4]],['.mp-rt.alt.sea',2.4,[1.5,4.5]],['.mp-trail',2.6],['.mp-cross',1.5,[4,3]]];
+  ['.mp-rt.sea.sel',3.2,[1.5,4.5]],['.mp-rt.alt',2.4,[6,4]],['.mp-rt.alt.sea',2.4,[1.5,4.5]],['.mp-trail',2.6],['.mp-cnvbg',7.5],['.mp-cnvrt',4.2],['.mp-cross',1.5,[4,3]]];
 let mpStrokeVs = 0;
 function mpStrokes(){
   if(Math.abs(vs-mpStrokeVs) < mpStrokeVs*0.004) return;
@@ -5488,7 +5596,565 @@ function mpRenderTide(){
       return mpTideRow(`${c} · ${LABELS[c]||''}`, st.t, p.lat, p.lon, `mpCardClick('${c}')`); }).join('')
     : '<div class="mp-empty">Chưa có vị trí sà lan.</div>';
   g('mp-tidelist').innerHTML = html;
+  if(window.CNV) CNV.render();
 }
+
+// ═══ THỜI ĐIỂM VÀNG – ĐỊNH TUYẾN SÀ LAN THEO THỦY TRIỀU ═══
+// Mô hình triều điều hòa (M2, S2, N2, K1, O1) tại cửa Định An, truyền vào nội địa theo độ trễ / tỉ lệ biên độ từng trạm;
+// có thể thay bằng số liệu đỉnh/chân triều thật chép từ thegioimoicau.com. Bộ giải mô phỏng sà lan chạy từng 5 phút,
+// neo khi kênh cạn hoặc nước ngược mạnh, quét các giờ xuất phát để tìm phương án đến sớm / tiết kiệm dầu / cân bằng.
+window.CNV = (function(){
+const H = 3600e3;
+const EPOCH = Date.UTC(2026,0,18,19,52);           // trăng mới 18/01/2026 – mốc pha
+const CONS = [                                     // [tên, tốc độ °/h, biên độ m, pha °]
+  ['M2',28.9841042,0.72,200],['S2',30.0,0.28,236.6],['N2',28.4397295,0.13,180],
+  ['K1',15.0410686,0.55,320],['O1',13.9430356,0.40,270]];
+const MODEL_MEAN = 2.1;
+let seaMean = 2.1, obs = null;                     // obs: {station, pts:[{t,h}]}
+
+// lag: giờ trễ so với cửa Định An (thang 3 giờ tới Cần Thơ), ratio: tỉ lệ biên độ, moff: chênh mực nước trung bình (m)
+const N = {
+  st337:{name:'337 Bạch Đằng – Sóc Trăng',lat:9.5985,lng:105.9790,lag:2.6,ratio:0.55,moff:0.10,kind:'port'},
+  wpLP:{name:'Kênh Sóc Trăng – Long Phú',lat:9.665,lng:106.030,lag:2.0,ratio:0.65,moff:0.05,kind:'wp'},
+  daingai:{name:'Bến Đại Ngãi',lat:9.733,lng:106.073,lag:1.4,ratio:0.85,moff:0.05,kind:'port'},
+  wpCLD:{name:'Ngã ba Cù Lao Dung',lat:9.640,lng:106.165,lag:0.8,ratio:0.92,moff:0.02,kind:'wp'},
+  tranDe:{name:'Trạm Trần Đề',lat:9.505,lng:106.205,lag:0.2,ratio:0.98,moff:0,kind:'station'},
+  dinhAn:{name:'Trạm cửa Định An',lat:9.560,lng:106.420,lag:0,ratio:1,moff:0,kind:'station'},
+  wpKS:{name:'Sông Hậu – Kế Sách',lat:9.860,lng:105.960,lag:2.0,ratio:0.75,moff:0.15,kind:'wp'},
+  traOn:{name:'Trà Ôn (vàm Mang Thít)',lat:9.965,lng:105.925,lag:2.4,ratio:0.70,moff:0.25,kind:'wp'},
+  canTho:{name:'Trạm Cần Thơ',lat:10.035,lng:105.790,lag:3.0,ratio:0.60,moff:0.35,kind:'station'},
+  hoangDieu:{name:'Cảng Hoàng Diệu (Trà Nóc)',lat:10.088,lng:105.745,lag:3.2,ratio:0.58,moff:0.40,kind:'port'},
+  longXuyen:{name:'Trạm Long Xuyên',lat:10.385,lng:105.440,lag:4.6,ratio:0.40,moff:0.80,kind:'station'},
+  chauDoc:{name:'Trạm Châu Đốc',lat:10.705,lng:105.125,lag:6.0,ratio:0.22,moff:1.30,kind:'station'},
+  wpMT:{name:'Kênh Mang Thít',lat:10.100,lng:106.020,lag:3.0,ratio:0.50,moff:0.35,kind:'wp'},
+  vinhLong:{name:'Vĩnh Long (sông Cổ Chiên)',lat:10.255,lng:105.975,lag:3.3,ratio:0.55,moff:0.40,kind:'wp'},
+  myThuan:{name:'Trạm Mỹ Thuận',lat:10.275,lng:105.910,lag:3.5,ratio:0.52,moff:0.45,kind:'station'},
+  myTho:{name:'Mỹ Tho (sông Tiền)',lat:10.345,lng:106.370,lag:2.0,ratio:0.75,moff:0.20,kind:'wp'},
+  vamKenh:{name:'Trạm Vàm Kênh (cửa Tiểu)',lat:10.270,lng:106.745,lag:-0.1,ratio:1.02,moff:0,kind:'station'},
+  wpBL:{name:'Kênh Sóc Trăng – Bạc Liêu',lat:9.450,lng:105.800,lag:3.0,ratio:0.40,moff:0.15,kind:'wp'},
+  bacLieu:{name:'Bạc Liêu',lat:9.290,lng:105.725,lag:2.4,ratio:0.50,moff:0.10,kind:'wp'},
+  ganhHao:{name:'Trạm Gành Hào',lat:9.030,lng:105.420,lag:0.4,ratio:0.92,moff:0,kind:'station'},
+};
+const E = [
+  ['st337','wpLP','kenh'],['wpLP','daingai','kenh'],
+  ['daingai','wpCLD','song'],['wpCLD','tranDe','song'],['wpCLD','dinhAn','song'],
+  ['daingai','wpKS','song'],['wpKS','traOn','song'],['traOn','canTho','song'],['canTho','hoangDieu','song'],
+  ['hoangDieu','longXuyen','song'],['longXuyen','chauDoc','song'],
+  ['traOn','wpMT','kenh'],['wpMT','vinhLong','kenh'],['vinhLong','myThuan','song'],
+  ['myThuan','myTho','song'],['myTho','vamKenh','song'],
+  ['st337','wpBL','kenh'],['wpBL','bacLieu','kenh'],['bacLieu','ganhHao','kenh'],
+];
+const $ = id => document.getElementById(id);
+const esc = s => mpEsc(s);
+
+// ── cài đặt & trạng thái lưu trên máy ──
+let cfg = null, ends = null, inited = false;
+const DEF = {spd:9, minPct:50, minLv:1.4, season:'1.8', lagCT:3, fuel:25, win:36, layer:true};
+function init(){
+  if(inited) return; inited = true;
+  cfg = Object.assign({}, DEF, mpLoad('cnv_cfg', {}));
+  ends = Object.assign({o:{kind:'node',id:'st337'}, d:{kind:'node',id:'hoangDieu'}}, mpLoad('cnv_ends', {}));
+  if(ends.o.src==='gps') ends.o = {kind:'node',id:'st337'};
+  if(ends.d.src==='gps') ends.d = {kind:'node',id:'hoangDieu'};
+  const s = mpLoad('cnv_obs', null);
+  if(s && s.txt){ $('cnv-obs-txt').value = s.txt; $('cnv-obs-date').value = s.date||''; fillObsStations(); $('cnv-obs-st').value = s.st||'dinhAn'; applyObs(true); }
+}
+function readCfg(){
+  const num = (id, d) => { const v = parseFloat($(id).value); return isFinite(v) ? v : d; };
+  cfg.spd = Math.max(1, num('cnv-spd', DEF.spd)); cfg.minPct = num('cnv-minpct', DEF.minPct); cfg.minLv = num('cnv-minlv', DEF.minLv);
+  cfg.season = $('cnv-season').value; cfg.lagCT = num('cnv-lag', DEF.lagCT); cfg.fuel = num('cnv-fuel', DEF.fuel);
+  cfg.win = Math.max(6, Math.min(72, num('cnv-win', DEF.win)));
+  mpSave('cnv_cfg', cfg);
+}
+function writeCfg(){
+  $('cnv-spd').value = cfg.spd; $('cnv-minpct').value = cfg.minPct; $('cnv-minlv').value = cfg.minLv;
+  $('cnv-season').value = cfg.season; $('cnv-lag').value = cfg.lagCT; $('cnv-fuel').value = cfg.fuel; $('cnv-win').value = cfg.win;
+  $('cnv-layer').checked = !!cfg.layer;
+}
+const saveEnds = () => mpSave('cnv_ends', {o:ends.o.src==='gps'?{kind:'node',id:'st337'}:ends.o, d:ends.d.src==='gps'?{kind:'node',id:'hoangDieu'}:ends.d});
+
+/* ================= MÔ HÌNH THỦY TRIỀU ================= */
+function seaModel(ms){
+  const t = (ms-EPOCH)/H; let h = seaMean;
+  for(const c of CONS) h += c[2]*Math.cos((c[1]*t - c[3])*Math.PI/180);
+  return h;
+}
+function refInterp(ms){
+  const p = obs.pts; if(p.length<2 || ms<p[0].t || ms>p[p.length-1].t) return null;
+  let lo=0, hi=p.length-1; while(hi-lo>1){ const m=(lo+hi)>>1; if(p[m].t<=ms) lo=m; else hi=m; }
+  const f = (ms-p[lo].t)/(p[hi].t-p[lo].t);
+  return p[lo].h + (p[hi].h-p[lo].h)*(1-Math.cos(Math.PI*f))/2;
+}
+const lagScale = () => (cfg.lagCT||3)/3.0;
+function seaLevel(ms){
+  if(obs){ const r = N[obs.station]; const v = refInterp(ms + r.lag*lagScale()*H);
+    if(v!=null) return (v-(seaMean+r.moff))/r.ratio + seaMean; }
+  return seaModel(ms);
+}
+function seaFromObs(ms){ if(!obs) return false; const r = N[obs.station]; return refInterp(ms + r.lag*lagScale()*H)!=null; }
+function levelP(p,ms){ return seaMean + p.moff + p.ratio*(seaLevel(ms - p.lag*lagScale()*H) - seaMean); }
+function dhdt(p,ms){ return (levelP(p,ms+0.25*H)-levelP(p,ms-0.25*H))/0.5; }   // m/giờ
+const bias = () => +cfg.season;
+function vUp(p,ms,type){                           // vận tốc dòng chảy hướng thượng nguồn (km/h), âm = chảy ra biển
+  const r = dhdt(p,ms);
+  return type==='kenh' ? 2*r - bias()*0.3 : 5*r - bias();
+}
+function extremes(p,t0,t1){
+  const st = 6*60e3, out = []; let a = levelP(p,t0-st), b = levelP(p,t0);
+  for(let t=t0+st; t<=t1; t+=st){ const c = levelP(p,t);
+    if(b>a && b>=c) out.push({t:t-st,h:b,type:'high'});
+    if(b<a && b<=c) out.push({t:t-st,h:b,type:'low'});
+    a=b; b=c; }
+  return out;
+}
+
+/* ================= MẠNG LƯỚI SÔNG – KÊNH ================= */
+function hav(a,b){ const R=6371, toR=Math.PI/180, dLa=(b.lat-a.lat)*toR, dLo=(b.lng-a.lng)*toR;
+  const x = Math.sin(dLa/2)**2 + Math.cos(a.lat*toR)*Math.cos(b.lat*toR)*Math.sin(dLo/2)**2; return 2*R*Math.asin(Math.sqrt(x)); }
+const SINU = 1.15;                                 // hệ số uốn khúc sông
+const pad = n => String(n).padStart(2,'0');
+const fmt = ms => { const d=new Date(ms); return pad(d.getHours())+':'+pad(d.getMinutes())+' '+pad(d.getDate())+'/'+pad(d.getMonth()+1); };
+const fmtT = ms => { const d=new Date(ms); return pad(d.getHours())+':'+pad(d.getMinutes()); };
+const fmtDur = h => { const m=Math.round(h*60); return Math.floor(m/60)+'g'+pad(m%60); };
+const lerpP = (a,b,f) => ({lag:a.lag+(b.lag-a.lag)*f, ratio:a.ratio+(b.ratio-a.ratio)*f, moff:a.moff+(b.moff-a.moff)*f,
+  lat:a.lat+(b.lat-a.lat)*f, lng:a.lng+(b.lng-a.lng)*f});
+function snap(lat,lng){                            // điểm tự chọn / GPS: bám vào tuyến gần nhất
+  let best = null; const kx = Math.cos(lat*Math.PI/180);
+  for(const [a,b,type] of E){ const A=N[a], B=N[b];
+    const ax=(A.lng-lng)*kx, ay=A.lat-lat, bx=(B.lng-lng)*kx, by=B.lat-lat;
+    const dx=bx-ax, dy=by-ay; let f=-(ax*dx+ay*dy)/(dx*dx+dy*dy); f=Math.max(0,Math.min(1,f));
+    const px=ax+dx*f, py=ay+dy*f, d=Math.hypot(px,py)*111;
+    if(!best || d<best.d) best = {a,b,type,f,d}; }
+  const p = lerpP(N[best.a],N[best.b],best.f);
+  return {...p, a:best.a, b:best.b, type:best.type, offKm:best.d};
+}
+function buildGraph(virt){
+  const nodes = {...N}, adj = {};
+  const add = (u,v,type) => { const d = hav(nodes[u],nodes[v])*SINU;
+    (adj[u]=adj[u]||[]).push({v,type,d}); (adj[v]=adj[v]||[]).push({v:u,type,d}); };
+  for(const [a,b,t] of E) add(a,b,t);
+  for(const id in virt){ nodes[id] = virt[id]; add(id,virt[id].a,virt[id].type); add(id,virt[id].b,virt[id].type); }
+  return {nodes, adj};
+}
+function dijkstra(g,s,t){
+  const dist = {}, prev = {}, done = new Set(); dist[s] = 0;
+  while(true){ let u=null, bd=Infinity; for(const k in dist) if(!done.has(k) && dist[k]<bd){ bd=dist[k]; u=k; }
+    if(u===null) return null; if(u===t) break; done.add(u);
+    for(const e of g.adj[u]||[]){ const nd = bd+e.d; if(nd<(dist[e.v]??Infinity)){ dist[e.v]=nd; prev[e.v]={u,type:e.type}; } } }
+  const segs = []; let c = t; while(c!==s){ const p = prev[c]; segs.unshift({a:p.u,b:c,type:p.type}); c = p.u; }
+  return segs.map(sg => { const A=g.nodes[sg.a], B=g.nodes[sg.b], dl=B.lag-A.lag;
+    return {...sg, A, B, len:hav(A,B)*SINU, dir:Math.abs(dl)<0.15?0:Math.sign(dl)}; });
+}
+
+/* ================= BỘ GIẢI THUẬT ĐỊNH TUYẾN ================= */
+function simulate(segs,t0,o){
+  const dt = 5/60; let i=0, s=0, t=t0, cur=null, eng=0, wt=0, dist=0, waitStart=null; const ev = [];
+  while(i<segs.length){
+    if(t-t0>84*H) return {fail:true,ev,eng,wt};
+    const g = segs[i], f = Math.min(1,s/g.len), p = lerpP(g.A,g.B,f), h = levelP(p,t);
+    const vu = vUp(p,t,g.type), gs = o.speed + g.dir*vu;
+    let reason = null;
+    if(g.type==='kenh' && (h<o.minLv || (cur==='wait' && ev[ev.length-1].reason==='kenh' && h<o.minLv+0.15))) reason = 'kenh';
+    else if(gs<o.speed*o.minPct) reason = 'nguoc';
+    if(reason && waitStart!==null && t-waitStart>14*H && gs>1.5) reason = null;  // không neo quá 14 giờ
+    const state = reason ? 'wait' : 'move';
+    if(state!==cur){ ev.push({t,state,reason,lat:p.lat,lng:p.lng,h,vu,seg:g,km:dist}); cur = state; waitStart = state==='wait' ? t : null; }
+    if(state==='move'){ const d = Math.max(gs,0.8)*dt; s += d; dist += d; eng += dt;
+      while(i<segs.length && s>=segs[i].len){ s -= segs[i].len; i++; } }
+    else wt += dt;
+    t += dt*H;
+  }
+  const L = segs[segs.length-1].B; ev.push({t,state:'arrive',lat:L.lat,lng:L.lng,h:levelP(L,t),km:dist});
+  const firstMove = (ev.find(e=>e.state==='move')||ev[0]).t;
+  return {ev, eng, wt, arrive:t, firstMove, t0, dist};
+}
+function optimize(segs,T0,o){
+  const res = [], step = 15*60e3, win = cfg.win*H;
+  for(let t=T0; t<=T0+win; t+=step){ const r = simulate(segs,t,o); if(!r.fail) res.push(r); }
+  if(!res.length) return null;
+  const now = simulate(segs,T0,o);
+  const fastest = res.reduce((a,b)=>b.arrive<a.arrive?b:a);
+  const eco = res.reduce((a,b)=>(b.eng<a.eng-0.05 || (Math.abs(b.eng-a.eng)<=0.05 && b.arrive<a.arrive))?b:a);
+  const score = r => r.eng + 0.35*(r.arrive-T0)/H + 0.6*r.wt;           // phạt thêm thời gian neo giữa đường
+  const bal = res.reduce((a,b)=>score(b)<score(a)?b:a);
+  return {fastest, eco, bal, now:now.fail?null:now, all:res};
+}
+
+/* ================= ĐIỂM ĐI / ĐIỂM ĐẾN ================= */
+let gpsPos = null, gpsW = null;
+function endPos(k){ const e = ends[k]; return e.kind==='node' ? N[e.id] : e; }
+function endName(k){ const e = ends[k]; return e.kind==='node' ? N[e.id].name : e.name; }
+function selVal(e){ return e.kind==='node' ? e.id : e.src==='barge' ? 'b:'+e.code : e.src==='gps' ? '__gps' : '__cur'; }
+function fill(){
+  init();
+  const nodes = Object.entries(N).filter(([k,p])=>p.kind!=='wp');
+  const opt = ([k,p]) => `<option value="${k}">${p.kind==='port'?'⚓':'🌊'} ${esc(p.name)}</option>`;
+  const boats = FLEET.filter(c=>mpPos[c] && isFinite(mpPos[c].lat));
+  for(const k of ['o','d']){
+    const e = ends[k], s = $('cnv-sel-'+k); if(!s) continue;
+    let h = `<optgroup label="Cảng / bến">${nodes.filter(([,p])=>p.kind==='port').map(opt).join('')}</optgroup>`
+      + `<optgroup label="Trạm thủy triều">${nodes.filter(([,p])=>p.kind==='station').map(opt).join('')}</optgroup>`;
+    if(boats.length) h += `<optgroup label="Vị trí sà lan (GPS)">${boats.map(c=>`<option value="b:${c}">⛴ ${c} · ${esc(LABELS[c]||'')}</option>`).join('')}</optgroup>`;
+    h += `<optgroup label="Khác">${e.kind==='point' && e.src==='pick' ? `<option value="__cur">📌 ${esc(e.name)}</option>` : ''}`
+      + `<option value="__pick">📌 Chọn trên bản đồ…</option><option value="__gps">📍 GPS điện thoại này</option></optgroup>`;
+    s.innerHTML = h; s.value = selVal(e);
+    if(s.value!==selVal(e)){ ends[k] = {kind:'node', id:k==='o'?'st337':'hoangDieu'}; s.value = ends[k].id; }
+  }
+}
+function onSel(k){
+  const v = $('cnv-sel-'+k).value;
+  if(v==='__pick'){ mpPickOnMap('cnv-'+k); showToast(k==='o'?'Chạm bản đồ để chọn ĐIỂM ĐI':'Chạm bản đồ để chọn ĐIỂM ĐẾN','ok'); return; }
+  if(v==='__gps'){ useGps(k); return; }
+  if(v==='__cur') return;
+  if(v.startsWith('b:')){ const c = v.slice(2), p = mpPos[c];
+    ends[k] = {kind:'point', src:'barge', code:c, lat:p.lat, lng:p.lon, name:`Sà lan ${c} (GPS ${p.ts?fmtT(p.ts):''})`}; }
+  else ends[k] = {kind:'node', id:v};
+  saveEnds(); drawMap(); drawChart();
+}
+function setPoint(k, lat, lon){
+  init();
+  ends[k] = {kind:'point', src:'pick', lat, lng:lon, name:`Điểm chọn (${lat.toFixed(4)}, ${lon.toFixed(4)})`};
+  saveEnds(); fill(); drawMap(); drawChart();
+  mpTab('tide'); mpSheet('half');
+  const o = snap(lat, lon);
+  if(o.offKm>8) showToast(`⚠️ Điểm cách tuyến tính con nước ${o.offKm.toFixed(0)} km – kết quả kém chính xác`,'err');
+}
+function swap(){ init(); [ends.o, ends.d] = [ends.d, ends.o]; saveEnds(); fill(); drawMap(); drawChart(); }
+function startGps(cb){
+  if(!navigator.geolocation){ $('cnv-gps').textContent = 'Thiết bị không hỗ trợ GPS'; return; }
+  if(gpsW!=null){ if(gpsPos) cb && cb(); else startGps.cb = cb; return; }
+  $('cnv-gps').textContent = '📍 Đang lấy GPS…'; startGps.cb = cb;
+  gpsW = navigator.geolocation.watchPosition(pos=>{
+    gpsPos = {lat:pos.coords.latitude, lng:pos.coords.longitude, acc:pos.coords.accuracy, spd:pos.coords.speed};
+    const s = snap(gpsPos.lat, gpsPos.lng);
+    $('cnv-gps').textContent = `📍 ${gpsPos.lat.toFixed(5)}, ${gpsPos.lng.toFixed(5)} (±${Math.round(gpsPos.acc)} m)`
+      + (gpsPos.spd!=null ? ` · ${(gpsPos.spd*3.6).toFixed(1)} km/h` : '') + ` · cách tuyến ${s.offKm.toFixed(1)} km`;
+    for(const k of ['o','d']) if(ends[k].src==='gps') Object.assign(ends[k], {lat:gpsPos.lat, lng:gpsPos.lng});
+    drawMap();
+    if(startGps.cb){ const c = startGps.cb; startGps.cb = null; c(); }
+  }, err=>{ $('cnv-gps').textContent = 'Không lấy được GPS: '+err.message+' (cho phép quyền vị trí cho trang này)'; gpsW = null; fill(); },
+  {enableHighAccuracy:true, maximumAge:5000, timeout:20000});
+}
+function useGps(k){ startGps(()=>{ if(!gpsPos) return;
+  ends[k] = {kind:'point', src:'gps', lat:gpsPos.lat, lng:gpsPos.lng, name:'Vị trí GPS điện thoại'}; fill(); drawMap(); drawChart(); }); }
+function refreshBarges(){
+  for(const k of ['o','d']){ const e = ends[k];
+    if(e.src==='barge' && mpPos[e.code]){ const p = mpPos[e.code]; Object.assign(e, {lat:p.lat, lng:p.lon, name:`Sà lan ${e.code} (GPS ${p.ts?fmtT(p.ts):''})`}); } }
+}
+
+/* ================= THỜI GIAN ================= */
+const toLocalInput = ms => { const d=new Date(ms); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+function T0(){ const v = $('cnv-t0') && $('cnv-t0').value; const t = v ? new Date(v).getTime() : NaN; return isFinite(t) ? t : Date.now(); }
+function now(){ const n = Date.now(); $('cnv-t0').value = toLocalInput(n - n%(15*60e3)); drawChart(); }
+
+/* ================= SỐ LIỆU THỰC TẾ ================= */
+function fillObsStations(){
+  const s = $('cnv-obs-st'); if(s.options.length) return;
+  s.innerHTML = Object.entries(N).filter(([,p])=>p.kind==='station').map(([k,p])=>`<option value="${k}">${esc(p.name)}</option>`).join('');
+  s.value = 'dinhAn';
+}
+function parseObs(text, baseStr){
+  let [Y,M,D] = baseStr.split('-').map(Number); let day = new Date(Y,M-1,D), prev = null; const pts = [];
+  for(const raw of text.split(/\r?\n/)){ let line = raw.trim(); if(!line || line.startsWith('#')) continue;
+    let explicit = false; const dm = line.match(/(\d{1,2})[\/-](\d{1,2})(?:[\/-](\d{2,4}))?/);
+    if(dm){ let yy = dm[3] ? +dm[3] : day.getFullYear(); if(yy<100) yy += 2000; day = new Date(yy,+dm[2]-1,+dm[1]); line = line.replace(dm[0],' '); explicit = true; prev = null; }
+    const tm = line.match(/(\d{1,2})\s*[:hH]\s*(\d{2})/); if(!tm) continue;
+    line = line.replace(tm[0],' ');
+    const hm = line.match(/-?\d+(?:[.,]\d+)?/); if(!hm) continue;
+    let h = parseFloat(hm[0].replace(',','.')); if(/cm/i.test(line) || Math.abs(h)>15) h /= 100;
+    let t = new Date(day.getFullYear(),day.getMonth(),day.getDate(),+tm[1],+tm[2]).getTime();
+    if(!explicit && prev!=null && t<=prev){ day = new Date(day.getTime()+24*H); t += 24*H; }
+    prev = t; pts.push({t,h}); }
+  pts.sort((a,b)=>a.t-b.t); return pts;
+}
+function applyObs(silent){
+  fillObsStations();
+  const pts = parseObs($('cnv-obs-txt').value, $('cnv-obs-date').value || toLocalInput(T0()).slice(0,10));
+  if(pts.length<2){ if(!silent) $('cnv-obs-msg').innerHTML = '<span class="bad">Cần ít nhất 2 dòng có giờ và độ cao.</span>'; return false; }
+  const st = $('cnv-obs-st').value, avg = pts.reduce((s,p)=>s+p.h,0)/pts.length;
+  seaMean = avg - N[st].moff; obs = {station:st, pts};
+  $('cnv-obs-msg').innerHTML = `<span class="ok">✔ Đã áp dụng ${pts.length} đỉnh/chân triều tại ${esc(N[st].name)}: từ ${fmt(pts[0].t)} đến ${fmt(pts[pts.length-1].t)}.</span> Các trạm khác suy ra theo độ trễ truyền triều; ngoài khoảng này dùng mô hình.`;
+  mpSave('cnv_obs', {txt:$('cnv-obs-txt').value, date:$('cnv-obs-date').value, st});
+  drawChart(); if(!silent && lastSegs) run(); return true;
+}
+function clearObs(){
+  obs = null; seaMean = MODEL_MEAN; try{ localStorage.removeItem('cnv_obs'); }catch(e){}
+  $('cnv-obs-msg').textContent = 'Đang dùng mô hình thủy triều điều hòa (M2, S2, N2, K1, O1).'; drawChart();
+}
+function sample(){
+  init(); obs = null; seaMean = MODEL_MEAN; fillObsStations();
+  const t0 = new Date(2026,10,12).getTime(), ex = extremes(N.dinhAn,t0,t0+48*H);
+  let txt = '# Dữ liệu MẪU (mô phỏng) – Trạm Định An 12–13/11/2026, thay bằng số liệu thật khi có\n', lastDay = '';
+  for(const e of ex){ const d = new Date(e.t), dd = pad(d.getDate())+'/'+pad(d.getMonth()+1); if(dd!==lastDay){ txt += dd+'\n'; lastDay = dd; }
+    txt += `${fmtT(e.t)}  ${e.h.toFixed(2)}  ${e.type==='high'?'(đỉnh)':'(chân)'}\n`; }
+  $('cnv-obs-txt').value = txt; $('cnv-obs-st').value = 'dinhAn'; $('cnv-obs-date').value = '2026-11-12';
+  $('cnv-t0').value = '2026-11-12T05:00'; ends.o = {kind:'node',id:'st337'}; ends.d = {kind:'node',id:'hoangDieu'}; saveEnds(); fill();
+  applyObs(true); run();
+}
+
+/* ================= CHẠY & HIỂN THỊ ================= */
+let lastPlan = null, lastSegs = null, lastRes = null, lastPick = 'bal', running = false;
+const opts = () => ({speed:cfg.spd, minPct:cfg.minPct/100, minLv:cfg.minLv});
+// Bám tuyến lên mạng sông thật (route-graph.json) để vẽ đúng đường đi và lấy chiều dài thật từng đoạn
+async function realGeo(segs){
+  segs.forEach(s=>{ s.geo = null; s.mlen = s.len; });
+  try{ await mpGraph(); }catch(e){ return false; }
+  const sn = p => { const [x,y] = mpXY(p.lng,p.lat); return mpSnap(x,y); };
+  for(const s of segs){
+    const a = sn(s.A.real||s.A), b = sn(s.B.real||s.B); if(!a || !b) continue;
+    const r = mpRoute(a, b, {}, null); if(!r || !r.pts.length) continue;
+    if(r.km>s.mlen*0.6 && r.km<s.mlen*2.2){ s.len = r.km; s.geo = r.pts; }   // đường thật vòng quá xa thì giữ đoạn thẳng mô hình
+  }
+  return true;
+}
+async function run(){
+  init(); if(running) return; readCfg(); refreshBarges();
+  const virt = {}; let oid, did;
+  for(const k of ['o','d']){ const e = ends[k];
+    if(e.kind==='node'){ if(k==='o') oid = e.id; else did = e.id; }
+    else { const s = snap(e.lat,e.lng), id = 'v_'+k; virt[id] = {...s, name:endName(k), kind:'virt', real:{lat:e.lat,lng:e.lng}}; if(k==='o') oid = id; else did = id; } }
+  if(oid===did){ warn('Điểm đi và điểm đến trùng nhau.'); return; }
+  const segs = dijkstra(buildGraph(virt), oid, did);
+  if(!segs){ warn('Không tìm được tuyến nối hai điểm.'); return; }
+  running = true; $('cnv-run').disabled = true;
+  $('cnv-res').innerHTML = '<div class="mp-empty">⏳ Đang dò mạng sông và mô phỏng con nước…</div>';
+  try{
+    await realGeo(segs);
+    await new Promise(r=>setTimeout(r,20));
+    lastSegs = segs; const T = T0(), o = opts(), res = optimize(segs,T,o);
+    if(!res){ lastPlan = null; drawMap(); warn('Không tìm được phương án trong khoảng thời gian đã chọn (kênh có thể quá cạn). Thử giảm “mực nước tối thiểu” hoặc tìm trong khoảng dài hơn.'); return; }
+    lastRes = res; lastPick = 'bal'; render(segs,res,T,o,'bal',true);
+  } finally { running = false; $('cnv-run').disabled = false; }
+}
+function warn(m){ $('cnv-res').innerHTML = `<div class="cnv-warn">${m}</div>`; }
+function pick(k){ if(lastRes && lastSegs){ lastPick = k; render(lastSegs, lastRes, T0(), opts(), k, false); } }
+const offNote = () => ['o','d'].map(k=>{ const e = ends[k]; if(e.kind==='node') return ''; const s = snap(e.lat,e.lng);
+  return s.offKm>8 ? `<div class="cnv-warn">${k==='o'?'Điểm đi':'Điểm đến'} cách tuyến tính con nước ${s.offKm.toFixed(0)} km – giờ nước ở đó có thể khác nhiều.</div>` : ''; }).join('');
+
+function render(segs,res,T,o,pk,fit){
+  const plan = res[pk] || res.bal; lastPlan = plan;
+  const totalKm = segs.reduce((s,g)=>s+g.len,0), real = segs.every(s=>s.geo);
+  const nWait = plan.ev.filter(e=>e.state==='wait' && e.km>0.2).length;
+  const card = (k,t,r) => r ? `<button class="${k===pk?'on':''}" onclick="CNV.pick('${k}')"><b>${t}</b><small>Nhổ neo ${fmt(r.firstMove)} → đến ${fmt(r.arrive)}<br>Máy ${fmtDur(r.eng)} · neo ${fmtDur(r.wt)}</small></button>` : '';
+  let html = `<div class="mp-sec cnv-out"><h5>🏆 Kết quả: ${esc(endName('o'))} → ${esc(endName('d'))}</h5>
+    <div class="cnv-pills"><span class="cnv-pill">Tuyến <b>${totalKm.toFixed(0)} km</b>${real?'':' (ước tính)'}</span>
+    <span class="cnv-pill">Nhổ neo <b>${fmt(plan.firstMove)}</b></span><span class="cnv-pill">Đến nơi <b>${fmt(plan.arrive)}</b></span>
+    <span class="cnv-pill">Chạy máy <b>${fmtDur(plan.eng)}</b> · ~${Math.round(plan.eng*cfg.fuel)} L dầu</span>
+    <span class="cnv-pill">Neo giữa đường <b>${nWait} lần</b></span>
+    <span class="cnv-pill ${seaFromObs(plan.firstMove)?'ok':''}">${seaFromObs(plan.firstMove)?'Theo số liệu nhập':'Theo mô hình triều'}</span></div>
+    ${offNote()}
+    <div class="cnv-opt">${card('bal','⭐ Khuyến nghị',res.bal)+card('fastest','🚀 Đến sớm nhất',res.fastest)+card('eco','⛽ Tiết kiệm dầu',res.eco)+card('now','⏱ Đi ngay giờ đã chọn',res.now)}</div>
+    <ul class="cnv-tl">${timeline(plan,o)}</ul>
+    <div class="mp-toolbar" style="margin-top:6px"><button class="btn" onclick="CNV.share()">📤 Gửi kế hoạch cho tài công</button><button class="btn" onclick="CNV.fit()">🗺 Xem trên bản đồ</button></div></div>`;
+  html += windows(segs,T,o);
+  $('cnv-res').innerHTML = html;
+  drawMap(); drawChart();
+  if(fit && !(innerWidth<=900 && mpSheetSt==='full')) fitRoute();
+  if(fit) reveal('cnv-res');
+}
+function reveal(id){                            // cuộn bảng bên tới khối id (không dùng scrollIntoView: làm xô lệch cả trang trên điện thoại)
+  const el = $(id), body = el && el.closest('.mp-body'); if(!body) return;
+  body.scrollTo({top: body.scrollTop + el.getBoundingClientRect().top - body.getBoundingClientRect().top - 8, behavior:'smooth'});
+}
+function nearName(e){ let best=null, bd=1e9; for(const id in N){ const d = hav(N[id],e); if(d<bd){ bd=d; best=N[id].name; } } return best+(bd>3?` (~${bd.toFixed(0)} km)`:''); }
+function timeline(plan,o){
+  let html = ''; const oName = esc(endName('o'));
+  plan.ev.forEach((e,i)=>{
+    const nx = plan.ev[i+1], where = esc(nearName(e));
+    const vtxt = e.vu!=null ? ` · dòng ${e.vu>0?'đẩy lên':'xuôi'} ${Math.abs(e.vu).toFixed(1)} km/h` : '';
+    if(e.state==='wait'){
+      const lbl = e.km<0.2 ? `Chờ tại bến ${oName}` : `⚓ Neo chờ nước gần ${where}`;
+      const why = e.reason==='kenh' ? `kênh cạn (mực nước ${e.h.toFixed(2)} m < ${o.minLv} m)` : `nước ngược mạnh${vtxt}`;
+      html += `<li class="w"><span class="t">${fmt(e.t)}</span>${lbl} – ${why}. Chờ ${fmtDur((nx.t-e.t)/H)}.</li>`;
+    } else if(e.state==='move'){
+      const first = plan.ev.slice(0,i).every(x=>x.state!=='move');
+      html += `<li class="s"><span class="t">${fmt(e.t)}</span>${first?'🚀 Nhổ neo rời '+oName:'🚀 Nhổ neo đi tiếp từ '+where} – mực nước ${e.h.toFixed(2)} m, ${e.vu>0.2?'nương nước lớn':e.vu<-0.2?'nước đang ròng':'nước đứng'}${vtxt}.</li>`;
+    } else if(e.state==='arrive'){
+      html += `<li class="a"><span class="t">${fmt(e.t)}</span>🏁 Đến ${esc(endName('d'))} – mực nước ${e.h.toFixed(2)} m.</li>`;
+    }
+  });
+  return html;
+}
+function intervals(fn,t0,t1,step){ const out = []; let st = null;
+  for(let t=t0; t<=t1; t+=step){ const ok = fn(t); if(ok && st==null) st = t; if(!ok && st!=null){ out.push([st,t]); st = null; } }
+  if(st!=null) out.push([st,t1]); return out.filter(iv=>iv[1]-iv[0]>=30*60e3); }
+function windows(segs,T,o){
+  const t1 = T+48*H, st = 10*60e3, first = segs[0], pO = first.A;
+  let html = '';
+  // 1) nước ròng để rút từ kênh ra sông lớn
+  const exitIdx = segs.findIndex(s=>s.type==='song');
+  if(first.type==='kenh'){
+    const iv = intervals(t=>dhdt(pO,t)<-0.03 && levelP(pO,t)>=o.minLv, T, t1, st);
+    const junction = exitIdx>0 ? segs[exitIdx].A.name : 'sông lớn';
+    html += `<div class="mp-sec"><h5>⬇️ Khung nước ròng rút từ kênh ra ${esc(junction)}</h5>` + (iv.length
+      ? `<div class="cnv-tw"><table class="cnv-tbl"><tr><th>Từ</th><th>Đến</th><th>Mực nước tại bến</th></tr>`+iv.map(([a,b])=>`<tr><td><b>${fmt(a)}</b></td><td>${fmt(b)}</td><td>${levelP(pO,a).toFixed(2)} → ${levelP(pO,b).toFixed(2)} m</td></tr>`).join('')+`</table></div><div class="d">Nước đang ròng (chảy ra) và còn đủ mớn ≥ ${o.minLv} m. Nên nhổ neo ở đầu khung để ra kịp trước khi kênh cạn.</div>`
+      : `<div class="d">Không có khung nước ròng nào còn đủ mớn ≥ ${o.minLv} m trong 48 giờ tới.</div>`) + `</div>`;
+  } else {
+    const iv = intervals(t=>dhdt(pO,t)<-0.03, T, t1, st);
+    html += `<div class="mp-sec"><h5>⬇️ Khung nước ròng tại điểm đi</h5><div class="cnv-pills">${iv.slice(0,5).map(([a,b])=>`<span class="cnv-pill">${fmt(a)} → ${fmtT(b)}</span>`).join('') || '<span class="d">Không có trong 48 giờ tới.</span>'}</div></div>`;
+  }
+  // 2) khung giờ vàng – nước lớn đẩy ngược dòng
+  const upIdx = segs.findIndex(s=>s.type==='song' && s.dir>0);
+  if(upIdx>=0){
+    const pJ = segs[upIdx].A, iv = intervals(t=>vUp(pJ,t,'song')>0.2, T, t1, st);
+    html += `<div class="mp-sec cnv-gold"><h5>🌟 Khung giờ vàng nương nước lớn ngược dòng (tại ${esc(pJ.name)})</h5>`;
+    if(iv.length){
+      html += `<div class="cnv-tw"><table class="cnv-tbl"><tr><th>Nhổ neo</th><th>Nước hết đẩy</th><th>Dòng đẩy mạnh nhất</th></tr>`+iv.map(([a,b])=>{
+        let mx=0, tm=a; for(let t=a; t<=b; t+=st){ const v = vUp(pJ,t,'song'); if(v>mx){ mx=v; tm=t; } }
+        return `<tr><td><b>${fmt(a)}</b></td><td>${fmt(b)}</td><td>${mx.toFixed(1)} km/h lúc ${fmtT(tm)}</td></tr>`; }).join('')+`</table></div>`;
+    } else {
+      html += `<div class="d">Dòng xả mùa này mạnh hơn sức đẩy của triều tại ${esc(pJ.name)}: không có lúc nước chảy ngược lên. Khung tốt nhất là lúc nước lớn làm dòng xuôi yếu nhất:</div>`;
+      const weak = intervals(t=>vUp(pJ,t,'song')>-0.6*bias(), T, t1, st);
+      html += `<div class="cnv-pills">${weak.slice(0,4).map(([a,b])=>`<span class="cnv-pill">Dòng xuôi yếu <b>${fmt(a)}</b> → ${fmtT(b)}</span>`).join('')}</div>`;
+    }
+    html += `<div class="d">Đã cộng độ trễ truyền triều ~${(pJ.lag*lagScale()).toFixed(1)} giờ từ cửa Định An tới ${esc(pJ.name)}.</div></div>`;
+  } else if(segs.some(s=>s.dir<0)){
+    const pJ = (segs.find(s=>s.type==='song')||segs[0]).A, iv = intervals(t=>vUp(pJ,t,'song')<-0.5, T, t1, st);
+    html += `<div class="mp-sec cnv-gold"><h5>🌟 Khung giờ vàng xuôi ra biển (nương nước ròng tại ${esc(pJ.name)})</h5><div class="cnv-pills">${iv.slice(0,5).map(([a,b])=>`<span class="cnv-pill"><b>${fmt(a)}</b> → ${fmtT(b)}</span>`).join('')}</div></div>`;
+  }
+  // 3) truyền triều từ cửa biển vào nội địa
+  const chain = [N.dinhAn], seen = new Set([N.dinhAn.name]);
+  for(const s of segs) for(const p of [s.A,s.B]) if(!seen.has(p.name) && (p.kind==='station'||p.kind==='port'||p.kind==='virt')){ seen.add(p.name); chain.push(p); }
+  chain.sort((a,b)=>a.lag-b.lag);
+  const lows = extremes(N.dinhAn,T-3*H,t1).filter(e=>e.type==='low').slice(0,3);
+  html += `<div class="mp-sec"><h5>⏳ Nước bắt đầu lớn từ cửa biển truyền vào (trễ ~${(3*lagScale()).toFixed(1)} giờ tới Cần Thơ)</h5><div class="cnv-tw"><table class="cnv-tbl"><tr><th>Trạm / điểm</th><th>Trễ</th>`+lows.map((_,i)=>`<th>Con nước ${i+1}</th>`).join('')+`</tr>`;
+  for(const p of chain){ const lg = p.lag*lagScale();
+    html += `<tr><td>${esc(p.name)}</td><td>+${lg.toFixed(1)}g</td>`+lows.map(l=>{
+      const ex = extremes(p,l.t+lg*H-2*H,l.t+lg*H+2*H).find(e=>e.type==='low');
+      return `<td>${fmt(ex?ex.t:l.t+lg*H)}</td>`; }).join('')+`</tr>`; }
+  html += `</table></div><div class="d">Giờ chân triều (nước bắt đầu lớn) tại từng điểm. Chỉnh độ trễ ở mục ⚙️ Thông số nếu thực tế khác.</div></div>`;
+  return html;
+}
+function share(){
+  if(!lastPlan) return;
+  const p = lastPlan, lines = [`🌊 KẾ HOẠCH CHẠY THEO CON NƯỚC`, `${endName('o')} → ${endName('d')}`];
+  p.ev.forEach((e,i)=>{ const nx = p.ev[i+1];
+    if(e.state==='move') lines.push(`🚀 ${fmt(e.t)} nhổ neo${i?' đi tiếp từ '+nearName(e):''} (nước ${e.h.toFixed(2)} m)`);
+    else if(e.state==='wait') lines.push(`⚓ ${fmt(e.t)}–${fmtT(nx.t)} ${e.km<0.2?'chờ tại bến':'neo chờ gần '+nearName(e)} (${e.reason==='kenh'?'kênh cạn':'nước ngược'})`);
+    else lines.push(`🏁 ${fmt(e.t)} đến nơi`); });
+  lines.push(`Chạy máy ${fmtDur(p.eng)} · ~${Math.round(p.eng*cfg.fuel)} L dầu · ${obs?'theo số liệu triều nhập':'theo mô hình triều (đối chiếu bảng triều chính thức)'}`);
+  const t = lines.join('\n');
+  if(navigator.share) navigator.share({title:'Kế hoạch chạy theo con nước', text:t}).catch(()=>{}); else mpCopyText(t);
+}
+
+/* ================= BẢN ĐỒ ================= */
+function along(km){                                // điểm (x,y) trên tuyến tại km thứ "km"
+  let acc = 0;
+  for(const s of lastSegs){
+    if(km<=acc+s.len || s===lastSegs[lastSegs.length-1]){
+      const f = Math.max(0, Math.min(1, (km-acc)/s.len));
+      if(s.geo && s.geo.length>1){ const g = s.geo; let L = 0; const d = [0];
+        for(let i=1;i<g.length;i++){ L += Math.hypot(g[i][0]-g[i-1][0], g[i][1]-g[i-1][1]); d.push(L); }
+        const target = f*L; let i = 1; while(i<g.length-1 && d[i]<target) i++;
+        const seg = d[i]-d[i-1] || 1, u = (target-d[i-1])/seg;
+        return [g[i-1][0]+(g[i][0]-g[i-1][0])*u, g[i-1][1]+(g[i][1]-g[i-1][1])*u]; }
+      const A = s.A.real||s.A, B = s.B.real||s.B; return mpXY(A.lng+(B.lng-A.lng)*f, A.lat+(B.lat-A.lat)*f);
+    }
+    acc += s.len;
+  }
+  return null;
+}
+function routePts(){
+  const pts = [];
+  lastSegs.forEach(s=>{ const g = s.geo && s.geo.length ? s.geo : [mpXY((s.A.real||s.A).lng,(s.A.real||s.A).lat), mpXY((s.B.real||s.B).lng,(s.B.real||s.B).lat)];
+    g.forEach((p,j)=>{ if(j===0 && pts.length) return; pts.push(p); }); });
+  return pts;
+}
+function mk(gr, x, y, fill, ic, lbl, onclick, cls){
+  const el = mpEl('g',{class:'mp-mk mp-poi mp-cnvmk'+(cls?' '+cls:''),'data-x':x,'data-y':y},gr);
+  el.innerHTML = `<circle cy="-11" r="10" fill="${fill}" stroke="#fffdf8" stroke-width="1.8"></circle><text x="0" y="-7" text-anchor="middle" font-size="10.5">${ic}</text>`
+    + (lbl ? `<text class="lbl" x="0" y="11" text-anchor="middle">${esc(lbl)}</text>` : '');
+  if(onclick) el.addEventListener('click', e=>{ e.stopPropagation(); if(mpMoved) return; onclick(); });
+  return el;
+}
+function drawMap(){
+  const gr = $('mp-g-cnv'); if(!gr) return; init();
+  gr.innerHTML = '';
+  const routeOn = lastPlan && lastSegs;
+  if(routeOn){
+    const d = mpPathD(routePts());
+    mpEl('path',{d, class:'mp-cnvbg'},gr); mpEl('path',{d, class:'mp-cnvrt'},gr);
+  }
+  if(cfg.layer || routeOn){
+    for(const id in N){ const p = N[id]; if(p.kind==='wp') continue;
+      if(!cfg.layer && !lastSegs.some(s=>s.A===p || s.B===p)) continue;
+      const [x,y] = mpXY(p.lng,p.lat);
+      mk(gr, x, y, p.kind==='station'?'#1565c0':'#b45309', p.kind==='station'?'🌊':'⚓', p.name.replace(/^Trạm /,''), ()=>station(id), p.kind==='station'?'st':'pt');
+    }
+  }
+  if(routeOn){
+    lastPlan.ev.forEach((e,i)=>{ if(e.state!=='wait' || e.km<=0.2) return; const nx = lastPlan.ev[i+1], xy = along(e.km); if(!xy) return;
+      mk(gr, xy[0], xy[1], '#ea580c', '⚓', `Neo ${fmtT(e.t)}–${fmtT(nx.t)}`, ()=>showToast(`⚓ Neo chờ nước gần ${nearName(e)}: ${fmt(e.t)} → ${fmt(nx.t)} (${e.reason==='kenh'?'kênh cạn':'nước ngược mạnh'})`,'ok'), 'an'); });
+  }
+  for(const k of ['o','d']){ const p = endPos(k), [x,y] = mpXY(p.lng,p.lat);
+    mk(gr, x, y, k==='o'?'#059669':'#7c3aed', k==='o'?'🟢':'🏁', (k==='o'?'Đi: ':'Đến: ')+mpShort(endName(k)).replace(/^Trạm /,''), null, 'end'); }
+  if(gpsPos){ const [x,y] = mpXY(gpsPos.lng,gpsPos.lat); mk(gr, x, y, '#dc2626', '📍', 'Điện thoại', null, 'gps'); }
+  mpScaleMarkers();
+}
+function fitRoute(){
+  if(!lastSegs) return; const pts = routePts(); let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  pts.forEach(([x,y])=>{ x0=Math.min(x0,x); y0=Math.min(y0,y); x1=Math.max(x1,x); y1=Math.max(y1,y); });
+  mpFitBox([x0,y0,x1,y1]);
+}
+function fit(){ mpSheet('min'); setTimeout(fitRoute, 380); }
+function layer(){ init(); cfg.layer = $('cnv-layer').checked; mpSave('cnv_cfg', cfg); drawMap(); }
+function station(id){
+  init();
+  const p = N[id], t = T0(), h = levelP(p,t), r = dhdt(p,t), ex = extremes(p,t,t+30*H).slice(0,4), v = vUp(p,t,'song');
+  $('cnv-st').innerHTML = `<div class="mp-sec cnv-stbox"><h5>${p.kind==='station'?'🌊':'⚓'} ${esc(p.name)} <button class="cnv-x" onclick="g('cnv-st').innerHTML=''" aria-label="Đóng">✕</button></h5>
+    <div>Lúc ${fmt(t)}: <b>${h.toFixed(2)} m</b> – ${r>0.03?'⬆ nước đang lớn':r<-0.03?'⬇ nước đang ròng':'↔ nước đứng'}</div>
+    <div class="d">Dòng chảy ước tính ${v.toFixed(1)} km/h ${v>0?'(đẩy lên thượng nguồn)':'(xuôi ra biển)'} · trễ triều so với cửa biển ~${(p.lag*lagScale()).toFixed(1)} giờ</div>
+    <div class="cnv-pills">${ex.map(e=>`<span class="cnv-pill">${e.type==='high'?'🔺 Đỉnh':'🔻 Chân'} ${fmt(e.t)} · <b>${e.h.toFixed(2)} m</b></span>`).join('')}</div>
+    <div class="mp-toolbar" style="margin-top:6px"><button class="btn" onclick="CNV.setEnd('o','${id}')">🟢 Đặt làm điểm đi</button><button class="btn" onclick="CNV.setEnd('d','${id}')">🏁 Đặt làm điểm đến</button></div></div>`;
+  mpTab('tide'); if(mpSheetSt==='min') mpSheet('half');
+  reveal('cnv-st');
+}
+function setEnd(k,id){ init(); ends[k] = {kind:'node', id}; saveEnds(); fill(); drawMap(); drawChart(); showToast((k==='o'?'Điểm đi: ':'Điểm đến: ')+N[id].name,'ok'); }
+
+/* ================= BIỂU ĐỒ ================= */
+function endPosP(k){ const e = ends[k]; return e.kind==='node' ? N[e.id] : snap(e.lat,e.lng); }
+function drawChart(){
+  const cv = $('cnv-chart'); if(!cv || !inited) return;
+  const W = cv.clientWidth, Hh = cv.clientHeight; if(!W || !Hh) return;
+  const dpr = window.devicePixelRatio||1; cv.width = W*dpr; cv.height = Hh*dpr;
+  const c = cv.getContext('2d'); c.scale(dpr,dpr); c.clearRect(0,0,W,Hh);
+  const T = T0(), a = T-2*H, b = T+48*H, padL = 30, padB = 34, padT = 8;
+  const series = [[N.dinhAn,'#1f78b4'],[endPosP('o'),'#0d9488'],[endPosP('d'),'#7c3aed']];
+  let mn = 1e9, mx = -1e9;
+  const data = series.map(([p])=>{ const arr = []; for(let t=a; t<=b; t+=15*60e3){ const h = levelP(p,t); arr.push([t,h]); mn = Math.min(mn,h); mx = Math.max(mx,h); } return arr; });
+  mn = Math.floor(mn*2)/2; mx = Math.ceil(mx*2)/2; if(mx-mn<0.5) mx = mn+0.5;
+  const X = t => padL+(t-a)/(b-a)*(W-padL-6), Y = h => padT+(mx-h)/(mx-mn)*(Hh-padT-padB);
+  c.font = '10.5px system-ui,sans-serif'; c.fillStyle = '#8d7d6e'; c.strokeStyle = '#eee3d4'; c.lineWidth = 1;
+  for(let h=mn; h<=mx+1e-6; h+=0.5){ c.beginPath(); c.moveTo(padL,Y(h)); c.lineTo(W-6,Y(h)); c.stroke(); c.fillText(h.toFixed(1),2,Y(h)+4); }
+  const d0 = new Date(a); d0.setMinutes(0,0,0); let t = d0.getTime(); while(new Date(t).getHours()%6) t += H;
+  for(; t<=b; t+=6*H){ c.beginPath(); c.moveTo(X(t),padT); c.lineTo(X(t),Hh-padB); c.stroke(); const d = new Date(t);
+    c.fillText(pad(d.getHours())+'h',X(t)-8,Hh-padB+13); if(d.getHours()===0) c.fillText(pad(d.getDate())+'/'+pad(d.getMonth()+1),X(t)-12,Hh-padB+25); }
+  const ml = cfg.minLv; if(ml>mn && ml<mx){ c.setLineDash([4,4]); c.strokeStyle = '#ea580c88'; c.beginPath(); c.moveTo(padL,Y(ml)); c.lineTo(W-6,Y(ml)); c.stroke(); c.setLineDash([]); }
+  data.forEach((arr,i)=>{ c.strokeStyle = series[i][1]; c.lineWidth = 2; c.beginPath(); arr.forEach(([t,h],j)=>j?c.lineTo(X(t),Y(h)):c.moveTo(X(t),Y(h))); c.stroke(); });
+  if(obs){ const s = X(Math.max(a,obs.pts[0].t)), e = X(Math.min(b,obs.pts[obs.pts.length-1].t)); if(e>s){ c.fillStyle = '#16a34a33'; c.fillRect(s,padT,e-s,4); } }
+  if(lastPlan){ const ev = lastPlan.ev; for(let i=0;i<ev.length-1;i++){ c.fillStyle = ev[i].state==='move'?'#16a34a':'#ea580c';
+    const s = X(Math.max(a,ev[i].t)), e = X(Math.min(b,ev[i+1].t)); if(e>s) c.fillRect(s,Hh-9,e-s,6); } }
+  const nw = Date.now(); if(nw>a && nw<b){ c.strokeStyle = '#dc2626'; c.lineWidth = 1.5; c.beginPath(); c.moveTo(X(nw),padT); c.lineTo(X(nw),Hh-padB); c.stroke(); }
+  c.strokeStyle = '#d97706'; c.lineWidth = 1.5; c.setLineDash([2,3]); c.beginPath(); c.moveTo(X(T),padT); c.lineTo(X(T),Hh-padB); c.stroke(); c.setLineDash([]);
+  $('cnv-chart-st').textContent = (obs ? `Số liệu thực tế: ${N[obs.station].name} (${obs.pts.length} điểm). ` : 'Đang dùng mô hình thủy triều điều hòa. ')
+    + 'Vạch vàng: giờ xuất phát · vạch đỏ: bây giờ · vạch cam đứt: mực nước tối thiểu qua kênh · thanh dưới: xanh chạy máy, cam neo chờ.';
+}
+
+/* ================= KHỞI ĐỘNG KHI MỞ TAB NƯỚC ================= */
+function render0(){
+  const first = !inited; init();
+  if(first){ writeCfg(); fillObsStations(); if(!$('cnv-t0').value) now(); if(!$('cnv-obs-date').value) $('cnv-obs-date').value = toLocalInput(Date.now()).slice(0,10);
+    if(!obs) $('cnv-obs-msg').textContent = 'Đang dùng mô hình thủy triều điều hòa (M2, S2, N2, K1, O1). Bấm “Dữ liệu mẫu” để xem thử ngày 12–13/11/2026.';
+    ['cnv-t0','cnv-minlv','cnv-season','cnv-lag'].forEach(id=>$(id).addEventListener('change',()=>{ readCfg(); drawChart(); }));
+    ['cnv-spd','cnv-minpct','cnv-fuel','cnv-win'].forEach(id=>$(id).addEventListener('change',readCfg));
+    let rt; window.addEventListener('resize',()=>{ clearTimeout(rt); rt = setTimeout(drawChart,150); });
+    const det = $('cnv-chart').closest('details'); if(det) det.addEventListener('toggle',drawChart);
+  }
+  fill(); drawMap(); requestAnimationFrame(drawChart);
+}
+return {render:render0, fill, onSel, setPoint, swap, run, pick, share, fit, layer, station, setEnd, now, applyObs, clearObs, sample, drawMap, drawChart,
+  cancelPick: fill, useGps};
+})();
 
 // ═══ TUYẾN VẬN CHUYỂN ĐƯỜNG THỦY ═══
 let MP_RT = [];                                     // nạp từ map-data.json
@@ -5608,9 +6274,11 @@ function mpPickOnMap(kind){
 function mpCancelPlace(){
   const k = mpPlacing; mpPlacing=null;
   g('mp-banner').classList.remove('show'); mpWrap().classList.remove('placing');
+  if(/^cnv-/.test(k||'')){ if(window.CNV) CNV.fill(); return; }
   if(k && !/^fd-/.test(k)) g(k==='pos'?'mp-m-pos':k==='tram'?'mp-m-tram':'mp-m-poi').classList.add('show');
 }
 function mpFinishPlace(lat,lon){
+  if(/^cnv-/.test(mpPlacing||'')){ const k = mpPlacing.slice(4); mpPlacing=null; g('mp-banner').classList.remove('show'); mpWrap().classList.remove('placing'); CNV.setPoint(k, lat, lon); return; }
   if(/^fd-/.test(mpPlacing||'')){ const k = mpPlacing.slice(3); mpCancelPlace(); mpFindSet(k, {name:`Điểm đã chọn (${lat.toFixed(4)}, ${lon.toFixed(4)})`, lat, lon}); mpFindOpen(); return; }
   const pre = mpPlacing==='pos' ? 'mp-pf' : mpPlacing==='tram' ? 'mp-tf' : 'mp-pi';
   g(pre+'-lat').value = lat.toFixed(5); g(pre+'-lon').value = lon.toFixed(5);
