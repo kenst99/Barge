@@ -76,6 +76,7 @@ def base_name(n):
         if re.search(r'[A-Za-zÀ-ỹ]', p): return p
     return ps[0]
 best = {}                                        # (ô, tên) -> (độ dài, x, y, góc)
+HALF_W = {('r', 0): 45, ('c', 0): 28, ('r', 1): 22, ('c', 1): 16}   # nửa bề rộng ước lượng (m) theo hạng
 n_l = 0
 for f in json.load(open(os.path.join(DATA, 'hotosm_vnm_waterways_lines_geojson.geojson')))['features']:
     p = f['properties']; w = p.get('waterway'); gj = f.get('geometry')
@@ -89,6 +90,16 @@ for f in json.load(open(os.path.join(DATA, 'hotosm_vnm_waterways_lines_geojson.g
         for ln in parts(g.intersection(bx), 'LineString'):
             if ln.length < 0.03: continue
             tiles[cx, cy]['l'][f'{t} l{lod}'].append(encode(ln.coords)); n_l += len(ln.coords)
+    # sông/kênh chính mà OSM chưa có mặt nước (vd. sông Ba Xuyên – Saintard, đoạn giữa sông Mang Thít): vẽ dải nước
+    # theo bề rộng ƯỚC LƯỢNG của hạng sông (không phải số đo thật); đoạn đã có mặt nước thì dải nằm lọt bên trong
+    hw = HALF_W.get((t, lod))
+    if hw:
+        rb = g.buffer(hw / 1000 / KM_U, cap_style=1, join_style=1).simplify(TOL)
+        for cx, cy, bx in cells(rb):
+            for gg in parts(rb.intersection(bx), 'Polygon'):
+                if gg.area < 0.002: continue
+                gg = orient(gg, 1.0)
+                tiles[cx, cy]['a'].append([encode(list(gg.exterior.coords))] + [encode(list(h.coords)) for h in gg.interiors if shapely.Polygon(h).area > 0.0008])
             if n and ln.length >= 2.5 and ln.length > best.get((cx, cy, n), (0,))[0]:
                 m = ln.interpolate(0.5, normalized=True); a = ln.interpolate(0.42, normalized=True); b = ln.interpolate(0.58, normalized=True)
                 ang = math.degrees(math.atan2(b.y - a.y, b.x - a.x))

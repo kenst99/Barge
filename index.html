@@ -1158,6 +1158,29 @@ option{background:#fff;color:#2b211a;}
 #s-map #mp-g-plc .mp-plc.r0{font-size:10.5px;font-weight:700;fill:#5a4a3d;}#s-map #mp-g-plc .mp-plc.r1{font-size:9.5px;font-weight:600;fill:#85766a;}
 #mp-stage:not([data-dz="1"]) #mp-g-det,#mp-stage:not([data-dz="1"]) #mp-g-detroad,#mp-stage:not([data-dz="1"]) #mp-g-detlbl{display:none;}
 #mp-stage[data-det="1"] #mp-g-water .mp-water,#mp-stage[data-det="1"] #mp-g-water .mp-wl,#mp-stage[data-det="1"] #mp-g-road,#mp-stage[data-det="1"] #mp-g-rvlbl .mp-rvlbl,#mp-stage[data-det="1"] #mp-g-plc{display:none;}
+/* chiều nước, dầu tuyến, lọc địa điểm, Zalo */
+.mp-tidedir{display:inline-block;margin-top:4px;font-size:12.5px;font-weight:700;border-radius:8px;padding:2px 8px;}
+.mp-tidedir.up{background:#e7f7ef;color:#0b7a55;}.mp-tidedir.down{background:#fdecea;color:#b3392f;}.mp-tidedir.slack{background:#eef1f5;color:#52607a;}
+.mp-tidedir i{font-weight:500;font-style:normal;opacity:.8;}
+#s-map .mp-cnvmk.sea .ring{fill:none;stroke:#64748b;stroke-width:2;stroke-dasharray:3 2.5;}
+#s-map .mp-cnvmk.sea.up .ring{stroke:#0e9f6e;}#s-map .mp-cnvmk.sea.dn .ring{stroke:#d9534f;}
+#s-map .mp-cnvmk .flow{fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke:#64748b;display:none;}
+#s-map .mp-cnvmk.sea.up .flow{display:inline;stroke:#0e9f6e;}#s-map .mp-cnvmk.sea.dn .flow{display:inline;stroke:#d9534f;}
+#s-map .mp-cnvmk.up .lbl{fill:#0b6b4b;}#s-map .mp-cnvmk.dn .lbl{fill:#a3352c;}
+#mp-stage[data-lbl="0"] .mp-cnvmk.sea .lbl{display:inline;}
+.mp-fuelrow input{width:92px;text-align:right;}.mp-fuelrow .d{font-size:12px;color:var(--pp-mute);}
+.mp-fuelbox{margin-top:8px;background:#fff;border:1px solid var(--pp-line);border-radius:10px;padding:8px 10px;cursor:default;}
+.mp-fuelbox label{display:flex;align-items:center;gap:6px;font-weight:600;color:var(--pp-ink);flex-wrap:wrap;}
+.mp-fuelbox input{width:96px;text-align:right;padding:6px 8px;border:1px solid var(--pp-line);border-radius:8px;}
+.mp-fuelbox .ln{display:flex;justify-content:space-between;gap:10px;margin-top:5px;}
+.mp-fuelbox .ln.tot{border-top:1px dashed var(--pp-line);padding-top:6px;font-weight:700;color:var(--pp-ink);}
+#s-map .mp-fuelbox .ln.tot b{color:#9a3b22;font-size:14px;}#s-map .mp-fuelbox b{color:var(--pp-ink);}
+#s-map .mp-rt .nt.fu{color:#8a5a12;}
+.mp-chips{display:flex;gap:6px;overflow-x:auto;padding:8px 0 10px;scrollbar-width:none;}.mp-chips::-webkit-scrollbar{display:none;}
+.mp-chips button{flex:0 0 auto;background:#fff;border:1px solid var(--pp-line,#e5dacb);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;color:#5a4a3d;cursor:pointer;white-space:nowrap;}
+.mp-chips button.on{background:#2b211a;border-color:#2b211a;color:#fff;}
+.btn-gt.zalo{background:#0068ff;color:#fff;font-size:12px;font-weight:700;width:auto;padding:0 9px;}
+.gt-zalo-all{background:#0068ff!important;color:#fff!important;border-color:#0068ff!important;}
 </style>
 </head>
 <body>
@@ -1192,6 +1215,7 @@ option{background:#fff;color:#2b211a;}
 <div class="screen" id="s-giayto">
   <div style="max-width:860px;margin:0 auto;padding:18px 14px 60px">
   <div class="mhdr"><h3>📋 GIẤY TỜ TÀU</h3><div class="ms" id="gt-sub">—</div></div>
+  <div style="margin:0 0 12px"><button class="btn gt-zalo-all" onclick="gtZalo()">💬 Gửi tất cả giấy tờ qua Zalo</button></div>
   <div class="gt-list" id="gt-area">
     <div class="gt-item gt-dangkiem">
         <div class="gt-info">
@@ -1201,6 +1225,7 @@ option{background:#fff;color:#2b211a;}
         <div class="gt-actions">
             <button class="btn-gt view" id="btn-view-dangkiem" onclick="viewFile('dangkiem')" style="display:none" title="Xem">👁️</button>
             <button class="btn-gt download" id="btn-dl-dangkiem" onclick="downloadFile('dangkiem')" style="display:none" title="Tải">⬇️</button>
+            <button class="btn-gt zalo" onclick="gtZalo('dangkiem')" title="Gửi qua Zalo">Zalo</button>
             <button class="btn-gt add" onclick="triggerFile('f-dangkiem')" title="Tải lên">+</button>
             <button class="btn-gt del" onclick="confirmDelete('Giấy đăng kiểm', 'st-dangkiem', 'dangkiem')">X</button>
             <input type="file" id="f-dangkiem" hidden accept=".pdf,.jpeg,.jpg,.png" onchange="updateFile(this,'st-dangkiem','dangkiem')">
@@ -1214,6 +1239,7 @@ option{background:#fff;color:#2b211a;}
         <div class="gt-actions">
             <button class="btn-gt view" id="btn-view-dangky" onclick="viewFile('dangky')" style="display:none" title="Xem">👁️</button>
             <button class="btn-gt download" id="btn-dl-dangky" onclick="downloadFile('dangky')" style="display:none" title="Tải">⬇️</button>
+            <button class="btn-gt zalo" onclick="gtZalo('dangky')" title="Gửi qua Zalo">Zalo</button>
             <button class="btn-gt add" onclick="triggerFile('f-dangky')" title="Tải lên">+</button>
             <button class="btn-gt del" onclick="confirmDelete('Giấy đăng ký phương tiện', 'st-dangky', 'dangky')">X</button>
             <input type="file" id="f-dangky" hidden accept=".pdf,.jpeg,.jpg,.png" onchange="updateFile(this,'st-dangky','dangky')">
@@ -1227,6 +1253,7 @@ option{background:#fff;color:#2b211a;}
         <div class="gt-actions">
             <button class="btn-gt view" id="btn-view-baohiem" onclick="viewFile('baohiem')" style="display:none" title="Xem">👁️</button>
             <button class="btn-gt download" id="btn-dl-baohiem" onclick="downloadFile('baohiem')" style="display:none" title="Tải">⬇️</button>
+            <button class="btn-gt zalo" onclick="gtZalo('baohiem')" title="Gửi qua Zalo">Zalo</button>
             <button class="btn-gt add" onclick="triggerFile('f-baohiem')" title="Tải lên">+</button>
             <button class="btn-gt del" onclick="confirmDelete('Bảo hiểm', 'st-baohiem', 'baohiem')">X</button>
             <input type="file" id="f-baohiem" hidden accept=".pdf,.jpeg,.jpg,.png" onchange="updateFile(this,'st-baohiem','baohiem')">
@@ -1240,6 +1267,7 @@ option{background:#fff;color:#2b211a;}
         <div class="gt-actions">
             <button class="btn-gt view" id="btn-view-thechap" onclick="viewFile('thechap')" style="display:none" title="Xem">👁️</button>
             <button class="btn-gt download" id="btn-dl-thechap" onclick="downloadFile('thechap')" style="display:none" title="Tải">⬇️</button>
+            <button class="btn-gt zalo" onclick="gtZalo('thechap')" title="Gửi qua Zalo">Zalo</button>
             <button class="btn-gt add" onclick="triggerFile('f-thechap')" title="Tải lên">+</button>
             <button class="btn-gt del" onclick="confirmDelete('Thế chấp ngân hàng', 'st-thechap', 'thechap')">X</button>
             <input type="file" id="f-thechap" hidden accept=".pdf,.jpeg,.jpg,.png" onchange="updateFile(this,'st-thechap','thechap')">
@@ -1696,6 +1724,11 @@ option{background:#fff;color:#2b211a;}
           <label><input type="checkbox" id="mp-rt-all" onchange="mpSetRouteOpts()"> Hiện mạng tuyến</label>
           <label style="margin-left:auto">Tốc độ <input type="number" id="mp-rt-spd" min="1" max="40" step="0.5" onchange="mpSetRouteOpts()"> km/h</label>
         </div>
+        <div class="mp-rtopt mp-fuelrow">
+          <label>⛽ Giá dầu DO <input type="text" inputmode="numeric" id="mp-fuel-price" placeholder="vd 18.560" onchange="mpFuelPriceSet(this.value)"> đ/lít</label>
+          <button class="btn" id="mp-fuel-get" onclick="mpFuelFetch()">🔄 Lấy giá hôm nay</button>
+          <span class="d" id="mp-fuel-src"></span>
+        </div>
         <input class="mp-rtq" id="mp-rt-q" type="search" placeholder="Tìm tuyến: Vũng Tàu, Long An, Phú Quốc…" oninput="mpRenderRouteList()" autocomplete="off">
         <div id="mp-routelist"></div>
         <div class="mp-f"><div class="hint">Cự ly đo dọc tim luồng trên bản đồ, sai số khoảng 5–10%. Thời gian = cự ly ÷ tốc độ, chưa tính chờ con nước, neo đậu, qua trạm. Tuyến có đoạn biển chỉ dành cho sà lan đủ cấp đăng kiểm.</div></div>
@@ -1722,6 +1755,7 @@ option{background:#fff;color:#2b211a;}
           </div>
           <div class="d" id="cnv-gps"></div>
           <label class="mp-check" style="margin-top:6px"><input type="checkbox" id="cnv-layer" checked onchange="CNV.layer()"> Hiện trạm thủy văn & cảng trên bản đồ</label>
+          <div class="cnv-legend" style="margin:6px 0 0"><span><b style="color:#0e9f6e">▲</b> nước đang lớn</span><span><b style="color:#d9534f">▼</b> nước đang ròng</span><span><b style="color:#64748b">◆</b> nước đứng</span><span>◯ có vòng = cửa biển</span></div>
         </div>
         <div id="cnv-st"></div>
         <div id="cnv-res"></div>
@@ -1771,6 +1805,8 @@ option{background:#fff;color:#2b211a;}
         <div class="mp-toolbar">
           <button class="btn pri" onclick="mpOpenPoi(null,'port')">➕ Thêm địa điểm</button>
         </div>
+        <input class="mp-rtq" id="mp-poi-q" type="search" placeholder="Tìm địa điểm: tên, địa chỉ, số điện thoại…" oninput="mpRenderPoiList()" autocomplete="off">
+        <div class="mp-chips" id="mp-poi-chips"></div>
         <div id="mp-poilist"></div>
       </div>
 
@@ -2304,6 +2340,20 @@ function downloadFile(key){
     if(!fd){alert('Chưa có file để tải!');return;}
     const a=document.createElement('a');
     a.href=fd.dataUrl; a.download=fd.name; a.click();
+}
+// Gửi giấy tờ qua Zalo: trên điện thoại mở bảng chia sẻ của máy (chọn Zalo) kèm file; máy không hỗ trợ thì tải file về rồi mở Zalo
+async function gtZalo(key){
+  const keys = key ? [key] : GT_KEYS.slice(), files = [], names = [];
+  for(const k of keys){ const fd = gtFiles[barge+'_'+k]; if(!fd) continue;
+    try{ const b = await (await fetch(fd.dataUrl)).blob(); files.push(new File([b], fd.name, {type: b.type || 'application/octet-stream'})); names.push(fd.name); }catch(e){} }
+  if(!files.length){ showToast(key ? 'Chưa có file giấy tờ này – bấm + để tải lên trước' : 'Chưa có giấy tờ nào để gửi', 'err'); return; }
+  const text = `Giấy tờ sà lan ${barge} (${LABELS[barge]||''}): ${names.join(', ')}`;
+  if(navigator.canShare && navigator.canShare({files})){
+    try{ await navigator.share({files, title:'Giấy tờ sà lan '+barge, text}); return; }catch(e){ if(e && e.name==='AbortError') return; }
+  }
+  files.forEach(f=>{ const a = document.createElement('a'); a.href = URL.createObjectURL(f); a.download = f.name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 4000); });
+  showToast('Đã tải file về máy – mở Zalo, chọn người nhận rồi đính kèm file vừa tải', 'ok');
+  setTimeout(()=>window.open('https://chat.zalo.me/', '_blank', 'noopener'), 900);
 }
 function confirmDelete(title, statusId, key){
     if(confirm(`Bạn chắc chắn xoá ${title} chứ?`)){
@@ -3808,12 +3858,15 @@ const mpTrack = c => mpLoad('map_track_'+c, []);   // [[lat,lon,ts,src],...]
   if(mpPois===null){
     const old = mpLoad('pois', null);
     mpPois = Array.isArray(old) && old.length ? old : [
-      {id:'p1',type:'port',  name:'Cảng thu mua Trung Hiếu',     lat:9.603, lon:105.980,addr:'Sóc Trăng',phone:'',note:''},
+      {id:'p1',type:'port',  name:'Cảng thu mua Trung Hiếu',     lat:9.5826, lon:106.0062,addr:'Sông Ba Xuyên (Saintard), Sóc Trăng',phone:'',note:''},
       {id:'p2',type:'gas',   name:'Cây xăng Sông Hậu',           lat:10.045,lon:105.746,addr:'Cần Thơ',  phone:'',note:''},
       {id:'p3',type:'repair',name:'Xưởng sửa sà lan Bình Minh',  lat:10.24, lon:105.90, addr:'Vĩnh Long',phone:'',note:''},
     ];
     mpSave('map_pois', mpPois);
   }
+  // cảng nhà mặc định cũ (giữa thành phố) -> dời ra sông Ba Xuyên (Saintard); vị trí người dùng đã tự sửa thì giữ nguyên
+  const hp = mpPois.find(x=>x.id==='p1' && x.lat===9.603 && x.lon===105.980);
+  if(hp){ hp.lat = 9.5826; hp.lon = 106.0062; if(hp.addr==='Sóc Trăng') hp.addr = 'Sông Ba Xuyên (Saintard), Sóc Trăng'; mpSave('map_pois', mpPois); }
   if(!localStorage.getItem('map_pos')){
     const old = mpLoad('barges', null);
     if(Array.isArray(old)){
@@ -4402,10 +4455,18 @@ function mpCardClick(code){
 }
 
 // ═══ DANH SÁCH ĐỊA ĐIỂM ═══
+let mpPoiType = '';                                 // lọc theo loại ('' = tất cả)
+function mpPoiFilter(t){ mpPoiType = mpPoiType===t ? '' : t; mpRenderPoiList(); }
 function mpRenderPoiList(){
   const el = g('mp-poilist'); if(!el) return;
+  const chips = g('mp-poi-chips'), q = mpNormVi((g('mp-poi-q')||{}).value||'').trim();
+  if(chips){ const cnt = {}; mpPois.forEach(p=>{ const k = MP_POI[p.type] ? p.type : 'other'; cnt[k] = (cnt[k]||0)+1; });
+    chips.innerHTML = `<button class="${mpPoiType?'':'on'}" onclick="mpPoiFilter('')">Tất cả · ${mpPois.length}</button>`
+      + Object.keys(MP_POI).map(k=>`<button class="${mpPoiType===k?'on':''}" onclick="mpPoiFilter('${k}')">${MP_POI[k].ic} ${MP_POI[k].t} · ${cnt[k]||0}</button>`).join(''); }
   if(!mpPois.length){ el.innerHTML='<div class="mp-empty">Chưa có địa điểm. Thêm cây xăng, cảng, xưởng sửa để tiện điều phối.</div>'; return; }
-  el.innerHTML = mpPois.map(p=>{ const m=MP_POI[p.type]||MP_POI.other;
+  const list = mpPois.filter(p=>(!mpPoiType || (MP_POI[p.type]?p.type:'other')===mpPoiType) && (!q || mpNormVi([p.name,p.addr,p.phone,p.note,(MP_POI[p.type]||MP_POI.other).t].join(' ')).includes(q)));
+  if(!list.length){ el.innerHTML='<div class="mp-empty">Không có địa điểm phù hợp.</div>'; return; }
+  el.innerHTML = list.map(p=>{ const m=MP_POI[p.type]||MP_POI.other;
     return `<div class="mp-poiitem" onclick="mpPoiClick('${p.id}')">
       <div class="ic" style="background:${m.c}">${p.type==='other'&&p.icon?p.icon:m.ic}</div>
       <div style="flex:1;min-width:0"><div class="nm">${mpEsc(p.name)}</div>
@@ -5057,7 +5118,8 @@ function mpCtxAct(k){
 let MP_GR = null, mpGrP = null;
 let mpFd = {a:null, b:null}, mpFdRes = [], mpFdSel = 0, mpFdFocus = 'a', mpFdSugItems = [];
 const MP_FD_PLACES = [            // bến, cảng hay dùng (tọa độ gần đúng, sửa được bằng cách lưu Địa điểm riêng)
-  ['Cảng thu mua Trung Hiếu (Sóc Trăng)', 9.603, 105.980, 'Cảng nhà, Sóc Trăng'],
+  ['Cảng thu mua Trung Hiếu (Sóc Trăng)', 9.5826, 106.0062, 'Cảng nhà · sông Ba Xuyên (Saintard)'],
+  ['Sông Saintard (sông Ba Xuyên)', 9.660, 106.035, 'Kênh Đại Ngãi – Sóc Trăng'],
   ['KCN Trà Nóc (Cần Thơ)', 10.100, 105.726, 'Bình Thủy, Cần Thơ'],
   ['Cảng Hoàng Diệu (Cần Thơ)', 10.071, 105.758, 'Bình Thủy, Cần Thơ · vị trí gần đúng'],
   ['Cảng Cái Cui (Cần Thơ)', 9.997, 105.830, 'Cái Răng, Cần Thơ'],
@@ -5640,10 +5702,12 @@ const mpDM = d => `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+
 function mpTideRow(name, sub, lat, lon, onclick){
   const st = mpTideStation(lat, lon);
   const far = st.km>60 ? ` · <b>xa trạm: nước tới trễ hơn, yếu hơn</b>` : '';
+  const td = window.CNV ? CNV.tideAt(lat, lon) : null;
+  const chip = td ? `<div class="mp-tidedir ${td.k}">${td.txt} · ${td.h.toFixed(1)} m${td.nextTxt?' · '+td.nextTxt:''}${td.ref?' <i>(theo '+mpEsc(td.ref)+')</i>':''}</div>` : '';
   return `<div class="mp-poiitem" ${onclick?`onclick="${onclick}"`:''}>
     <div class="ic" style="background:#0e7490">🌊</div>
     <div style="flex:1;min-width:0"><div class="nm">${mpEsc(name)}</div>
-      <div class="mp-tidesub">${sub?mpEsc(sub)+' · ':''}Trạm ${mpEsc(st.name)} · cách ${st.km} km${far}</div></div>
+      <div class="mp-tidesub">${sub?mpEsc(sub)+' · ':''}Trạm ${mpEsc(st.name)} · cách ${st.km} km${far}</div>${chip}</div>
     <a class="btn mp-tidebtn" href="${MP_TIDE_URL(st.id)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Giờ nước ↗</a></div>`;
 }
 function mpRenderTide(){
@@ -5683,7 +5747,7 @@ let seaMean = 2.1, obs = null;                     // obs: {station, pts:[{t,h}]
 
 // lag: giờ trễ so với cửa Định An (thang 3 giờ tới Cần Thơ), ratio: tỉ lệ biên độ, moff: chênh mực nước trung bình (m)
 const N = {
-  st337:{name:'337 Bạch Đằng – Sóc Trăng',lat:9.5985,lng:105.9790,lag:2.6,ratio:0.55,moff:0.10,kind:'port'},
+  st337:{name:'Cảng nhà Trung Hiếu – sông Ba Xuyên (Saintard)',lat:9.5826,lng:106.0062,lag:2.6,ratio:0.55,moff:0.10,kind:'port'},
   wpLP:{name:'Kênh Sóc Trăng – Long Phú',lat:9.665,lng:106.030,lag:2.0,ratio:0.65,moff:0.05,kind:'wp'},
   daingai:{name:'Bến Đại Ngãi',lat:9.733,lng:106.073,lag:1.4,ratio:0.85,moff:0.05,kind:'port'},
   wpCLD:{name:'Ngã ba Cù Lao Dung',lat:9.640,lng:106.165,lag:0.8,ratio:0.92,moff:0.02,kind:'wp'},
@@ -5703,7 +5767,24 @@ const N = {
   wpBL:{name:'Kênh Sóc Trăng – Bạc Liêu',lat:9.450,lng:105.800,lag:3.0,ratio:0.40,moff:0.15,kind:'wp'},
   bacLieu:{name:'Bạc Liêu',lat:9.290,lng:105.725,lag:2.4,ratio:0.50,moff:0.10,kind:'wp'},
   ganhHao:{name:'Trạm Gành Hào',lat:9.030,lng:105.420,lag:0.4,ratio:0.92,moff:0,kind:'station'},
+  // cửa biển miền Đông: không nối vào mạng tính tuyến, chỉ để báo chiều nước (pha triều gần với Định An, ước lượng)
+  canGio:{name:'Cửa Cần Giờ (Soài Rạp)',lat:10.400,lng:106.960,lag:-0.4,ratio:1.0,moff:0,kind:'station',iso:1},
+  vungTau:{name:'Trạm Vũng Tàu',lat:10.340,lng:107.070,lag:-0.6,ratio:1.02,moff:0,kind:'station',iso:1},
 };
+const SEA = new Set(['dinhAn','tranDe','vamKenh','ganhHao','canGio','vungTau']);   // cửa biển: có dấu chỉ báo riêng
+// chiều nước tại một điểm bất kỳ: bám vào mạng trạm; xa mạng thì lấy cửa biển gần nhất (≤ 45 km), xa nữa thì không báo
+function tideAt(lat, lng, ms){
+  init(); ms = ms || Date.now();
+  let p = snap(lat, lng), off = p.offKm, ref = '';
+  if(off > 25){ p = null;
+    for(const id in N){ const d = hav(N[id], {lat, lng}); if(N[id].iso && d < 45 && (!p || d < off)){ p = N[id]; off = d; ref = N[id].name; } }
+    if(!p) return null; }
+  const r = dhdt(p, ms), k = r > 0.03 ? 'up' : r < -0.03 ? 'down' : 'slack';
+  const nx = extremes(p, ms, ms + 14*H)[0];
+  return {k, h: levelP(p, ms), r, off, ref, next: nx ? {t: nx.t, type: nx.type, h: nx.h} : null,
+    txt: k==='up' ? '⬆ Nước đang lớn' : k==='down' ? '⬇ Nước đang ròng' : '↔ Nước đứng',
+    nextTxt: nx ? `${nx.type==='high'?'đỉnh':'chân'} ${fmtT(nx.t)}` : ''};
+}
 const E = [
   ['st337','wpLP','kenh'],['wpLP','daingai','kenh'],
   ['daingai','wpCLD','song'],['wpCLD','tranDe','song'],['wpCLD','dinhAn','song'],
@@ -6146,9 +6227,12 @@ function drawMap(){
   }
   if(cfg.layer || routeOn){
     for(const id in N){ const p = N[id]; if(p.kind==='wp') continue;
-      if(!cfg.layer && !lastSegs.some(s=>s.A===p || s.B===p)) continue;
+      if(!cfg.layer && !(lastSegs && lastSegs.some(s=>s.A===p || s.B===p))) continue;
       const [x,y] = mpXY(p.lng,p.lat);
-      mk(gr, x, y, p.kind==='station'?'#1565c0':'#b45309', p.kind==='station'?'🌊':'⚓', p.name.replace(/^Trạm /,''), ()=>station(id), p.kind==='station'?'st':'pt');
+      const td = dhdt(p, Date.now()), up = td > 0.03, dn = td < -0.03, sea = SEA.has(id);
+      const el = mk(gr, x, y, up?'#0e9f6e':dn?'#d9534f':'#64748b', up?'▲':dn?'▼':'◆',
+        `${p.name.replace(/^Trạm /,'')} · ${up?'lớn':dn?'ròng':'đứng'} ${levelP(p, Date.now()).toFixed(1)}m`, ()=>station(id), (p.kind==='station'?'st':'pt')+(sea?' sea':'')+(up?' up':dn?' dn':''));
+      if(sea) el.insertAdjacentHTML('afterbegin', `<circle class="ring" cy="-11" r="15"></circle><path class="flow" d="${up?'M-22 -11h-9m4 -4l-4 4l4 4':'M-31 -11h9m-4 -4l4 4l-4 4'}"></path><path class="flow" d="${up?'M22 -11h9m-4 -4l4 4l-4 4':'M31 -11h-9m4 -4l-4 4l4 4'}"></path>`);
     }
   }
   if(routeOn){
@@ -6218,10 +6302,11 @@ function render0(){
     ['cnv-spd','cnv-minpct','cnv-fuel','cnv-win'].forEach(id=>$(id).addEventListener('change',readCfg));
     let rt; window.addEventListener('resize',()=>{ clearTimeout(rt); rt = setTimeout(drawChart,150); });
     const det = $('cnv-chart').closest('details'); if(det) det.addEventListener('toggle',drawChart);
+    setInterval(()=>{ if(document.visibilityState==='visible' && $('s-map').classList.contains('active')){ drawMap(); if($('mp-p-tide').classList.contains('on')) mpRenderTide(); } }, 5*60e3);
   }
   fill(); drawMap(); requestAnimationFrame(drawChart);
 }
-return {render:render0, fill, onSel, setPoint, swap, run, pick, share, fit, layer, station, setEnd, now, applyObs, clearObs, sample, drawMap, drawChart,
+return {tideAt, render:render0, fill, onSel, setPoint, swap, run, pick, share, fit, layer, station, setEnd, now, applyObs, clearObs, sample, drawMap, drawChart,
   cancelPick: fill, useGps};
 })();
 
@@ -6274,10 +6359,51 @@ function mpRouteInfo(){
   const el = g('mp-rtinfo'); if(!el) return;
   const r = MP_RT.find(x=>x.id===mpRt);
   if(!r){ if(mpFdRes.length){ mpFindInfo(el); return; } el.classList.remove('show'); return; }
-  el.innerHTML = `<span><b>${mpEsc(r.from)} – ${mpEsc(r.to)}</b> · ${mpKmTxt(r.km)} · ≈ ${mpHours(r.km/(mpCfg.spd||8))}${r.sea?' · có đoạn biển':''}${mpTramTxt(r.id)?' · 🚧 '+mpTramTxt(r.id):''}</span><button onclick="mpRouteClick(mpRt)" aria-label="Bỏ chọn tuyến">✕</button>`;
+  el.innerHTML = `<span><b>${mpEsc(r.from)} – ${mpEsc(r.to)}</b> · ${mpKmTxt(r.km)} · ≈ ${mpHours(r.km/(mpCfg.spd||8))}${r.sea?' · có đoạn biển':''}${mpTramTxt(r.id)?' · 🚧 '+mpTramTxt(r.id):''}${mpFuel[r.id]?' · ⛽ '+mpFuelCostTxt(r):''}</span><button onclick="mpRouteClick(mpRt)" aria-label="Bỏ chọn tuyến">✕</button>`;
   el.classList.add('show');
 }
+// ═══ DẦU & CHI PHÍ ƯỚC TÍNH CỦA TUYẾN ═══
+// Mức dầu mỗi tuyến nhập tay một lần (lít/chuyến), lần sau chọn tuyến tự cộng: dầu × giá dầu + tiền trạm.
+let mpFuel = mpLoad('map_fuel', {});                // {mã tuyến: lít}
+let mpFuelP = mpLoad('map_fuel_price', null);       // {price, at, src, name}
+const mpNumVi = v => { const x = Number(String(v).replace(/[^\d]/g,'')); return isFinite(x) ? x : 0; };
+function mpTramNum(rid){                            // tiền trạm: trung bình các chuyến thật, chưa có thì cộng mức mặc định các trạm của tuyến
+  const tr = (typeof mpTrips!=='undefined' ? mpTrips : []).filter(t=>t.rid===rid);
+  if(tr.length) return Math.round(tr.reduce((s,t)=>s+(t.items||[]).reduce((a,i)=>a+(i.t?+i.a||0:0),0),0)/tr.length);
+  return mpTramOf(rid).reduce((a,t)=>a+(+t.fee||0),0);
+}
+function mpFuelCost(r){ const L = +mpFuel[r.id]||0, p = mpFuelP ? +mpFuelP.price||0 : 0, tram = mpTramNum(r.id);
+  return {L, p, fuel: L*p, tram, total: L*p + tram}; }
+function mpFuelCostTxt(r){ const c = mpFuelCost(r);
+  return c.p ? `${c.L.toLocaleString('vi-VN')} lít dầu · ước tính cả trạm ≈ ${mpMoney(c.total)}` : `${c.L.toLocaleString('vi-VN')} lít dầu (chưa có giá dầu)`; }
+function mpFuelBox(r){
+  const c = mpFuelCost(r);
+  return `<div class="mp-fuelbox" onclick="event.stopPropagation()">
+    <label>⛽ Dầu tiêu thụ cả tuyến <input type="text" inputmode="numeric" value="${c.L?c.L.toLocaleString('vi-VN'):''}" placeholder="nhập số lít" onchange="mpFuelSet('${r.id}',this.value)"> lít</label>
+    ${c.L ? `<div class="ln"><span>Dầu: ${c.L.toLocaleString('vi-VN')} lít × ${c.p?c.p.toLocaleString('vi-VN')+' đ':'<i>chưa có giá dầu</i>'}</span><b>${c.p?mpMoney(c.fuel):'—'}</b></div>` : '<div class="ln"><span>Nhập số lít một lần, lần sau chọn tuyến sẽ tự cộng.</span></div>'}
+    <div class="ln"><span>Tiền trạm${(typeof mpTrips!=='undefined'&&mpTrips.some(t=>t.rid===r.id))?' (trung bình các chuyến)':''}</span><b>${c.tram?mpMoney(c.tram):'—'}</b></div>
+    <div class="ln tot"><span>Ước tính chi phí chuyến</span><b>${(c.fuel||c.tram)?mpMoney(c.total):'—'}</b></div></div>`;
+}
+function mpFuelSet(rid, v){ const L = mpNumVi(v); if(L) mpFuel[rid] = L; else delete mpFuel[rid]; mpSave('map_fuel', mpFuel); mpRenderRouteList(); mpRouteInfo(); }
+function mpFuelUI(){
+  const i = g('mp-fuel-price'), sEl = g('mp-fuel-src'); if(!i) return;
+  i.value = mpFuelP && mpFuelP.price ? (+mpFuelP.price).toLocaleString('vi-VN') : '';
+  sEl.textContent = !mpFuelP ? 'Chưa có giá – bấm lấy giá hoặc nhập tay' : mpFuelP.src==='tay' ? 'Nhập tay '+mpDM(new Date(mpFuelP.at)) : `${mpFuelP.name||'DO'} · giaxanghomnay ${mpDM(new Date(mpFuelP.at))}`;
+}
+function mpFuelPriceSet(v){ const p = mpNumVi(v); mpFuelP = p ? {price:p, at:Date.now(), src:'tay'} : null; mpSave('map_fuel_price', mpFuelP); mpFuelUI(); mpRenderRouteList(); mpRouteInfo(); }
+async function mpFuelFetch(auto){
+  const b = g('mp-fuel-get'); if(b) b.disabled = true;
+  try{
+    const r = await fetch('api/giadau'), j = await r.json().catch(()=>null);
+    if(!r.ok || !j || !j.price) throw new Error((j && j.error) || ((r.status===404||r.status===405) ? 'Trang này không có máy chủ lấy giá (mở app từ địa chỉ Vercel)' : 'Máy chủ lỗi '+r.status));
+    mpFuelP = {price:j.price, at:j.at||Date.now(), src:'web', name:j.name}; mpSave('map_fuel_price', mpFuelP);
+    if(!auto) showToast(`⛽ Giá ${j.name}: ${j.price.toLocaleString('vi-VN')} đ/lít`, 'ok');
+  }catch(e){ if(!auto) showToast('⚠️ '+e.message+' – hãy nhập tay giá dầu', 'err'); }
+  finally{ if(b) b.disabled = false; mpFuelUI(); mpRenderRouteList(); mpRouteInfo(); }
+}
 function mpRenderRouteList(){
+  mpFuelUI();
+  if(!mpRenderRouteList.tried && (!mpFuelP || (mpFuelP.src==='web' && Date.now()-mpFuelP.at > 12*3600e3))){ mpRenderRouteList.tried = true; mpFuelFetch(true); }
   const el = g('mp-routelist'); if(!el) return;
   const q = mpNormVi(g('mp-rt-q').value.trim()), spd = mpCfg.spd||8;
   if(!MP_RT.length){ el.innerHTML='<div class="mp-empty">⏳ Đang tải dữ liệu tuyến…</div>'; mpLoadWater(); return; }
@@ -6291,7 +6417,7 @@ function mpRenderRouteList(){
       <span class="sw"></span>
       <div style="min-width:0"><span class="nm">${mpEsc(r.from)} – ${mpEsc(r.to)}</span><div class="via">${mpEsc(mpShortVia(r.via))}</div></div>
       <div class="rk"><span class="km">${mpKmTxt(r.km)}</span><span class="hr">≈ ${h<1?Math.max(1,Math.round(h*60))+' phút':Math.round(h)+' giờ'}</span></div>
-      ${sel?`<div class="more">${mpEsc(r.via)}<br>≈ ${mpHours(h)} chạy liên tục ở ${String(spd).replace('.',',')} km/h${r.sea?' · <b>có đoạn biển</b>':''}</div>`:''}
+      ${sel?`<div class="more">${mpEsc(r.via)}<br>≈ ${mpHours(h)} chạy liên tục ở ${String(spd).replace('.',',')} km/h${r.sea?' · <b>có đoạn biển</b>':''}${mpFuelBox(r)}</div>`:(mpFuel[r.id]?`<div class="nt fu">⛽ ${mpFuelCostTxt(r)}</div>`:'')}
       ${r.note?`<div class="nt">⚠ ${mpEsc(r.note)}</div>`:''}
       ${mpTramTxt(r.id)?`<div class="nt tr">🚧 ${mpTramTxt(r.id)}</div>`:''}
       ${r.user?`<button class="del" onclick="event.stopPropagation();mpDelMyRoute('${r.id}')">Xóa tuyến đã lưu</button>`:''}
