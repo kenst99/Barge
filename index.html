@@ -6388,7 +6388,7 @@ function mpFuelSet(rid, v){ const L = mpNumVi(v); if(L) mpFuel[rid] = L; else de
 function mpFuelUI(){
   const i = g('mp-fuel-price'), sEl = g('mp-fuel-src'); if(!i) return;
   i.value = mpFuelP && mpFuelP.price ? (+mpFuelP.price).toLocaleString('vi-VN') : '';
-  sEl.textContent = !mpFuelP ? 'Chưa có giá – bấm lấy giá hoặc nhập tay' : mpFuelP.src==='tay' ? 'Nhập tay '+mpDM(new Date(mpFuelP.at)) : `${mpFuelP.name||'DO'} · giaxanghomnay ${mpDM(new Date(mpFuelP.at))}`;
+  sEl.textContent = !mpFuelP ? 'Chưa có giá – bấm lấy giá hoặc nhập tay' : mpFuelP.src==='tay' ? 'Nhập tay '+mpDM(new Date(mpFuelP.at)) : `${mpFuelP.name||'DO 0,05S'} · giaxanghomnay.com ${mpDM(new Date(mpFuelP.at))}`;
 }
 function mpFuelPriceSet(v){ const p = mpNumVi(v); mpFuelP = p ? {price:p, at:Date.now(), src:'tay'} : null; mpSave('map_fuel_price', mpFuelP); mpFuelUI(); mpRenderRouteList(); mpRouteInfo(); }
 async function mpFuelFetch(auto){
@@ -6396,7 +6396,7 @@ async function mpFuelFetch(auto){
   try{
     const r = await fetch('api/giadau'), j = await r.json().catch(()=>null);
     if(!r.ok || !j || !j.price) throw new Error((j && j.error) || ((r.status===404||r.status===405) ? 'Trang này không có máy chủ lấy giá (mở app từ địa chỉ Vercel)' : 'Máy chủ lỗi '+r.status));
-    mpFuelP = {price:j.price, at:j.at||Date.now(), src:'web', name:j.name}; mpSave('map_fuel_price', mpFuelP);
+    mpFuelP = {price:j.price, at:j.at||Date.now(), src:'web', name:j.name, level:j.level}; mpSave('map_fuel_price', mpFuelP);
     if(!auto) showToast(`⛽ Giá ${j.name}: ${j.price.toLocaleString('vi-VN')} đ/lít`, 'ok');
   }catch(e){ if(!auto) showToast('⚠️ '+e.message+' – hãy nhập tay giá dầu', 'err'); }
   finally{ if(b) b.disabled = false; mpFuelUI(); mpRenderRouteList(); mpRouteInfo(); }
