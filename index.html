@@ -6396,7 +6396,7 @@ async function mpFuelFetch(auto){
   try{
     const r = await fetch('api/giadau'), j = await r.json().catch(()=>null);
     if(!r.ok || !j || !j.price) throw new Error((j && j.error) || ((r.status===404||r.status===405) ? 'Trang này không có máy chủ lấy giá (mở app từ địa chỉ Vercel)' : 'Máy chủ lỗi '+r.status));
-    mpFuelP = {price:j.price, at:j.at||Date.now(), src:'web', name:j.name, level:j.level}; mpSave('map_fuel_price', mpFuelP);
+    mpFuelP = {price:j.price, at:j.at||Date.now(), src:'web', name:j.name, v2:j.v2}; mpSave('map_fuel_price', mpFuelP);
     if(!auto) showToast(`⛽ Giá ${j.name}: ${j.price.toLocaleString('vi-VN')} đ/lít`, 'ok');
   }catch(e){ if(!auto) showToast('⚠️ '+e.message+' – hãy nhập tay giá dầu', 'err'); }
   finally{ if(b) b.disabled = false; mpFuelUI(); mpRenderRouteList(); mpRouteInfo(); }
